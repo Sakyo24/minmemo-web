@@ -1,16 +1,29 @@
-# flutter_src
+# Flutter×Laravel
 
-A new Flutter project.
+## アプリ概要
 
-## Getting Started
+モバイル
 
-This project is a starting point for a Flutter application.
+### 仕様
 
-A few resources to get you started if this is your first Flutter project:
+- モバイル
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 技術スタック
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter2
+
+## 環境構築
+
+```
+cd /todo_app/flutter_src
+flutter pub get
+```
+
+flutter doctor により、ローカル環境で実行可能か確認する。
+エラーが出ていた場合、ログに従い、修正等を行う。
+
+```
+flutter pub get
+```
+
+上記コマンド実行後、エミュレーターを起動し、デバッグを開始する。
