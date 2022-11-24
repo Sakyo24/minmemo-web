@@ -11,20 +11,15 @@ class TodoController extends Controller
     {
         $todos = Todo::all();
 
-        // return $todos;
         return response()->json([
             'todos' => $todos
         ]);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
-        //
+        $todo = new Todo();
+        $todo->fill($request->all())->save();
     }
 
     public function show(Todo $todo)

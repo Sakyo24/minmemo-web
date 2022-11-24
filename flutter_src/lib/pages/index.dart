@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import '../model/todo.dart';
+import 'package:flutter_src/pages/create_edit.dart';
 
 
 class IndexPage extends StatefulWidget {
@@ -29,14 +30,13 @@ class _IndexPageState extends State<IndexPage> {
     super.initState();
     getTodos();
   }
-
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo一覧'),
-        backgroundColor: const Color.fromARGB(255, 60, 0, 255),
+        backgroundColor: const Color.fromARGB(255, 60, 0, 255)
       ),
       body: ListView.builder(
         itemCount: items.length,
@@ -81,7 +81,9 @@ class _IndexPageState extends State<IndexPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getTodos,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateEditPage()));
+        },
         tooltip: 'Todo追加',
         child: const Icon(Icons.add)
       ),
