@@ -27,11 +27,6 @@ class TodoController extends Controller
         //
     }
 
-    public function show(Todo $todo)
-    {
-        //
-    }
-
     public function edit(Todo $todo)
     {
         //

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import '../model/todo.dart';
+import './show.dart';
 
 
 class IndexPage extends StatefulWidget {
@@ -29,7 +30,6 @@ class _IndexPageState extends State<IndexPage> {
     super.initState();
     getTodos();
   }
-
   
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _IndexPageState extends State<IndexPage> {
               icon: const Icon(Icons.edit)
             ),
             onTap: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowPage(fetchTodo)));
             },
           );
         },
