@@ -1,0 +1,9 @@
+{
+  // php-cs-fixer
+  "php-cs-fixer.onsave": true,
+  "php-cs-fixer.allowRisky": true,
+  "php-cs-fixer.config": "../laravel_vue/src/.php-cs-fixer.dist.php;",
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer"
+  }
+}
