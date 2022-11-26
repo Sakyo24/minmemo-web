@@ -12,7 +12,7 @@ Tod アプリ<br>
 
 ### 技術スタック
 
-- Flutter2
+- Flutter3
 - PHP8.1
 - Laravel9
 - JavaScript
