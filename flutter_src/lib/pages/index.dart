@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import '../model/todo.dart';
-import 'package:flutter_src/pages/create_edit.dart';
-
+import './show.dart';
+import './create_edit.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -75,7 +75,7 @@ class _IndexPageState extends State<IndexPage> {
               icon: const Icon(Icons.edit)
             ),
             onTap: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowPage(fetchTodo)));
             },
           );
         },

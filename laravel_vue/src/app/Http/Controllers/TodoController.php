@@ -22,11 +22,6 @@ class TodoController extends Controller
         $todo->fill($request->all())->save();
     }
 
-    public function show(Todo $todo)
-    {
-        //
-    }
-
     public function edit(Todo $todo)
     {
         //
