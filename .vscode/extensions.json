@@ -1,5 +1,7 @@
 {
   "recommendations": [
-    "junstyle.php-cs-fixer" // php cs fixer
+    "junstyle.php-cs-fixer", // php cs fixer
+    "esbenp.prettier-vscode", // Prettier
+    "dbaeumer.vscode-eslint" // ESLint
   ]
 }
