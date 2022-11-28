@@ -120,9 +120,14 @@ make up
 # コンテナ停止
 make stop
 
-# 作業コンテナにアクセス
+# コンテナ削除
+make down
+
+# workspaceコンテナにアクセス
 make workspace
 ```
+
+※詳細は Makefile 参照
 
 ### ブラウザ確認
 
