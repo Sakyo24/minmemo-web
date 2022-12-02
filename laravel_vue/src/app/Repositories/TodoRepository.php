@@ -18,4 +18,19 @@ class TodoRepository implements TodoRepositoryInterface
     {
         return Todo::orderByDesc('id')->get();
     }
+
+    /**
+     * todo登録
+     *
+     * @param array
+     * @return Todo
+     */
+    public function create(array $params): Todo
+    {
+        $todo = new Todo();
+
+        $todo->fill($params)->save();
+
+        return $todo;
+    }
 }

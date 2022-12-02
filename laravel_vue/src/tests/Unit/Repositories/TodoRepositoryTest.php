@@ -61,4 +61,22 @@ class TodoRepositoryTest extends TestCase
         $this->assertSame((string)$this->todos[1]->created_at, (string)$todos[1]->created_at);
         $this->assertSame((string)$this->todos[1]->updated_at, (string)$todos[1]->updated_at);
     }
+
+    /**
+     * @return void
+     */
+    public function testCreate(): void
+    {
+        $expected_title = 'タイトル';
+        $expected_detail = '詳細です。';
+
+        $todo = $this->todo_repository->create([
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+        ]);
+
+        $this->assertInstanceOf(Todo::class, $todo);
+        $this->assertSame($expected_title, $todo->title);
+        $this->assertSame($expected_detail, $todo->detail);
+    }
 }
