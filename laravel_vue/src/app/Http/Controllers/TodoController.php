@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -22,18 +24,16 @@ class TodoController extends Controller
         $todo->fill($request->all())->save();
     }
 
-    public function edit(Todo $todo)
-    {
-        //
-    }
-
     public function update(Request $request, Todo $todo)
     {
-        //
+        $todo->fill($request->all())->update();
+
+        return response()->json([
+            'todo' => $todo
+        ]);
     }
 
     public function destroy(Todo $todo)
     {
-        //
     }
 }

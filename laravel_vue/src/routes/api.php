@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('todos', App\Http\Controllers\TodoController::class);
+Route::resource('todos', App\Http\Controllers\TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
