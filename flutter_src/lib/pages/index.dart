@@ -25,6 +25,15 @@ class _IndexPageState extends State<IndexPage> {
     });
   }
 
+  // 削除処理
+  Future<void> deleteTodo(id) async {
+    var url = Uri.parse('http://10.0.2.2/api/todos/' + id.toString());
+    await delete(url).then((response) {
+      print(response.statusCode);
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,7 +73,12 @@ class _IndexPageState extends State<IndexPage> {
                           title: const Text('編集')
                         ),
                         ListTile(
-                          leading: Icon(Icons.delete),
+                          onTap: () async {
+                            await deleteTodo(fetchTodo.id);
+                            await getTodos();
+                            Navigator.pop(context);
+                          },
+                          leading: const Icon(Icons.delete),
                           title: const Text('削除')
                         )
                       ]
