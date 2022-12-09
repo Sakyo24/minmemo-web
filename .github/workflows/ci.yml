@@ -23,6 +23,7 @@ jobs:
           php-version: "8.1"
 
       - name: Setup Node.js
+        working-directory: laravel_vue/src
         uses: actions/setup-node@v3
         with:
           node-version: 16
