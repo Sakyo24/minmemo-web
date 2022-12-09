@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 16
           cache: "npm"
-          cache-dependency-path: laravel_vue/src
+          cache-dependency-path: laravel_vue/src/package-lock.json
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
