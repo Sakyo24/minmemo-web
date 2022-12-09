@@ -23,11 +23,11 @@ jobs:
           php-version: "8.1"
 
       - name: Setup Node.js
-        working-directory: laravel_vue/src
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: "npm"
+          cache-dependency-path: laravel_vue/src
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
