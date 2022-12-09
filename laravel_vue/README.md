@@ -65,7 +65,6 @@ docker ps --format "table {{.Names}}"
 docker-compose exec --user=laradock workspace bash
 # composer install
 # npm install
-# npm run dev
 # exit
 ```
 
@@ -128,6 +127,14 @@ make workspace
 ```
 
 ※詳細は Makefile 参照
+
+### フロントエンドのコンパイル
+
+workspace コンテナにアクセスして下記コマンドを実行
+
+```
+npm run dev
+```
 
 ### ブラウザ確認
 
