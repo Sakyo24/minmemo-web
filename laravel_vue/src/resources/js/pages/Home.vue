@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Home画面</h1>
     <div>{{ message }}</div>
-    <div>{{ test }}</div>
+    <div class="test">{{ test }}</div>
     <router-link to="/about">About画面へ</router-link>
   </div>
 </template>
