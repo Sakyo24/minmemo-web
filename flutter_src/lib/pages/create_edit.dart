@@ -24,7 +24,9 @@ class _CreateEditPageState extends State<CreateEditPage> {
       'title': titleController.text,
       'detail': detailController.text
     }).then((response) {
-      print(response.statusCode);
+      // 通信成功時
+    }).catchError((error) {
+      // 通信失敗時
     });
   }
 
@@ -35,7 +37,9 @@ class _CreateEditPageState extends State<CreateEditPage> {
       'title': titleController.text,
       'detail': detailController.text
     }).then((response) {
-      print(response.statusCode);
+      // 通信成功時
+    }).catchError((error) {
+      // 通信失敗時
     });
   }
 
