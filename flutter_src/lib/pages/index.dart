@@ -45,7 +45,8 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Todo一覧'),
-        backgroundColor: const Color.fromARGB(255, 60, 0, 255)
+        backgroundColor: const Color.fromARGB(255, 60, 0, 255),
+        automaticallyImplyLeading: false
       ),
       body: ListView.builder(
         itemCount: items.length,
@@ -69,7 +70,11 @@ class _IndexPageState extends State<IndexPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
-                          leading: Icon(Icons.edit),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEditPage(currentTodo: fetchTodo)));
+                          },
+                          leading: const Icon(Icons.edit),
                           title: const Text('編集')
                         ),
                         ListTile(

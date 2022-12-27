@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/todo.dart';
+import './create_edit.dart';
 
 class ShowPage extends StatelessWidget {
   final Todo todo;
@@ -37,7 +38,17 @@ class ShowPage extends StatelessWidget {
               // 最終更新日時
               const Text('最終更新日時'),
               const SizedBox(height: 10),
-              Text(todo.updated_at, style: const TextStyle(fontSize: 24.0))
+              Text(todo.updated_at, style: const TextStyle(fontSize: 24.0)),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEditPage(currentTodo: todo)));
+                  },
+                  child: const Text('編集')
+                )
+              )
             ]
           )
         ]

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_src/pages/index.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import '../model/todo.dart';
+import 'package:flutter_src/pages/index.dart';
+
 
 class CreateEditPage extends StatefulWidget {
-  const CreateEditPage({super.key});
+  final Todo? currentTodo;
+  const CreateEditPage({super.key, this.currentTodo});
 
   @override
   State<CreateEditPage> createState() => _CreateEditPageState();
@@ -19,15 +22,41 @@ class _CreateEditPageState extends State<CreateEditPage> {
     var url = Uri.parse('http://10.0.2.2/api/todos');
     await post(url, body: {
       'title': titleController.text,
-      'detail': detailController.text,
+      'detail': detailController.text
+    }).then((response) {
+      // 通信成功時
+    }).catchError((error) {
+      // 通信失敗時
     });
+  }
+
+  // 更新処理
+  Future<void> updateTodo(id) async {
+    var url = Uri.parse('http://10.0.2.2/api/todos/' + id.toString());
+    await put(url, body: {
+      'title': titleController.text,
+      'detail': detailController.text
+    }).then((response) {
+      // 通信成功時
+    }).catchError((error) {
+      // 通信失敗時
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.currentTodo != null) {
+      titleController.text  = widget.currentTodo!.title;
+      detailController.text = widget.currentTodo!.detail;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo新規登録'),
+        title: Text(widget.currentTodo == null ? 'Todo新規登録' : 'Todo編集'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255)
       ),
       body: ListView(
@@ -79,12 +108,16 @@ class _CreateEditPageState extends State<CreateEditPage> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await createTodo();
+                      if (widget.currentTodo == null) {
+                        await createTodo();
+                      } else {
+                        await updateTodo(widget.currentTodo!.id);
+                      }
                       Navigator.push(context, MaterialPageRoute(builder: ((context) => const IndexPage()))).then((value) {
                         setState(() {});
                       });
                     },
-                    child: const Text('登録'),
+                    child: Text(widget.currentTodo == null ? '登録' : '更新')
                   )
                 )
               ]
