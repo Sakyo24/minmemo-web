@@ -49,15 +49,11 @@ class TodoApplicationService implements TodoApplicationServiceInterface
      */
     public function create(array $input): void
     {
-        DB::beginTransaction();
-
         try {
-            $this->todo_repository->create($input);
-
-            DB::commit();
+            DB::transaction(function () use ($input) {
+                $this->todo_repository->create($input);
+            });
         } catch (Throwable $e) {
-            DB::rollBack();
-
             Log::error((string)$e);
 
             throw new RuntimeException();
