@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Models\Todo;
 
 class TodoController extends Controller
 {
-    public function index()
+    /**
+     * todo一覧全取得
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
     {
         $todos = Todo::all();
 
@@ -18,13 +24,30 @@ class TodoController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    /**
+     * todo新規作成
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function store(Request $request): JsonResponse
     {
         $todo = new Todo();
         $todo->fill($request->all())->save();
+
+        return response()->json(
+            [], 201
+        );
     }
 
-    public function update(Request $request, Todo $todo)
+    /**
+     * todo更新
+     *
+     * @param Request $request
+     * @param Todo $todo
+     * @return JsonResponse
+     */
+    public function update(Request $request, Todo $todo): JsonResponse
     {
         $todo->fill($request->all())->update();
 
@@ -33,7 +56,18 @@ class TodoController extends Controller
         ]);
     }
 
-    public function destroy(Todo $todo)
+    /**
+     * todo削除
+     *
+     * @param Todo $todo
+     * @return JsonResponse
+     */
+    public function destroy(Todo $todo): JsonResponse
     {
+        $todo->delete();
+
+        return response()->json(
+            [], 204
+        );
     }
 }
