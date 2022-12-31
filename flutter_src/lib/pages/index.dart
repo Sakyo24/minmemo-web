@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:convert';
+import 'dart:io';
+import '../model/admob.dart';
 import '../model/todo.dart';
 import './show.dart';
 import './create_edit.dart';
@@ -34,10 +37,30 @@ class _IndexPageState extends State<IndexPage> {
     });
   }
 
+  // バナー広告
+  late BannerAd bannerAd;
+  bool isAdLoaded = false;
+  void initAd() {
+    this.bannerAd = BannerAd(
+      adUnitId: Platform.isAndroid ? AdMob.getAdId(deviceType: 'android', adType: 'banner') : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            isAdLoaded = true;
+          });
+        }
+      )
+    )..load();
+  }
+
+
   @override
   void initState() {
     super.initState();
     getTodos();
+    initAd();
   }
   
   @override
@@ -105,6 +128,17 @@ class _IndexPageState extends State<IndexPage> {
         },
         tooltip: 'Todo追加',
         child: const Icon(Icons.add)
+      ),
+      bottomNavigationBar: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: isAdLoaded ? bannerAd.size.width.toDouble() : 0,
+            height: isAdLoaded ? bannerAd.size.height.toDouble() : 0,
+            child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
+          )
+        ]
       ),
     );
   }
