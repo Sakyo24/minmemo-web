@@ -61,7 +61,7 @@ return $config
                 'if',
                 'return',
                 'switch',
-                'throw',
+                // 'throw',
                 'try',
             ]
         ],
