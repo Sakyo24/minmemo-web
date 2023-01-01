@@ -19,6 +19,11 @@ class UserRepositoryTest extends TestCase
     private UserRepository $user_repository;
 
     /**
+     * @var User $user
+     */
+    private User $user;
+
+    /**
      * @return void
      */
     public function setUp(): void
@@ -26,6 +31,8 @@ class UserRepositoryTest extends TestCase
         parent::setUp();
 
         $this->user_repository = new UserRepository();
+
+        $this->user = User::factory()->create();
     }
 
     /**
@@ -47,5 +54,22 @@ class UserRepositoryTest extends TestCase
         $this->assertSame($expected_name, $user->name);
         $this->assertSame($expected_email, $user->email);
         $this->assertSame($expected_password, $user->password);
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindById(): void
+    {
+        $expected_id = $this->user->id;
+        $expected_name = $this->user->name;
+        $expected_email = $this->user->email;
+
+        $user = $this->user_repository->findById($expected_id);
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertSame($expected_id, $user->id);
+        $this->assertSame($expected_name, $user->name);
+        $this->assertSame($expected_email, $user->email);
     }
 }
