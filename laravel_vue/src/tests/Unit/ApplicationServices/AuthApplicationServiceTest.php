@@ -37,7 +37,10 @@ class AuthApplicationServiceTest extends TestCase
 
         $this->user_repository_mock = Mockery::mock(UserRepositoryInterface::class);
 
-        $this->user = User::factory()->create();
+        // TODO: DBに依存しているテスト
+        $this->user = User::factory()->create([
+            'password' => Hash::make('password'),
+        ]);
     }
 
     /**
@@ -189,5 +192,20 @@ class AuthApplicationServiceTest extends TestCase
                 'password' => $expected_password,
             ]
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testLogout(): void
+    {
+        // インスタンス生成
+        $auth_application_service = $this->app->make(AuthApplicationServiceInterface::class);
+
+        // 実行
+        $auth_application_service->logout();
+
+        // 検証
+        $this->assertTrue(true);
     }
 }

@@ -27,4 +27,11 @@ interface AuthApplicationServiceInterface
      * @throws AuthenticationException
      */
     public function login(array $input): User;
+
+    /**
+     * ログアウト処理
+     *
+     * @return void
+     */
+    public function logout(): void;
 }

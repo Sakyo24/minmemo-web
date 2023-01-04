@@ -72,4 +72,14 @@ class AuthApplicationService implements AuthApplicationServiceInterface
 
         return $user;
     }
+
+    /**
+     * ログアウト処理
+     *
+     * @return void
+     */
+    public function logout(): void
+    {
+        Auth::logout();
+    }
 }
