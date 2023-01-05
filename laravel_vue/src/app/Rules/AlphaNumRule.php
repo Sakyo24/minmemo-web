@@ -17,7 +17,7 @@ class AlphaNumRule implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return preg_match('/^[0-9a-zA-Z]+$/', $value);
+        return preg_match('/^[0-9a-zA-Z]+$/', $value) === 1;
     }
 
     /**
