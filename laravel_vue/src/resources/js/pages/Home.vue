@@ -2,23 +2,32 @@
   <div class="home">
     <h1>Home画面</h1>
     <div>{{ message }}</div>
-    <div class="test">{{ test }}</div>
-    <router-link to="/about">About画面へ</router-link>
+    <div @click="logout">ログアウト</div>
   </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const message = ref('こんにちは');
     const store = useStore();
+    const router = useRouter();
+
+    // data
+    const message = ref('こんにちは');
+
+    // methods
+    const logout = async () => {
+      await store.dispatch('auth/logout');
+      router.push('/login');
+    };
 
     return {
       message,
-      test: computed(() => store.state.test.message),
+      logout,
     };
   },
 };
