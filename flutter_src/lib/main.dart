@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/index.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   runApp(const TodoApp());

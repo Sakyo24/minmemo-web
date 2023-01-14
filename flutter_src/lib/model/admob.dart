@@ -1,6 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AdMob {
-  static bool isTest = true;
-  static List<String> testDevices = ['xxxxxxxxxx', 'yyyyyyyyyy'];
+  static bool isTest = (dotenv.get('AD_TEST_FLAG') == 'true') ? true : false;
+  static List<String> testDevices = [dotenv.get('TEST_DEVISE_IOS'), dotenv.get('TEST_DEVISE_ANDROID')];
 
   static Map<String, Map<String, String>> productionAdIds = {
     'ios': {
