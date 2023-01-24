@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * 認証
+ */
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
+
+
+/**
+ * SPA
+ */
 Route::get('/{any?}', function () {
     return view('index');
 })->where('any', '.+');

@@ -3,7 +3,8 @@
 ## アプリ概要
 
 Tod アプリ<br>
-モバイル：Flutter×Laravel 　　 Web アプリ,API：Vue.js×Laravel
+Web アプリ,API：Vue.js×Laravel<br>
+モバイル：Flutter×Laravel
 
 ### 仕様
 

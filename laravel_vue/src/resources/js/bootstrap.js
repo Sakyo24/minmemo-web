@@ -10,7 +10,14 @@ window._ = _;
 import axios from 'axios';
 window.axios = axios;
 
+// Ajaxリクエストであることを示すヘッダーを付与
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// レスポンス後の処理を上書き
+window.axios.interceptors.response.use(
+  (response) => response, // 成功時
+  (error) => error.response || error // 失敗時
+);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

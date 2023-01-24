@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use App\Repositories\TodoRepository;
 use App\Repositories\TodoRepositoryInterface;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -18,5 +20,6 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(TodoRepositoryInterface::class, TodoRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 }
