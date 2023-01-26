@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'dart:io';
 import '../model/admob.dart';
@@ -19,7 +20,7 @@ class _IndexPageState extends State<IndexPage> {
   // Todoリスト取得処理
   List items = [];
   Future<void> getTodos() async {
-    var url = Uri.parse('http://10.0.2.2/api/todos');
+    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos');
     Response response = await get(url);
 
     var jsonResponse = jsonDecode(response.body);
@@ -30,7 +31,7 @@ class _IndexPageState extends State<IndexPage> {
 
   // 削除処理
   Future<void> deleteTodo(id) async {
-    var url = Uri.parse('http://10.0.2.2/api/todos/' + id.toString());
+    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos/' + id.toString());
     await delete(url).then((response) {
       print(response.statusCode);
       setState(() {});

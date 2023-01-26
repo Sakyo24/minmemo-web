@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import '../model/todo.dart';
 import 'package:flutter_src/pages/index.dart';
@@ -19,7 +20,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
 
   // 登録処理
   Future<void> createTodo() async {
-    var url = Uri.parse('http://10.0.2.2/api/todos');
+    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos');
     await post(url, body: {
       'title': titleController.text,
       'detail': detailController.text
@@ -32,7 +33,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
 
   // 更新処理
   Future<void> updateTodo(id) async {
-    var url = Uri.parse('http://10.0.2.2/api/todos/' + id.toString());
+    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos/' + id.toString());
     await put(url, body: {
       'title': titleController.text,
       'detail': detailController.text
