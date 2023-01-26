@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Repositories\AdminRepository;
+use App\Repositories\AdminRepositoryInterface;
 use App\Repositories\TodoRepository;
 use App\Repositories\TodoRepositoryInterface;
 use App\Repositories\UserRepository;
@@ -19,6 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(AdminRepositoryInterface::class, AdminRepository::class);
         $this->app->bind(TodoRepositoryInterface::class, TodoRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
