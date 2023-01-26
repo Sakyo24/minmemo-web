@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         if (config('app.env') === 'production') {
             // 本番環境
