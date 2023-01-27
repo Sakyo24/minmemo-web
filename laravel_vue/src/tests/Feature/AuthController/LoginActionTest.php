@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\AuthController;
+namespace Tests\Feature\AuthController;
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,11 @@ use Tests\TestCase;
 class LoginActionTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @var Admin $admin
+     */
+    private Admin $admin;
 
     /**
      * @var User $user
@@ -25,6 +31,10 @@ class LoginActionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->admin = Admin::factory()->create([
+            'password' => Hash::make('password'),
+        ]);
 
         $this->user = User::factory()->create([
             'password' => Hash::make('password'),
@@ -52,7 +62,7 @@ class LoginActionTest extends TestCase
         $user = User::where('email', $expected_email)->first();
 
         // 検証
-        $response->assertStatus(200)
+        $response->assertOk()
             ->assertJsonStructure([
                 'user' => [
                     'id',
@@ -79,6 +89,35 @@ class LoginActionTest extends TestCase
         $this->assertSame($expected_email, $user->email);
 
         $this->assertAuthenticatedAs($this->user);
+        $this->assertGuest('admin');
+    }
+
+    /**
+     * @return void
+     */
+    public function testLoginByAdmin(): void
+    {
+        // データ
+        $expected_email = $this->admin->email;
+        $expected_password = 'password';
+
+        // リクエスト
+        $response = $this->postJson('/login', [
+            'email' => $expected_email,
+            'password' => $expected_password,
+        ]);
+
+        // 検証
+        $response->assertUnauthorized()
+            ->assertJsonStructure([
+                'message'
+            ])
+            ->assertExactJson([
+                'message' => 'Unauthenticated.'
+            ]);
+
+        $this->assertGuest();
+        $this->assertGuest('admin');
     }
 
     /**
@@ -90,13 +129,14 @@ class LoginActionTest extends TestCase
         $response = $this->postJson('/login', []);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'email',
                 'password',
             ]);
 
         $this->assertGuest();
+        $this->assertGuest('admin');
     }
 
     /**
@@ -110,16 +150,17 @@ class LoginActionTest extends TestCase
 
         // リクエスト
         $response = $this->postJson('/login', [
-            'name' => $expected_email,
+            'email' => $expected_email,
             'password' => $expected_password,
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'email',
             ]);
 
         $this->assertGuest();
+        $this->assertGuest('admin');
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Throwable;
@@ -54,7 +55,7 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -78,7 +79,7 @@ class AuthController extends Controller
         } catch (AuthenticationException $e) {
             return response()->json([
                 'message' => $e->getMessage(),
-            ], $e->getCode());
+            ], Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -92,6 +93,6 @@ class AuthController extends Controller
     {
         $this->auth_service->logout();
 
-        return response()->json([], 204);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
