@@ -26,8 +26,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * 認証
  */
 Route::post('register', [MobileAuthController::class, 'register']);
-Route::post('login', [MobileAuthController::class, 'login']);
-Route::get('logout', [MobileAuthController::class, 'logout'])->middleware('auth:api');
+Route::post('login', [MobileAuthController::class, 'login'])->name('login');
+Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth:sanctum');
 
 /**
  * Todo API

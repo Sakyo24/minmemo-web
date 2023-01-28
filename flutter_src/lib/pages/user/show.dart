@@ -17,7 +17,22 @@ class UserShowPage extends StatefulWidget {
 }
 
 class _UserShowPageState extends State<UserShowPage> {
+  String? _name;
+  String? _email;
   bool _isLoading = false;
+
+  // ユーザーの取得
+  _loadUserData() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var user = jsonDecode(localStorage.getString('user')!);
+
+    if (user != null) {
+      setState(() {
+        _name  = user['name'];
+        _email = user['email'];
+      });
+    }
+  }
 
   // ログアウト処理
   Future<void> _logout() async {
@@ -25,9 +40,11 @@ class _UserShowPageState extends State<UserShowPage> {
       _isLoading = true;
     });
 
+    Map<String, String> data = {'email': _email!};
+
     Response? res;
     try {
-      res = await Network().getData('/api/logout');
+      res = await Network().postData(data, '/api/logout');
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -91,6 +108,7 @@ class _UserShowPageState extends State<UserShowPage> {
   @override
   void initState() {
     super.initState();
+    _loadUserData();
     initAd();
   }
 

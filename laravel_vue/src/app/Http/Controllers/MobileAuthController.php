@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use Auth;
 
 class MobileAuthController extends Controller
 {
@@ -26,11 +25,10 @@ class MobileAuthController extends Controller
 
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
-        $token = $user->createToken('appToken')->accessToken;
 
         return response()->json([
-            'token' => $token,
-            'user' => $user
+            'token' => $user->createToken($user->name)->plainTextToken,
+            'user'  => $user
         ], 200);
     }
 
@@ -44,20 +42,18 @@ class MobileAuthController extends Controller
     {
         $input = $request->only(['email', 'password']);
 
-        if (Auth::attempt(['email' => $input['email'], 'password' => $input['password']])) {
-            $user = Auth::user();
-            // トークンを作成
-            $token = $user->createToken('appToken')->accessToken;
+        $user = User::where('email', $input['email'])->first();
 
-            return response()->json([
-                'token' => $token,
-                'user' => $user,
-            ], 200);
-        } else {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => '入力されたメールアドレスとパスワードに誤りがあります。'
             ], 401);
         }
+
+        return response()->json([
+            'token' => $user->createToken($user->name)->plainTextToken,
+            'user'  => $user
+        ], 200);
     }
 
     /**
@@ -66,18 +62,17 @@ class MobileAuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $res)
+    public function logout(Request $request): JsonResponse
     {
-        if (Auth::check()) {
-            // トークンの無効化
-            $token = Auth::user()->token();
-            $token->revoke();
-
-            return response()->json([], 200);
-        } else {
+        try {
+            $user = User::where('email', $request->input('email'))->first();
+            $user->tokens()->delete();
+        } catch (\Exception $e) {
             return response()->json([
-                'message' => '会員情報を取得できませんでした。'
+                'message' => 'ログアウト処理に失敗しました。'
             ], 401);
         }
+
+        return response()->json([], 200);
     }
 }
