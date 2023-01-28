@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * Todo API
  */
 Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
+
+/**
+ * 管理画面
+ */
+Route::prefix('admin')->group(function () {
+    /**
+     * 認証
+     */
+    Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
+});
