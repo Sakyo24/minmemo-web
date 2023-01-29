@@ -6,6 +6,7 @@ import router from './router';
 
 const initApp = async () => {
   await store.dispatch('auth/getLoginUser');
+  await store.dispatch('admin/getLoginAdmin');
 
   const app = createApp(App);
 
