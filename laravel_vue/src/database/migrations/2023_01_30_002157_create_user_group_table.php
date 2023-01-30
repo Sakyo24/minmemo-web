@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('todos', function (Blueprint $table) {
+        Schema::create('user_group', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('detail');
+            $table->unsignedBigInteger('user_id');
+            $table->string('group_id');
+            $table->timestamp('deleted_at')->nullable();  
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('user_group');
     }
 };

@@ -7,9 +7,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class UserSeeder extends Seeder
+class GroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,15 +24,15 @@ class UserSeeder extends Seeder
             $dt = new Carbon('2021-12-31');
             $this_day = $dt->addDay($i);
             $datas[] = [
-                'name'       => 'ユーザー' . $i,
-                'email'      => 'user' . $i . '@test.ne.jp',
-                'password'   => bcrypt('user' . $i),
-                'deleted_at' => null,
-                'created_at' => $this_day,
-                'updated_at' => $this_day,
+                'id'            => Str::random(26),
+                'name'          => 'グループ' . $i,
+                'owner_user_id' => $i,
+                'deleted_at'    => null,
+                'created_at'    => $this_day,
+                'updated_at'    => $this_day,
             ];
         }
 
-        DB::table('users')->insert($datas);
+        DB::table('groups')->insert($datas);
     }
 }
