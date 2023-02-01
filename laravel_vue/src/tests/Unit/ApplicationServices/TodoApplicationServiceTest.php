@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Tests\Unit\ApplicationServices;
 
 use App\ApplicationServices\TodoApplicationServiceInterface;
+use App\Models\User;
 use App\Models\Todo;
 use App\Repositories\TodoRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use RuntimeException;
 use Tests\TestCase;
 
 class TodoApplicationServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var TodoRepositoryInterface $todo_repository_mock
      */
@@ -25,6 +29,8 @@ class TodoApplicationServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        User::factory()->create();
 
         $this->todo_repository_mock = Mockery::mock(TodoRepositoryInterface::class);
     }
@@ -57,17 +63,14 @@ class TodoApplicationServiceTest extends TestCase
         $this->assertInstanceOf(Collection::class, $todos);
         $this->assertCount(2, $todos);
 
-        $this->assertSame($expected_todos[0]->id, $todos[0]->id);
-        $this->assertSame($expected_todos[0]->title, $todos[0]->title);
-        $this->assertSame($expected_todos[0]->detail, $todos[0]->detail);
-        $this->assertSame((string)$expected_todos[0]->created_at, (string)$todos[0]->created_at);
-        $this->assertSame((string)$expected_todos[0]->updated_at, (string)$todos[0]->updated_at);
-
-        $this->assertSame($expected_todos[1]->id, $todos[1]->id);
-        $this->assertSame($expected_todos[1]->title, $todos[1]->title);
-        $this->assertSame($expected_todos[1]->detail, $todos[1]->detail);
-        $this->assertSame((string)$expected_todos[1]->created_at, (string)$todos[1]->created_at);
-        $this->assertSame((string)$expected_todos[1]->updated_at, (string)$todos[1]->updated_at);
+        for ($i = 0; $i < count($todos); $i++) {
+            $this->assertSame($expected_todos[$i]->id, $todos[$i]->id);
+            $this->assertSame($expected_todos[$i]->title, $todos[$i]->title);
+            $this->assertSame($expected_todos[$i]->detail, $todos[$i]->detail);
+            $this->assertSame($expected_todos[$i]->user_id, $todos[$i]->user_id);
+            $this->assertSame((string)$expected_todos[$i]->created_at, (string)$todos[$i]->created_at);
+            $this->assertSame((string)$expected_todos[$i]->updated_at, (string)$todos[$i]->updated_at);
+        }
     }
 
     /**
@@ -78,10 +81,12 @@ class TodoApplicationServiceTest extends TestCase
         // データ
         $expected_title = "タイトル";
         $expected_detail = "詳細です。";
+        $expected_user_id = 1;
 
         $expected_todo = Todo::factory()->make([
             'title' => $expected_title,
             'detail' => $expected_detail,
+            'user_id' => $expected_user_id,
         ]);
 
         // モックの設定
@@ -90,6 +95,7 @@ class TodoApplicationServiceTest extends TestCase
             ->with([
                 'title' => $expected_title,
                 'detail' => $expected_detail,
+                'user_id' => $expected_user_id,
             ])
             ->andReturn($expected_todo);
 
@@ -102,6 +108,7 @@ class TodoApplicationServiceTest extends TestCase
         $actual = $this->todo_application_service->create([
             'title' => $expected_title,
             'detail' => $expected_detail,
+            'user_id' => $expected_user_id,
         ]);
 
         // 検証
@@ -116,6 +123,7 @@ class TodoApplicationServiceTest extends TestCase
         // データ
         $expected_title = "タイトル";
         $expected_detail = "詳細です。";
+        $expected_user_id = 1;
 
         // モックの設定
         $this->todo_repository_mock->shouldReceive('create')
@@ -123,6 +131,7 @@ class TodoApplicationServiceTest extends TestCase
             ->with([
                 'title' => $expected_title,
                 'detail' => $expected_detail,
+                'user_id' => $expected_user_id,
             ])
             ->andThrow(RuntimeException::class);
 
@@ -138,6 +147,7 @@ class TodoApplicationServiceTest extends TestCase
         $this->todo_application_service->create([
             'title' => $expected_title,
             'detail' => $expected_detail,
+            'user_id' => $expected_user_id,
         ]);
     }
 }
