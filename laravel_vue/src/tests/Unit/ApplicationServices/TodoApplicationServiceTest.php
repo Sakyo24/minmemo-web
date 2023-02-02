@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace Tests\Unit\ApplicationServices;
 
 use App\ApplicationServices\TodoApplicationServiceInterface;
-use App\Models\User;
 use App\Models\Todo;
+use App\Models\User;
 use App\Repositories\TodoRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use RuntimeException;
 use Tests\TestCase;
 
 class TodoApplicationServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     /**
      * @var TodoRepositoryInterface $todo_repository_mock
      */
@@ -30,8 +27,6 @@ class TodoApplicationServiceTest extends TestCase
     {
         parent::setUp();
 
-        User::factory()->create();
-
         $this->todo_repository_mock = Mockery::mock(TodoRepositoryInterface::class);
     }
 
@@ -41,8 +36,11 @@ class TodoApplicationServiceTest extends TestCase
     public function testGetAll(): void
     {
         // データ
+        $user = User::factory()->make();
         $expected_todos = Todo::factory(2)
-            ->make()
+            ->make([
+                'user_id' => $user->id,
+            ])
             ->sortByDesc('id', SORT_NUMERIC)
             ->values();
 
