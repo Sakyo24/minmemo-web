@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class MobileAuthController extends Controller
 {
@@ -28,8 +29,8 @@ class MobileAuthController extends Controller
 
         return response()->json([
             'token' => $user->createToken($user->name)->plainTextToken,
-            'user'  => $user
-        ], 200);
+            'user' => $user
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -47,13 +48,13 @@ class MobileAuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'message' => '入力されたメールアドレスとパスワードに誤りがあります。'
-            ], 401);
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
         return response()->json([
             'token' => $user->createToken($user->name)->plainTextToken,
-            'user'  => $user
-        ], 200);
+            'user' => $user
+        ]);
     }
 
     /**
@@ -70,9 +71,9 @@ class MobileAuthController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'ログアウト処理に失敗しました。'
-            ], 401);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return response()->json([], 200);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

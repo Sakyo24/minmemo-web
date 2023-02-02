@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
     var body = json.decode(res.body);
 
     // エラーの場合
-    if (res.statusCode != 200) {
+    if (res.statusCode != 201) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           (res.statusCode >= 500 && res.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
