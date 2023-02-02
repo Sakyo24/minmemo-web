@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/top.dart';
-import 'pages/index.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
