@@ -115,7 +115,7 @@ class LoginActionTest extends TestCase
                 'message'
             ])
             ->assertExactJson([
-                'message' => 'Unauthenticated.'
+                'message' => __('auth.failed'),
             ]);
 
         $this->assertGuest('admin');
