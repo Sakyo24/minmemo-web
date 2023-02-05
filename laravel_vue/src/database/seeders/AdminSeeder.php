@@ -18,10 +18,10 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         Admin::factory()->create([
-            'name' => env('INIT_ADMIN_NAME'),
-            'email' => env('INIT_ADMIN_EMAIL'),
+            'name' => config('admin.init.name'),
+            'email' => config('admin.init.email'),
             'email_verified_at' => now(),
-            'password' => Hash::make(env('INIT_ADMIN_PASSWORD')),
+            'password' => Hash::make(config('admin.init.password')),
         ]);
     }
 }
