@@ -49,7 +49,7 @@ class AuthController extends Controller
             ]);
         } catch (AuthenticationException $e) {
             return response()->json([
-                'message' => $e->getMessage(),
+                'message' => __('auth.failed'),
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
