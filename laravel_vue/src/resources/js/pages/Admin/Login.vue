@@ -1,3 +1,28 @@
+<script setup>
+import { reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore();
+const router = useRouter();
+
+// data
+const form = reactive({
+  email: null,
+  password: null,
+});
+
+// computed
+const errors = computed(() => store.getters['admin/loginErrors']);
+const message = computed(() => store.getters['admin/unauthrizedMessage']);
+
+// methods
+const submit = async () => {
+  await store.dispatch('admin/login', form);
+  router.push('/admin');
+};
+</script>
+
 <template>
   <div class="login">
     <h1>管理者ログイン画面</h1>
@@ -30,41 +55,10 @@
           </li>
         </ul>
       </div>
+      <div v-if="message" class="error">
+        {{ message }}
+      </div>
       <button @click="submit">ログイン</button>
     </form>
   </div>
 </template>
-
-<script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-
-export default {
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-
-    // data
-    const form = reactive({
-      email: null,
-      password: null,
-    });
-
-    // computed
-    const errors = computed(() => store.getters['admin/loginErrors']);
-
-    // methods
-    const submit = async () => {
-      await store.dispatch('admin/login', form);
-      router.push('/admin');
-    };
-
-    return {
-      form,
-      errors,
-      submit,
-    };
-  },
-};
-</script>
