@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\AuthController;
+namespace Tests\Feature\Admin\AuthController;
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,11 @@ use Tests\TestCase;
 class LogoutActionTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * @var Admin $admin
+     */
+    private Admin $admin;
 
     /**
      * @var User $user
@@ -25,6 +31,10 @@ class LogoutActionTest extends TestCase
     {
         parent::setUp();
 
+        $this->admin = Admin::factory()->create([
+            'password' => Hash::make('password'),
+        ]);
+
         $this->user = User::factory()->create([
             'password' => Hash::make('password'),
         ]);
@@ -36,11 +46,11 @@ class LogoutActionTest extends TestCase
     public function testLogout(): void
     {
         // リクエスト
-        $response = $this->actingAs($this->user)->postJson('/logout', []);
+        $response = $this->actingAs($this->admin, 'admin')->postJson('/admin/logout', []);
 
         // 検証
         $response->assertNoContent();
 
-        $this->assertGuest();
+        $this->assertGuest('admin');
     }
 }

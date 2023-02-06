@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\ApplicationServices\AuthApplicationServiceInterface;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\ApplicationServices\Admin\AuthApplicationServiceInterface;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\LoginRequest;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
-use RuntimeException;
-use Throwable;
 
 class AuthController extends Controller
 {
@@ -33,32 +30,6 @@ class AuthController extends Controller
     }
 
     /**
-     * ユーザー登録
-     *
-     * @param RegisterRequest $request
-     * @return JsonResponse
-     */
-    public function register(RegisterRequest $request): JsonResponse
-    {
-        $input = $request->only([
-            'name',
-            'email',
-            'password',
-        ]);
-
-        try {
-            $user = $this->auth_service->register($input);
-        } catch (Throwable $e) {
-            Log::error($e->getMessage());
-            throw new RuntimeException($e->getMessage());
-        }
-
-        return response()->json([
-            'user' => $user,
-        ], Response::HTTP_CREATED);
-    }
-
-    /**
      * ログイン
      *
      * @param LoginRequest $request
@@ -69,16 +40,16 @@ class AuthController extends Controller
         $input = $request->only(['email', 'password']);
 
         try {
-            $user = $this->auth_service->login($input);
+            $admin = $this->auth_service->login($input);
 
             $request->session()->regenerate();
 
             return response()->json([
-                'user' => $user,
+                'admin' => $admin,
             ]);
         } catch (AuthenticationException $e) {
             return response()->json([
-                'message' => $e->getMessage(),
+                'message' => __('auth.failed'),
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
@@ -92,6 +63,26 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $this->auth_service->logout();
+
+        $request->session()->regenerate();
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * ログイン中の管理者取得
+     *
+     * @return JsonResponse
+     */
+    public function getLoginAdmin(): JsonResponse
+    {
+        $admin = $this->auth_service->getLoginAdmin();
+
+        if (isset($admin)) {
+            return response()->json([
+                'admin' => $admin
+            ]);
+        }
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }

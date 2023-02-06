@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -12,10 +14,19 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(UserSeeder::class);
-        $this->call(GroupSeeder::class);
-        $this->call(TodoSeeder::class);
+        if (config('app.env') === 'production') {
+            // 本番環境
+            $this->call([
+                AdminSeeder::class,
+            ]);
+        } else {
+            $this->call([
+                AdminSeeder::class,
+                UserSeeder::class,
+                TodoSeeder::class
+            ]);
+        }
     }
 }
