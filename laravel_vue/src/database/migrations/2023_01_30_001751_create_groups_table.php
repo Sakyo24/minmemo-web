@@ -18,8 +18,8 @@ return new class() extends Migration {
             $table->ulid('id')->primary();
             $table->string('name');
             $table->unsignedBigInteger('owner_user_id');
-            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('owner_user_id')->references('id')->on('users');
         });

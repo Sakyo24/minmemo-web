@@ -20,8 +20,8 @@ return new class() extends Migration {
             $table->text('detail');
             $table->unsignedBigInteger('user_id');
             $table->foreignUlid('group_id')->nullable();
-            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('group_id')->references('id')->on('groups');
