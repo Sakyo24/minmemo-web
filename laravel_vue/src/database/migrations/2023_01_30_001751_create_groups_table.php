@@ -18,7 +18,8 @@ return new class() extends Migration {
             $table->string('id', 26)->primary();
             $table->string('name');
             $table->unsignedBigInteger('owner_user_id');
-            $table->timestamp('deleted_at')->nullable();            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
+            $table->timestamps();
 
             $table->foreign('owner_user_id')->references('id')->on('users');
         });
