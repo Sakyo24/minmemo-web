@@ -61,9 +61,9 @@ class _UserShowPageState extends State<UserShowPage> {
       return;
     }
 
-    var body = json.decode(res.body);
     // エラーの場合
-    if (res.statusCode != 200) {
+    if (res.statusCode != 204) {
+      var body = json.decode(res.body);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(body['message']))
