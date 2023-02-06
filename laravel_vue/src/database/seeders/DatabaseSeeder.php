@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
                 AdminSeeder::class,
                 UserSeeder::class,
                 GroupSeeder::class,
-                TodoSeeder::class
+                TodoSeeder::class,
+                UserGroupSeeder::class
             ]);
         }
     }
