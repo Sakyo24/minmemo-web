@@ -15,7 +15,7 @@ return new class() extends Migration {
     public function up()
     {
         Schema::create('groups', function (Blueprint $table) {
-            $table->string('id', 26)->primary();
+            $table->ulid('id')->primary();
             $table->string('name');
             $table->unsignedBigInteger('owner_user_id');
             $table->timestamp('deleted_at')->nullable();
