@@ -1,24 +1,20 @@
 import axios from 'axios';
 import { STATUS } from '../util/status';
 
-const auth = {
+const admin = {
   namespaced: true,
   state: () => ({
-    user: null,
+    admin: null,
     apiStatus: null,
-    registerErrors: {},
     loginErrors: {},
     unauthrizedMessage: '',
   }),
   getters: {
-    isLogged(state) {
-      return !!state.user;
+    isAdmin(state) {
+      return !!state.admin;
     },
     apiStatus(state) {
       return state.apiStatus;
-    },
-    registerErrors(state) {
-      return state.registerErrors;
     },
     loginErrors(state) {
       return state.loginErrors;
@@ -28,14 +24,11 @@ const auth = {
     },
   },
   mutations: {
-    setUser(state, user) {
-      state.user = user;
+    setAdmin(state, admin) {
+      state.admin = admin;
     },
     setApiStatus(state, apiStatus) {
       state.apiStatus = apiStatus;
-    },
-    setRegisterErrors(state, registerErrors) {
-      state.registerErrors = registerErrors;
     },
     setLoginErrors(state, loginErrors) {
       state.loginErrors = loginErrors;
@@ -46,35 +39,6 @@ const auth = {
   },
   actions: {
     /**
-     * ユーザー登録アクション
-     *
-     * @param {*} context
-     * @param {*} data
-     */
-    async register(context, data) {
-      // 初期化
-      context.commit('setApiStatus', null);
-      context.commit('setUser', null);
-      context.commit('setRegisterErrors', {});
-
-      // API実行
-      const response = await axios.post('/register', data);
-
-      // 成功時
-      if (response.status === STATUS.CREATED) {
-        context.commit('setApiStatus', true);
-        return false;
-      }
-
-      // エラー時
-      context.commit('setApiStatus', false);
-      if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
-        context.commit('setRegisterErrors', response.data.errors);
-      } else {
-        context.commit('error/setCode', response.status, { root: true });
-      }
-    },
-    /**
      * ログインアクション
      *
      * @param {*} context
@@ -83,17 +47,17 @@ const auth = {
     async login(context, data) {
       // 初期化
       context.commit('setApiStatus', null);
-      context.commit('setUser', null);
+      context.commit('setAdmin', null);
       context.commit('setLoginErrors', {});
       context.commit('setUnauthrizedMessage', '');
 
       // API実行
-      const response = await axios.post('/login', data);
+      const response = await axios.post('/admin/login', data);
 
       // 成功時
       if (response.status === STATUS.OK) {
         context.commit('setApiStatus', true);
-        context.commit('setUser', response.data.user);
+        context.commit('setAdmin', response.data.admin);
         return false;
       }
 
@@ -117,12 +81,12 @@ const auth = {
       context.commit('setApiStatus', null);
 
       // API実行
-      const response = await axios.post('/logout');
+      const response = await axios.post('/admin/logout');
 
       // 成功時
       if (response.status === STATUS.NO_CONTENT) {
         context.commit('setApiStatus', true);
-        context.commit('setUser', null);
+        context.commit('setAdmin', null);
         return false;
       }
 
@@ -131,23 +95,27 @@ const auth = {
       context.commit('error/setCode', response.status, { root: true });
     },
     /**
-     * ログインユーザー取得アクション
+     * ログイン管理者取得アクション
      *
      * @param {*} context
      */
-    async getLoginUser(context) {
+    async getLoginAdmin(context) {
       // 初期化
       context.commit('setApiStatus', null);
-      context.commit('setUser', null);
+      context.commit('setAdmin', null);
 
       // API実行
-      // TODO: API修正
-      const response = await axios.get('/api/user');
+      const response = await axios.get('/api/admin');
 
       // 成功時
       if (response.status === STATUS.OK) {
         context.commit('setApiStatus', true);
-        context.commit('setUser', response.data);
+        context.commit('setAdmin', response.data.admin);
+        return false;
+      }
+      if (response.status === STATUS.NO_CONTENT) {
+        context.commit('setApiStatus', true);
+        context.commit('setAdmin', null);
         return false;
       }
 
@@ -158,4 +126,4 @@ const auth = {
   },
 };
 
-export default auth;
+export default admin;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\AuthController;
+namespace Tests\Feature\AuthController;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
