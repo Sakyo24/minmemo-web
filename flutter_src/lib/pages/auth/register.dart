@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../utils/network.dart';
-import '../index.dart';
+import './login.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -56,11 +55,10 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    var body = json.decode(res.body);
-
     // エラーの場合
     if (res.statusCode != 201) {
       if (mounted) {
+        var body = json.decode(res.body);
         ScaffoldMessenger.of(context).showSnackBar(
           (res.statusCode >= 500 && res.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
         );
@@ -72,14 +70,10 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     // 会員登録成功の場合
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    localStorage.setString('token', json.encode(body['token']));
-    localStorage.setString('user', json.encode(body['user']));
-
     if (!mounted) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const IndexPage()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
 
@@ -132,8 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 obscureText: true,
                 validator: (passwordValue) {
-                  if (passwordValue == null ||
-                      passwordValue == "") {
+                  if (passwordValue == null || passwordValue == "") {
                     return 'パスワードは必ず入力してください。';
                   }
                   _password = passwordValue;
@@ -147,8 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 obscureText: true,
                 validator: (passwordConfirmationValue) {
-                  if (passwordConfirmationValue == null ||
-                      passwordConfirmationValue == "") {
+                  if (passwordConfirmationValue == null || passwordConfirmationValue == "") {
                     return 'パスワード(確認)は必ず入力してください。';
                   }
                   _password_confirmation = passwordConfirmationValue;

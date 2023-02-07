@@ -27,10 +27,7 @@ class MobileAuthController extends Controller
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
 
-        return response()->json([
-            'token' => $user->createToken($user->name)->plainTextToken,
-            'user' => $user
-        ], Response::HTTP_CREATED);
+        return response()->json([], Response::HTTP_CREATED);
     }
 
     /**
