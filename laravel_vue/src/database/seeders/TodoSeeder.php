@@ -22,33 +22,36 @@ class TodoSeeder extends Seeder
         $datas = [];
 
         $users = User::all();
+
         foreach ($users as $user) {
             for ($i = 1; $i <= 10; $i++) {
                 $dt = new Carbon('2021-12-31');
                 $this_day = $dt->addDay($i);
                 $datas[] = [
-                    'title'      => '個人todo' . $user->id . '-' . $i,
-                    'detail'     => '個人todo' . $user->id . '-' . $i . 'の詳細です。',
-                    'user_id'    => $user->id,
-                    'group_id'   => null,
-                    'deleted_at' => null,
+                    'title' => '個人todo' . $user->id . '-' . $i,
+                    'detail' => '個人todo' . $user->id . '-' . $i . 'の詳細です。',
+                    'user_id' => $user->id,
+                    'group_id' => null,
                     'created_at' => $this_day,
                     'updated_at' => $this_day,
+                    'deleted_at' => null,
                 ];
             }
         }
 
         $groups = Group::all();
+
         foreach ($groups as $key => $group) {
             $group_num = $key + 1;
+
             for ($i = 1; $i <= 10; $i++) {
                 $dt = new Carbon('2021-12-31');
                 $this_day = $dt->addDay($i);
                 $datas[] = [
-                    'title'      => 'グループtodo' . $group_num . '-' . $i,
-                    'detail'     => 'グループtodo' . $group_num . '-' . $i . 'の詳細です。',
-                    'user_id'    => $group_num,
-                    'group_id'   => $group->id,
+                    'title' => 'グループtodo' . $group_num . '-' . $i,
+                    'detail' => 'グループtodo' . $group_num . '-' . $i . 'の詳細です。',
+                    'user_id' => $group_num,
+                    'group_id' => $group->id,
                     'deleted_at' => null,
                     'created_at' => $this_day,
                     'updated_at' => $this_day,

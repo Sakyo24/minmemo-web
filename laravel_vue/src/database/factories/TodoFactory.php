@@ -23,8 +23,10 @@ class TodoFactory extends Factory
             'title' => fake()->title(),
             'detail' => fake()->text(),
             'user_id' => User::factory(),
+            'group_id' => null,
             'created_at' => now(),
             'updated_at' => now(),
+            'deleted_at' => null,
         ];
     }
 }
