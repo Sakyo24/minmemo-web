@@ -12,4 +12,11 @@ class Group extends Model
 {
     use HasFactory;
     use HasUlids;
+
+    /**
+     * 自動増分IDの「タイプ」
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 }
