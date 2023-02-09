@@ -16,6 +16,12 @@ ps:
 # workspaceコンテナにアクセス
 workspace:
 	docker-compose -f ./laradock/docker-compose.yml exec --user=laradock workspace bash
+# フロントコンパイル
+dev:
+	docker-compose -f ./laradock/docker-compose.yml exec --user=laradock workspace npm run dev
+# フロントビルド
+build:
+	docker-compose -f ./laradock/docker-compose.yml exec --user=laradock workspace npm run build
 # mysqlコンテナにアクセス
 mysql:
 	docker-compose -f ./laradock/docker-compose.yml exec mysql bash
