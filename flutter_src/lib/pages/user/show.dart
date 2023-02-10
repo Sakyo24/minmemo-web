@@ -66,7 +66,7 @@ class _UserShowPageState extends State<UserShowPage> {
       var body = json.decode(res.body);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(body['message']))
+          (res.statusCode >= 500 && res.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
         );
       }
       setState(() {
