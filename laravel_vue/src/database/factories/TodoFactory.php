@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +24,7 @@ class TodoFactory extends Factory
             'title' => fake()->title(),
             'detail' => fake()->text(),
             'user_id' => User::factory(),
-            'group_id' => null,
+            'group_id' => Group::factory(),
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,
