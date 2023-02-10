@@ -25,7 +25,7 @@ class MobileAuthController extends Controller
         $input = $request->only(['name', 'email', 'password']);
 
         $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
+        User::create($input);
 
         return response()->json([], Response::HTTP_CREATED);
     }
@@ -66,6 +66,7 @@ class MobileAuthController extends Controller
             $user = User::where('email', $request->input('email'))->first();
             $user->tokens()->delete();
         } catch (\Exception $e) {
+            report($e);
             return response()->json([
                 'message' => 'ログアウト処理に失敗しました。'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
