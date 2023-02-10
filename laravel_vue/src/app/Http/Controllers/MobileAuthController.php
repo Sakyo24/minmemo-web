@@ -44,7 +44,7 @@ class MobileAuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => '入力されたメールアドレスとパスワードに誤りがあります。'
+                'message' => trans('auth.failed')
             ], Response::HTTP_UNAUTHORIZED);
         }
 
