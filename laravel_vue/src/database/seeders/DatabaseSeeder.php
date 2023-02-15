@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 GroupSeeder::class,
                 TodoSeeder::class,
-                UserGroupSeeder::class
+                GroupUserSeeder::class
             ]);
         }
     }

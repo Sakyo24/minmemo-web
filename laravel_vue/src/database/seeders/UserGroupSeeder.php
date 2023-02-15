@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Group;
 use Carbon\Carbon;
 
-class UserGroupSeeder extends Seeder
+class GroupUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -41,6 +41,6 @@ class UserGroupSeeder extends Seeder
             ];
         }
 
-        DB::table('user_group')->insert($datas);
+        DB::table('group_user')->insert($datas);
     }
 }
