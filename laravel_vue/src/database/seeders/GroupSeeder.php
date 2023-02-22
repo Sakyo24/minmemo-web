@@ -17,7 +17,7 @@ class GroupSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $datas = [];
         for ($i = 1; $i <= 10; $i++) {
