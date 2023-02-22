@@ -1,3 +1,27 @@
+<script setup>
+import { reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore();
+const router = useRouter();
+
+// data
+const form = reactive({
+  email: null,
+  password: null,
+});
+
+// computed
+const errors = computed(() => store.getters['auth/loginErrors']);
+
+// methods
+const submit = async () => {
+  await store.dispatch('auth/login', form);
+  router.push('/');
+};
+</script>
+
 <template>
   <div class="login">
     <h1>Login画面</h1>
@@ -35,37 +59,3 @@
     <router-link to="/register">ユーザー登録画面へ</router-link>
   </div>
 </template>
-
-<script>
-import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-
-export default {
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-
-    // data
-    const form = reactive({
-      email: null,
-      password: null,
-    });
-
-    // computed
-    const errors = computed(() => store.getters['auth/loginErrors']);
-
-    // methods
-    const submit = async () => {
-      await store.dispatch('auth/login', form);
-      router.push('/');
-    };
-
-    return {
-      form,
-      errors,
-      submit,
-    };
-  },
-};
-</script>
