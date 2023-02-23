@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'pages/index.dart';
+import 'pages/top.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
@@ -23,7 +23,7 @@ class TodoApp extends StatelessWidget {
         accentColor: const Color.fromARGB(255, 60, 0, 255),
         canvasColor: const Color.fromARGB(255, 250, 250, 250)
       ),
-      home: const IndexPage()
+      home: const TopPage()
     );
   }
 }

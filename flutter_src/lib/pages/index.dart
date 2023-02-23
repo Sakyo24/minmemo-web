@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import '../model/admob.dart';
 import '../model/todo.dart';
+import './user/show.dart';
 import './show.dart';
 import './create_edit.dart';
 
@@ -55,7 +56,6 @@ class _IndexPageState extends State<IndexPage> {
       )
     )..load();
   }
-
 
   @override
   void initState() {
@@ -119,9 +119,9 @@ class _IndexPageState extends State<IndexPage> {
             ),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ShowPage(fetchTodo)));
-            },
+            }
           );
-        },
+        }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -138,9 +138,30 @@ class _IndexPageState extends State<IndexPage> {
             width: isAdLoaded ? bannerAd.size.width.toDouble() : 0,
             height: isAdLoaded ? bannerAd.size.height.toDouble() : 0,
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
+          ),
+          BottomNavigationBar(
+            currentIndex: 0,
+            items: const [
+              BottomNavigationBarItem(
+                label: 'メモ',
+                icon: Icon(Icons.list)
+              ),
+              BottomNavigationBarItem(
+                label: 'マイページ',
+                icon: Icon(Icons.perm_identity)
+              )
+            ],
+            onTap: (int value) {
+              if (value == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const UserShowPage()),
+                );
+              }
+            }
           )
         ]
-      ),
+      )
     );
   }
 }
