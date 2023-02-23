@@ -5,26 +5,23 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Todo>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Group>
  */
-class TodoFactory extends Factory
+class GroupFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'title' => fake()->title(),
-            'detail' => fake()->text(),
-            'user_id' => User::factory(),
-            'group_id' => Group::factory(),
+            'name' => fake()->company(),
+            'owner_user_id' => User::factory(),
             'created_at' => now(),
             'updated_at' => now(),
             'deleted_at' => null,
