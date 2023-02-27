@@ -15,11 +15,11 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('todos', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('detail');
-            $table->unsignedBigInteger('user_id');
-            $table->foreignUlid('group_id')->nullable();
+            $table->id()->comment('TODO ID');
+            $table->string('title')->comment('タイトル');
+            $table->text('detail')->comment('詳細');
+            $table->unsignedBigInteger('user_id')->comment('ユーザーID');
+            $table->foreignUlid('group_id')->nullable()->comment('グループID');
             $table->timestamps();
             $table->softDeletes();
 

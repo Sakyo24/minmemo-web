@@ -15,9 +15,9 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('group_user', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreignUlid('group_id');
+            $table->id()->comment('グループユーザーID');
+            $table->unsignedBigInteger('user_id')->comment('ユーザーID');
+            $table->foreignUlid('group_id')->comment('グループID');
             $table->timestamps();
             $table->softDeletes();
 
