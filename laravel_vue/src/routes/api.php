@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * SPA認証
+ */
 Route::get('/auth', [AuthController::class, 'getLoginUser']);
 
 /**
