@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\GroupUser;
 use App\Models\Todo;
 use App\Models\User;
+use App\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class Group extends Model
 {
     use HasFactory;
     use HasUlids;
+    use SerializeDate;
     use SoftDeletes;
 
     /**

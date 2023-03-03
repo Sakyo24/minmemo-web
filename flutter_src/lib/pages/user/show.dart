@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import '../../model/admob.dart';
 import '../../utils/network.dart';
+import '../groups/index.dart';
 import '../top.dart';
 import '../index.dart';
 
@@ -145,11 +146,15 @@ class _UserShowPageState extends State<UserShowPage> {
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
           ),
           BottomNavigationBar(
-            currentIndex: 1,
+            currentIndex: 2,
             items: const [
               BottomNavigationBarItem(
                 label: 'メモ',
                 icon: Icon(Icons.list)
+              ),
+              BottomNavigationBarItem(
+                label: 'グループ',
+                icon: Icon(Icons.groups)
               ),
               BottomNavigationBarItem(
                 label: 'マイページ',
@@ -161,6 +166,11 @@ class _UserShowPageState extends State<UserShowPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const IndexPage()),
+                );
+              } else if (value == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GroupsIndexPage()),
                 );
               }
             }
