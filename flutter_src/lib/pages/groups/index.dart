@@ -39,23 +39,24 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
     }
   }
 
-    // バナー広告
-    late BannerAd bannerAd;
-    bool isAdLoaded = false;
-    void initAd() {
-      this.bannerAd = BannerAd(
-        adUnitId: Platform.isAndroid ? AdMob.getAdId(deviceType: 'android', adType: 'banner') : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
-        size: AdSize.banner,
-        request: AdRequest(),
-        listener: BannerAdListener(
-          onAdLoaded: (Ad ad) {
-            setState(() {
-              isAdLoaded = true;
-            });
-          }
-        )
-      )..load();
-    }
+  // TODO:広告の共通化
+  // バナー広告
+  late BannerAd bannerAd;
+  bool isAdLoaded = false;
+  void initAd() {
+    this.bannerAd = BannerAd(
+      adUnitId: Platform.isAndroid ? AdMob.getAdId(deviceType: 'android', adType: 'banner') : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            isAdLoaded = true;
+          });
+        }
+      )
+    )..load();
+  }
 
   @override
   void initState() {
@@ -99,14 +100,14 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
                       children: [
                         ListTile(
                           onTap: () {
-                            // グループ編集ページに遷移 
+                            // TODO:グループ編集ページに遷移 
                           },
                           leading: const Icon(Icons.edit),
                           title: const Text('編集')
                         ),
                         ListTile(
                           onTap: () {
-                            // グループ削除処理 
+                            // TODO:グループ削除処理 
                           },
                           leading: const Icon(Icons.delete),
                           title: const Text('削除')
@@ -119,7 +120,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
               icon: const Icon(Icons.edit)
             ),
             onTap: () {
-              // グループ詳細ページに遷移 
+              // TODO:グループ詳細ページに遷移 
             }
           );
         }
@@ -129,6 +130,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
         tooltip: 'グループ追加',
         child: const Icon(Icons.add)
       ),
+      // TODO:ボトムメニュー共通化
       bottomNavigationBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,

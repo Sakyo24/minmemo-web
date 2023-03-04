@@ -88,6 +88,7 @@ class _UserShowPageState extends State<UserShowPage> {
     );
   }
 
+  // TODO:広告の共通化
   // バナー広告
   late BannerAd bannerAd;
   bool isAdLoaded = false;
@@ -136,6 +137,7 @@ class _UserShowPageState extends State<UserShowPage> {
           ]
         ),
       ),
+      // TODO:ボトムメニュー共通化
       bottomNavigationBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
