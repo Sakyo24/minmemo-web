@@ -18,6 +18,7 @@ class UserShowPage extends StatefulWidget {
 }
 
 class _UserShowPageState extends State<UserShowPage> {
+  final int _currentPage = 2;
   String? _name;
   String? _email;
   bool _isLoading = false;
@@ -148,7 +149,7 @@ class _UserShowPageState extends State<UserShowPage> {
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
           ),
           BottomNavigationBar(
-            currentIndex: 2,
+            currentIndex: _currentPage,
             items: const [
               BottomNavigationBarItem(
                 label: 'メモ',

@@ -19,6 +19,8 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
+  final int _currentPage = 0;
+
   // Todoリスト取得処理
   List items = [];
   Future<void> getTodos() async {
@@ -143,7 +145,7 @@ class _IndexPageState extends State<IndexPage> {
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
           ),
           BottomNavigationBar(
-            currentIndex: 0,
+            currentIndex: _currentPage,
             items: const [
               BottomNavigationBarItem(
                 label: 'メモ',

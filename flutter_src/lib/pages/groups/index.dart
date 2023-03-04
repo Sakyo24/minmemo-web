@@ -17,6 +17,7 @@ class GroupsIndexPage extends StatefulWidget {
 }
 
 class _GroupsIndexPageState extends State<GroupsIndexPage> {
+  final int _currentPage = 1;
   bool _isLoading = true;
 
   // グループリスト取得処理
@@ -141,7 +142,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
           ),
           BottomNavigationBar(
-            currentIndex: 1,
+            currentIndex: _currentPage,
             items: const [
               BottomNavigationBarItem(
                 label: 'メモ',
