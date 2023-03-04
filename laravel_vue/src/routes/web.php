@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 /**
- * 認証
+ * SPA認証
  */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,7 +29,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
  */
 Route::prefix('admin')->group(function () {
     /**
-     * 認証
+     * SPA認証
      */
     Route::post('/login', [AdminAuthController::class, 'login']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);

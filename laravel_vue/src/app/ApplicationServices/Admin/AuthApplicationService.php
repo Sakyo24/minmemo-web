@@ -57,6 +57,8 @@ class AuthApplicationService implements AuthApplicationServiceInterface
 
     /**
      * ログイン中の管理者取得処理
+     *
+     * @return Admin|null
      */
     public function getLoginAdmin(): ?Admin
     {

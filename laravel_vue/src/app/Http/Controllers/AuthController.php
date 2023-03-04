@@ -95,4 +95,22 @@ class AuthController extends Controller
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * ログイン中のユーザー取得
+     *
+     * @return JsonResponse
+     */
+    public function getLoginUser(): JsonResponse
+    {
+        $user = $this->auth_service->getLoginUser();
+
+        if (isset($user)) {
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }

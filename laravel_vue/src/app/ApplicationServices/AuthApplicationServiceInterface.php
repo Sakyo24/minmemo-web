@@ -34,4 +34,11 @@ interface AuthApplicationServiceInterface
      * @return void
      */
     public function logout(): void;
+
+    /**
+     * ログイン中のユーザー取得処理
+     *
+     * @return User|null
+     */
+    public function getLoginUser(): ?User;
 }
