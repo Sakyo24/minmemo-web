@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class MobileAuthController extends Controller
 {
@@ -65,11 +66,8 @@ class MobileAuthController extends Controller
         try {
             $user = User::where('email', $request->input('email'))->first();
             $user->tokens()->delete();
-        } catch (\Exception $e) {
-            report($e);
-            return response()->json([
-                'message' => 'ログアウト処理に失敗しました。'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (Throwable $e) {
+            throw $e;
         }
 
         return response()->json([], Response::HTTP_NO_CONTENT);
