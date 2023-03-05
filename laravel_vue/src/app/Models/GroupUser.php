@@ -17,6 +17,13 @@ class GroupUser extends Model
     use SoftDeletes;
 
     /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'group_user';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
