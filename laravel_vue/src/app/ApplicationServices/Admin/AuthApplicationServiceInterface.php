@@ -24,4 +24,11 @@ interface AuthApplicationServiceInterface
      * @return void
      */
     public function logout(): void;
+
+    /**
+     * ログイン中の管理者取得処理
+     *
+     * @return Admin|null
+     */
+    public function getLoginAdmin(): ?Admin;
 }

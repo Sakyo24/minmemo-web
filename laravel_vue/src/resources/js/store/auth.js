@@ -141,13 +141,17 @@ const auth = {
       context.commit('setUser', null);
 
       // API実行
-      // TODO: API修正
-      const response = await axios.get('/api/user');
+      const response = await axios.get('/api/auth');
 
       // 成功時
       if (response.status === STATUS.OK) {
         context.commit('setApiStatus', true);
-        context.commit('setUser', response.data);
+        context.commit('setUser', response.data.user);
+        return false;
+      }
+      if (response.status === STATUS.NO_CONTENT) {
+        context.commit('setApiStatus', true);
+        context.commit('setUser', null);
         return false;
       }
 

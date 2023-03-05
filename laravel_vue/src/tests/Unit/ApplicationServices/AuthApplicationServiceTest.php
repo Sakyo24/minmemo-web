@@ -208,4 +208,63 @@ class AuthApplicationServiceTest extends TestCase
         // 検証
         $this->assertTrue(true);
     }
+
+    /**
+     * TODO: DBに依存しているテスト
+     *
+     * @return void
+     */
+    public function testGetLoginUser(): void
+    {
+        // データ
+        $expected_name = $this->user->name;
+        $expected_email = $this->user->email;
+        $expected_password = 'password';
+        $expected_user = $this->user;
+
+        // モックの設定
+        $this->user_repository_mock->shouldReceive('findById')
+            ->twice()
+            ->with($expected_user->id)
+            ->andReturn($expected_user);
+
+        $this->app->instance(UserRepositoryInterface::class, $this->user_repository_mock);
+
+        // インスタンス生成
+        $auth_application_service = $this->app->make(AuthApplicationServiceInterface::class);
+
+        // ログイン
+        // TODO: ログインしないと正常に動作しない
+        $auth_application_service->login(
+            [
+                'email' => $expected_email,
+                'password' => $expected_password,
+            ]
+        );
+
+        // 実行
+        $user = $auth_application_service->getLoginUser();
+
+        // 検証
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertSame($expected_name, $user->name);
+        $this->assertSame($expected_email, $user->email);
+    }
+
+    /**
+     * TODO: DBに依存しているテスト
+     *
+     * @return void
+     */
+    public function testGetLogoutUser(): void
+    {
+        // インスタンス生成
+        $auth_application_service = $this->app->make(AuthApplicationServiceInterface::class);
+
+        // 実行
+        $user = $auth_application_service->getLoginUser();
+
+        // 検証
+        $this->assertNull($user);
+    }
 }

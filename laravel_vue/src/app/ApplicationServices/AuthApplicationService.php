@@ -82,4 +82,22 @@ class AuthApplicationService implements AuthApplicationServiceInterface
     {
         Auth::logout();
     }
+
+    /**
+     * ログイン中のユーザー取得処理
+     *
+     * @return User|null
+     */
+    public function getLoginUser(): ?User
+    {
+        $user_id = Auth::id();
+
+        if (isset($user_id)) {
+            $user = $this->user_repository->findById($user_id);
+
+            return $user;
+        }
+
+        return null;
+    }
 }
