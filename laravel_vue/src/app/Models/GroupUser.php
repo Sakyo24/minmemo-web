@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Group;
-use App\Models\User;
+use App\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +14,7 @@ class GroupUser extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use SerializeDate;
 
     /**
      * The table associated with the model.
@@ -45,7 +45,7 @@ class GroupUser extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function group(): BelongsTo
     {
@@ -53,7 +53,7 @@ class GroupUser extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user(): BelongsTo
     {

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\GroupUser;
-use App\Models\Todo;
-use App\Models\User;
 use App\Traits\SerializeDate;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +19,7 @@ class Group extends Model
     use HasUlids;
     use SerializeDate;
     use SoftDeletes;
+    use SerializeDate;
 
     /**
      * 自動増分IDの「タイプ」
@@ -52,7 +50,7 @@ class Group extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function owner(): BelongsTo
     {
@@ -60,7 +58,7 @@ class Group extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {
@@ -68,7 +66,7 @@ class Group extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function groupUsers(): HasMany
     {
@@ -76,7 +74,7 @@ class Group extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function todos(): HasMany
     {
