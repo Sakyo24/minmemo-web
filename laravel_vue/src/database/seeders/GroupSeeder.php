@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Group;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GroupSeeder extends Seeder
 {
@@ -19,20 +18,17 @@ class GroupSeeder extends Seeder
      */
     public function run(): void
     {
-        $datas = [];
         for ($i = 1; $i <= 10; $i++) {
-            $dt = new Carbon('2021-12-31');
-            $this_day = $dt->addDay($i);
-            $datas[] = [
-                'id'            => Str::random(26),
-                'name'          => 'グループ' . $i,
+            $date = new Carbon('2021-12-31');
+            $add_day = $date->addDay($i);
+            Group::factory()->create([
+                'id' => Str::random(26),
+                'name' => 'グループ' . $i,
                 'owner_user_id' => $i,
-                'deleted_at'    => null,
-                'created_at'    => $this_day,
-                'updated_at'    => $this_day,
-            ];
+                'deleted_at' => null,
+                'created_at' => $add_day,
+                'updated_at' => $add_day,
+            ]);
         }
-
-        DB::table('groups')->insert($datas);
     }
 }
