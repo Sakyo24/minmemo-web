@@ -7,7 +7,6 @@ namespace Tests\Feature\User;
 use App\Models\Group;
 use App\Models\GroupUser;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
