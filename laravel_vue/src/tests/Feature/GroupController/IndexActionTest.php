@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\User;
+namespace Tests\Feature\GroupController;
 
 use App\Models\Group;
 use App\Models\GroupUser;
@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GroupApiTest extends TestCase
+class IndexActionTest extends TestCase
 {
     use RefreshDatabase;
 
