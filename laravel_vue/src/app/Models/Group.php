@@ -17,6 +17,7 @@ class Group extends Model
 {
     use HasFactory;
     use HasUlids;
+    use SerializeDate;
     use SoftDeletes;
     use SerializeDate;
 

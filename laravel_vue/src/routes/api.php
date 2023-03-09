@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\MobileAuthController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
@@ -35,6 +36,11 @@ Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth
  * Todo API
  */
 Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
+
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    /** グループ API */
+    Route::resource('groups', GroupController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
+});
 
 /**
  * 管理画面

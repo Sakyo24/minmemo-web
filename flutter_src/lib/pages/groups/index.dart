@@ -1,45 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'dart:io';
-import '../model/admob.dart';
-import '../model/todo.dart';
-import './groups/index.dart';
-import './user/show.dart';
-import './show.dart';
-import './create_edit.dart';
+import '../../model/admob.dart';
+import '../../model/group.dart';
+import '../user/show.dart';
+import '../index.dart';
+import '../../utils/network.dart';
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({super.key});
+class GroupsIndexPage extends StatefulWidget {
+  const GroupsIndexPage({super.key});
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<GroupsIndexPage> createState() => _GroupsIndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
-  final int _currentPage = 0;
+class _GroupsIndexPageState extends State<GroupsIndexPage> {
+  final int _currentPage = 1;
+  bool _isLoading = true;
 
-  // Todoリスト取得処理
+  // グループリスト取得処理
   List items = [];
-  Future<void> getTodos() async {
-    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos');
-    Response response = await get(url);
-
-    var jsonResponse = jsonDecode(response.body);
-    setState(() {
-      items = jsonResponse['todos'];
-    });
-  }
-
-  // 削除処理
-  Future<void> deleteTodo(id) async {
-    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos/' + id.toString());
-    await delete(url).then((response) {
-      print(response.statusCode);
-      setState(() {});
-    });
+  Future<void> getGroups() async {
+    Response? response;
+    try {
+      response = await Network().getData('/api/groups');
+      var jsonResponse = jsonDecode(response.body);
+      print(jsonResponse);
+      setState(() {
+        items = jsonResponse['groups'];
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   // TODO:広告の共通化
@@ -64,32 +62,36 @@ class _IndexPageState extends State<IndexPage> {
   @override
   void initState() {
     super.initState();
-    getTodos();
+    getGroups();
     initAd();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo一覧'),
+        title: const Text('グループ一覧'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255),
         automaticallyImplyLeading: false
       ),
-      body: ListView.builder(
+      body: _isLoading
+      ? const Center(
+        child: CircularProgressIndicator()
+      )
+      : ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> data = items[index] as Map<String, dynamic>;
-          final Todo fetchTodo = Todo(
+          final Group fetchGroup = Group(
             id: data['id'],
-            title: data['title'],
-            detail: data['detail'],
+            name: data['name'],
+            owner_user_id: data['owner_user_id'],
             created_at: data['created_at'],
             updated_at: data['updated_at']
           );
 
           return ListTile(
-            title: Text(fetchTodo.title),
+            title: Text(fetchGroup.name),
             trailing: IconButton(
               onPressed: () {
                 showModalBottomSheet(context: context, builder: (context) {
@@ -99,17 +101,14 @@ class _IndexPageState extends State<IndexPage> {
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEditPage(currentTodo: fetchTodo)));
+                            // TODO:グループ編集ページに遷移 
                           },
                           leading: const Icon(Icons.edit),
                           title: const Text('編集')
                         ),
                         ListTile(
-                          onTap: () async {
-                            await deleteTodo(fetchTodo.id);
-                            await getTodos();
-                            Navigator.pop(context);
+                          onTap: () {
+                            // TODO:グループ削除処理 
                           },
                           leading: const Icon(Icons.delete),
                           title: const Text('削除')
@@ -122,16 +121,14 @@ class _IndexPageState extends State<IndexPage> {
               icon: const Icon(Icons.edit)
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowPage(fetchTodo)));
+              // TODO:グループ詳細ページに遷移 
             }
           );
         }
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateEditPage()));
-        },
-        tooltip: 'Todo追加',
+        onPressed: () {},
+        tooltip: 'グループ追加',
         child: const Icon(Icons.add)
       ),
       // TODO:ボトムメニュー共通化
@@ -161,10 +158,10 @@ class _IndexPageState extends State<IndexPage> {
               )
             ],
             onTap: (int value) {
-              if (value == 1) {
+              if (value == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const GroupsIndexPage()),
+                  MaterialPageRoute(builder: (context) => const IndexPage()),
                 );
               } else if (value == 2) {
                 Navigator.push(

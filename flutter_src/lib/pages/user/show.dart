@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import '../../model/admob.dart';
 import '../../utils/network.dart';
+import '../groups/index.dart';
 import '../top.dart';
 import '../index.dart';
 
@@ -17,6 +18,7 @@ class UserShowPage extends StatefulWidget {
 }
 
 class _UserShowPageState extends State<UserShowPage> {
+  final int _currentPage = 2;
   String? _name;
   String? _email;
   bool _isLoading = false;
@@ -87,6 +89,7 @@ class _UserShowPageState extends State<UserShowPage> {
     );
   }
 
+  // TODO:広告の共通化
   // バナー広告
   late BannerAd bannerAd;
   bool isAdLoaded = false;
@@ -135,6 +138,7 @@ class _UserShowPageState extends State<UserShowPage> {
           ]
         ),
       ),
+      // TODO:ボトムメニュー共通化
       bottomNavigationBar: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -145,11 +149,15 @@ class _UserShowPageState extends State<UserShowPage> {
             child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
           ),
           BottomNavigationBar(
-            currentIndex: 1,
+            currentIndex: _currentPage,
             items: const [
               BottomNavigationBarItem(
                 label: 'メモ',
                 icon: Icon(Icons.list)
+              ),
+              BottomNavigationBarItem(
+                label: 'グループ',
+                icon: Icon(Icons.groups)
               ),
               BottomNavigationBarItem(
                 label: 'マイページ',
@@ -161,6 +169,11 @@ class _UserShowPageState extends State<UserShowPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const IndexPage()),
+                );
+              } else if (value == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GroupsIndexPage()),
                 );
               }
             }
