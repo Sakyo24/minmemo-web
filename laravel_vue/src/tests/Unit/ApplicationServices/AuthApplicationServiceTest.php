@@ -11,7 +11,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
-use RuntimeException;
 use Tests\TestCase;
 
 class AuthApplicationServiceTest extends TestCase
@@ -88,46 +87,6 @@ class AuthApplicationServiceTest extends TestCase
         $this->assertInstanceOf(User::class, $user);
         $this->assertSame($expected_name, $user->name);
         $this->assertSame($expected_email, $user->email);
-    }
-
-    /**
-     * @return void
-     */
-    public function testRegisterRuntimeException(): void
-    {
-        // データ
-        $expected_name = 'ユーザー名';
-        $expected_email = 'test@exmaple.com';
-        $expected_password = 'password';
-
-        // モックの設定
-        $this->user_repository_mock->shouldReceive('create')
-            ->once()
-            ->with(Mockery::on(function ($actual) use ($expected_name, $expected_email, $expected_password) {
-                $this->assertSame($expected_name, $actual['name']);
-                $this->assertSame($expected_email, $actual['email']);
-                $this->assertTrue(Hash::check($expected_password, $actual['password']));
-
-                return true;
-            }))
-            ->andThrow(RuntimeException::class);
-
-        $this->app->instance(UserRepositoryInterface::class, $this->user_repository_mock);
-
-        // インスタンス生成
-        $auth_application_service = $this->app->make(AuthApplicationServiceInterface::class);
-
-        // 検証
-        $this->expectException(RuntimeException::class);
-
-        // 実行
-        $auth_application_service->register(
-            [
-                'name' => $expected_name,
-                'email' => $expected_email,
-                'password' => $expected_password,
-            ]
-        );
     }
 
     /**

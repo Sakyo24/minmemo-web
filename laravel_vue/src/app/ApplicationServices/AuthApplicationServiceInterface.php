@@ -6,7 +6,6 @@ namespace App\ApplicationServices;
 
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
-use RuntimeException;
 
 interface AuthApplicationServiceInterface
 {
@@ -15,7 +14,6 @@ interface AuthApplicationServiceInterface
      *
      * @param array $input
      * @return User
-     * @throws RuntimeException
      */
     public function register(array $input): User;
 
