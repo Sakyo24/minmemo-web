@@ -25,3 +25,6 @@ build:
 # mysqlコンテナにアクセス
 mysql:
 	docker-compose -f ./laradock/docker-compose.yml exec mysql bash
+# テスト実行
+test:
+	docker-compose -f ./laradock/docker-compose.yml exec --user=laradock workspace php artisan test
