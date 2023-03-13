@@ -40,7 +40,7 @@ class IndexActionTest extends TestCase
         $this->group = Group::factory()->create([
             'owner_user_id' => $this->user->id
         ]);
-        $this->group_user = GroupUser::create([
+        $this->group_user = GroupUser::factory()->create([
             'user_id' => $this->user->id,
             'group_id' => $this->group->id
         ]);
@@ -88,6 +88,5 @@ class IndexActionTest extends TestCase
                     ]
                 ],
             ]);
-
     }
 }
