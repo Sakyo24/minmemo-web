@@ -11,7 +11,6 @@ use App\Models\Group;
 use App\Repositories\TodoRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Mockery;
-use RuntimeException;
 use Tests\TestCase;
 
 class TodoApplicationServiceTest extends TestCase
@@ -121,44 +120,5 @@ class TodoApplicationServiceTest extends TestCase
 
         // 検証
         $this->assertNull($actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function testCreateRuntimeException(): void
-    {
-        // データ
-        $expected_title = "タイトル";
-        $expected_detail = "詳細です。";
-        $expected_user_id = 1;
-        $expected_group_id = 1;
-
-        // モックの設定
-        $this->todo_repository_mock->shouldReceive('create')
-            ->once()
-            ->with([
-                'title' => $expected_title,
-                'detail' => $expected_detail,
-                'user_id' => $expected_user_id,
-                'group_id' => $expected_group_id,
-            ])
-            ->andThrow(RuntimeException::class);
-
-        $this->app->instance(TodoRepositoryInterface::class, $this->todo_repository_mock);
-
-        // インスタンス生成
-        $this->todo_application_service = $this->app->make(TodoApplicationServiceInterface::class);
-
-        // 検証
-        $this->expectException(RuntimeException::class);
-
-        // 実行
-        $this->todo_application_service->create([
-            'title' => $expected_title,
-            'detail' => $expected_detail,
-            'user_id' => $expected_user_id,
-            'group_id' => $expected_group_id,
-        ]);
     }
 }

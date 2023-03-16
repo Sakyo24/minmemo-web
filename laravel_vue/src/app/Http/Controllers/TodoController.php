@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Models\Todo;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class TodoController extends Controller
 {
@@ -32,11 +35,18 @@ class TodoController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $todo = new Todo();
-        $todo->fill($request->all())->save();
+        try {
+            $todo = new Todo();
+            $todo->fill($request->all())->save();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+
+            throw $e;
+        }
 
         return response()->json(
-            [], 201
+            [],
+            Response::HTTP_CREATED
         );
     }
 
@@ -49,7 +59,13 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo): JsonResponse
     {
-        $todo->fill($request->all())->update();
+        try {
+            $todo->fill($request->all())->update();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+
+            throw $e;
+        }
 
         return response()->json([
             'todo' => $todo
@@ -64,10 +80,17 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo): JsonResponse
     {
-        $todo->delete();
+        try {
+            $todo->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+
+            throw $e;
+        }
 
         return response()->json(
-            [], 204
+            [],
+            Response::HTTP_NO_CONTENT
         );
     }
 }

@@ -10,8 +10,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use RuntimeException;
-use Throwable;
 
 class AuthApplicationService implements AuthApplicationServiceInterface
 {
@@ -35,23 +33,18 @@ class AuthApplicationService implements AuthApplicationServiceInterface
      *
      * @param array $input
      * @return User
-     * @throws RuntimeException
      */
     public function register(array $input): User
     {
         $input['password'] = Hash::make($input['password']);
 
-        try {
-            $user = DB::transaction(function () use ($input) {
-                $user = $this->user_repository->create($input);
-
-                return $user;
-            });
+        $user = DB::transaction(function () use ($input) {
+            $user = $this->user_repository->create($input);
 
             return $user;
-        } catch (Throwable $e) {
-            throw new RuntimeException();
-        }
+        });
+
+        return $user;
     }
 
     /**

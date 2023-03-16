@@ -20,7 +20,6 @@ interface TodoApplicationServiceInterface
      *
      * @param array $input
      * @return void
-     * @throws RuntimeException
      */
     public function create(array $input): void;
 }
