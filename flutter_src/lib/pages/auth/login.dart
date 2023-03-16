@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../utils/network.dart';
-import '../index.dart';
+import '../todos/index.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
     if (!mounted) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const IndexPage())
+      MaterialPageRoute(builder: (context) => const TodosIndexPage())
     );
   }
 

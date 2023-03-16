@@ -8,7 +8,7 @@ import '../../model/admob.dart';
 import '../../utils/network.dart';
 import '../groups/index.dart';
 import '../top.dart';
-import '../index.dart';
+import '../todos/index.dart';
 
 class UserShowPage extends StatefulWidget {
   const UserShowPage({super.key});
@@ -168,7 +168,7 @@ class _UserShowPageState extends State<UserShowPage> {
               if (value == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const IndexPage()),
+                  MaterialPageRoute(builder: (context) => const TodosIndexPage()),
                 );
               } else if (value == 1) {
                 Navigator.push(

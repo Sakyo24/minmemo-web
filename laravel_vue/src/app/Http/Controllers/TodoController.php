@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Models\Todo;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
@@ -15,9 +16,10 @@ class TodoController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $todos = Todo::all();
+        $user = $request->user();
+        $todos = $user->todos()->whereNull('group_id')->get();
 
         return response()->json([
             'todos' => $todos
@@ -32,12 +34,13 @@ class TodoController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        $user = $request->user();
+        $input = $request->all();
+        $input['user_id'] = $user->id;
         $todo = new Todo();
-        $todo->fill($request->all())->save();
+        $todo->fill($input)->save();
 
-        return response()->json(
-            [], 201
-        );
+        return response()->json([], Response::HTTP_CREATED);
     }
 
     /**
@@ -49,7 +52,10 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo): JsonResponse
     {
-        $todo->fill($request->all())->update();
+        $user = $request->user();
+        $input = $request->all();
+        $input['user_id'] = $user->id;
+        $todo->fill($input)->update();
 
         return response()->json([
             'todo' => $todo
@@ -66,8 +72,6 @@ class TodoController extends Controller
     {
         $todo->delete();
 
-        return response()->json(
-            [], 204
-        );
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

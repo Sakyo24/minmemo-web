@@ -4,42 +4,79 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'dart:io';
-import '../model/admob.dart';
-import '../model/todo.dart';
-import './groups/index.dart';
-import './user/show.dart';
-import './show.dart';
-import './create_edit.dart';
+import '../../model/admob.dart';
+import '../../model/todo.dart';
+import '../groups/index.dart';
+import '../user/show.dart';
+import 'show.dart';
+import 'create_edit.dart';
+import '../../utils/network.dart';
 
-class IndexPage extends StatefulWidget {
-  const IndexPage({super.key});
+class TodosIndexPage extends StatefulWidget {
+  const TodosIndexPage({super.key});
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<TodosIndexPage> createState() => _TodosIndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class _TodosIndexPageState extends State<TodosIndexPage> {
   final int _currentPage = 0;
+  bool _isLoading = true;
 
   // Todoリスト取得処理
   List items = [];
   Future<void> getTodos() async {
-    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos');
-    Response response = await get(url);
-
-    var jsonResponse = jsonDecode(response.body);
-    setState(() {
-      items = jsonResponse['todos'];
-    });
+    Response? response;
+    try {
+      response = await Network().getData('/api/todos');
+      var jsonResponse = jsonDecode(response.body);
+      setState(() {
+        items = jsonResponse['todos'];
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   // 削除処理
   Future<void> deleteTodo(id) async {
-    var url = Uri.parse(dotenv.get('APP_URL') + '/api/todos/' + id.toString());
-    await delete(url).then((response) {
-      print(response.statusCode);
+    Response? response;
+    try {
+      response = await Network().deleteData('/api/todos/$id');
+    } catch (e) {
+      debugPrint(e.toString());
       setState(() {});
-    });
+    }
+
+    if (response == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("エラーが発生しました。"))
+        );
+      }
+      setState(() {});
+      return;
+    }
+
+    // エラーの場合
+    if (response.statusCode != 204) {
+      if (mounted) {
+        var body = json.decode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          (response.statusCode >= 500 && response.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
+        );
+      }
+      setState(() {});
+      return;
+    }
+
+    // 成功の場合
+    if (!mounted) return;
+    setState(() {});
   }
 
   // TODO:広告の共通化
@@ -50,7 +87,7 @@ class _IndexPageState extends State<IndexPage> {
     this.bannerAd = BannerAd(
       adUnitId: Platform.isAndroid ? AdMob.getAdId(deviceType: 'android', adType: 'banner') : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
       size: AdSize.banner,
-      request: AdRequest(),
+      request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           setState(() {
@@ -72,11 +109,16 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo一覧'),
+        title: const Text('メモ一覧'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255),
         automaticallyImplyLeading: false
       ),
-      body: ListView.builder(
+      body: _isLoading
+      ? const Center(
+        child: CircularProgressIndicator()
+      )
+      : ListView.builder(
+        padding: const EdgeInsets.only(bottom: 70),
         itemCount: items.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> data = items[index] as Map<String, dynamic>;
@@ -100,7 +142,7 @@ class _IndexPageState extends State<IndexPage> {
                         ListTile(
                           onTap: () {
                             Navigator.pop(context);
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEditPage(currentTodo: fetchTodo)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TodosCreateEditPage(currentTodo: fetchTodo)));
                           },
                           leading: const Icon(Icons.edit),
                           title: const Text('編集')
@@ -122,14 +164,14 @@ class _IndexPageState extends State<IndexPage> {
               icon: const Icon(Icons.edit)
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowPage(fetchTodo)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TodosShowPage(fetchTodo)));
             }
           );
         }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateEditPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosCreateEditPage()));
         },
         tooltip: 'Todo追加',
         child: const Icon(Icons.add)

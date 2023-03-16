@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../model/todo.dart';
-import './create_edit.dart';
+import '../../model/todo.dart';
+import 'create_edit.dart';
 
-class ShowPage extends StatelessWidget {
+class TodosShowPage extends StatelessWidget {
   final Todo todo;
-  const ShowPage(this.todo, {super.key});
+  const TodosShowPage(this.todo, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +40,11 @@ class ShowPage extends StatelessWidget {
               const SizedBox(height: 10),
               Text(todo.updated_at, style: const TextStyle(fontSize: 24.0)),
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEditPage(currentTodo: todo)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TodosCreateEditPage(currentTodo: todo)));
                   },
                   child: const Text('編集')
                 )

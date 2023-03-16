@@ -6,7 +6,7 @@ import 'dart:io';
 import '../../model/admob.dart';
 import '../../model/group.dart';
 import '../user/show.dart';
-import '../index.dart';
+import '../todos/index.dart';
 import '../../utils/network.dart';
 
 class GroupsIndexPage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
     try {
       response = await Network().getData('/api/groups');
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
       setState(() {
         items = jsonResponse['groups'];
         _isLoading = false;
@@ -161,7 +160,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
               if (value == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const IndexPage()),
+                  MaterialPageRoute(builder: (context) => const TodosIndexPage()),
                 );
               } else if (value == 2) {
                 Navigator.push(
