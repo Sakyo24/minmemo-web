@@ -98,7 +98,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.currentTodo == null ? 'Todo新規登録' : 'Todo編集'),
+        title: Text(widget.currentTodo == null ? 'メモ新規登録' : 'メモ編集'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255)
       ),
       body: _isLoading

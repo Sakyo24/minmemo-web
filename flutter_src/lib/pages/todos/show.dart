@@ -10,7 +10,7 @@ class TodosShowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo詳細'),
+        title: const Text('メモ詳細'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255)
       ),
       body: ListView(
