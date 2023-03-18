@@ -173,7 +173,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const TodosCreateEditPage()));
         },
-        tooltip: 'Todo追加',
+        tooltip: 'メモ追加',
         child: const Icon(Icons.add)
       ),
       // TODO:ボトムメニュー共通化
