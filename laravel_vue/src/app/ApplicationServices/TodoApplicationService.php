@@ -7,9 +7,6 @@ namespace App\ApplicationServices;
 use App\Repositories\TodoRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use RuntimeException;
-use Throwable;
 
 class TodoApplicationService implements TodoApplicationServiceInterface
 {
@@ -45,18 +42,11 @@ class TodoApplicationService implements TodoApplicationServiceInterface
      *
      * @param array $input
      * @return void
-     * @throws RuntimeException
      */
     public function create(array $input): void
     {
-        try {
-            DB::transaction(function () use ($input) {
-                $this->todo_repository->create($input);
-            });
-        } catch (Throwable $e) {
-            Log::error((string)$e);
-
-            throw new RuntimeException();
-        }
+        DB::transaction(function () use ($input) {
+            $this->todo_repository->create($input);
+        });
     }
 }

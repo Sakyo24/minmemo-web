@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class MobileAuthController extends Controller
@@ -24,9 +25,15 @@ class MobileAuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $input = $request->only(['name', 'email', 'password']);
-
         $input['password'] = Hash::make($input['password']);
-        User::create($input);
+
+        try {
+            User::create($input);
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+
+            throw $e;
+        }
 
         return response()->json([], Response::HTTP_CREATED);
     }
@@ -67,6 +74,8 @@ class MobileAuthController extends Controller
             $user = User::where('email', $request->input('email'))->first();
             $user->tokens()->delete();
         } catch (Throwable $e) {
+            Log::error((string)$e);
+
             throw $e;
         }
 

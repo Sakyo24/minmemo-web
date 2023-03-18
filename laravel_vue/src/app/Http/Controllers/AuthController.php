@@ -12,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
 use Throwable;
 
 class AuthController extends Controller
@@ -49,8 +48,9 @@ class AuthController extends Controller
         try {
             $user = $this->auth_service->register($input);
         } catch (Throwable $e) {
-            Log::error($e->getMessage());
-            throw new RuntimeException($e->getMessage());
+            Log::error((string)$e);
+
+            throw $e;
         }
 
         return response()->json([
@@ -77,6 +77,8 @@ class AuthController extends Controller
                 'user' => $user,
             ]);
         } catch (AuthenticationException $e) {
+            Log::error((string)$e);
+
             return response()->json([
                 'message' => $e->getMessage(),
             ], Response::HTTP_UNAUTHORIZED);
@@ -92,6 +94,8 @@ class AuthController extends Controller
     public function logout(Request $request): JsonResponse
     {
         $this->auth_service->logout();
+
+        $request->session()->regenerate();
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }

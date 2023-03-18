@@ -11,6 +11,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -48,6 +49,8 @@ class AuthController extends Controller
                 'admin' => $admin,
             ]);
         } catch (AuthenticationException $e) {
+            Log::error((string)$e);
+
             return response()->json([
                 'message' => __('auth.failed'),
             ], Response::HTTP_UNAUTHORIZED);
