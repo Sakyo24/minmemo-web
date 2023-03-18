@@ -96,7 +96,10 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
                     });
               }),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {}, tooltip: 'グループ追加', child: const Icon(Icons.add)),
+        onPressed: () {},
+        tooltip: 'グループ追加',
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: const Menu(currentPageIndex: PageIndex.group),
     );
   }
