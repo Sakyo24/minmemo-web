@@ -35,10 +35,10 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
       var jsonResponse = jsonDecode(response.body);
       setState(() {
         items = jsonResponse['todos'];
-        _isLoading = false;
       });
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
       setState(() {
         _isLoading = false;
       });
