@@ -38,11 +38,9 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
       } else {
         response = await Network().putData(data, '/api/todos/$id');
       }
-      setState(() {
-        _isLoading = false;
-      });
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -54,9 +52,6 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
           const SnackBar(content: Text("エラーが発生しました。"))
         );
       }
-      setState(() {
-        _isLoading = false;
-      });
       return;
     }
 
@@ -68,9 +63,6 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
           (response.statusCode >= 500 && response.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
         );
       }
-      setState(() {
-        _isLoading = false;
-      });
       return;
     }
 
