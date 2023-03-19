@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:io';
 import '../../model/admob.dart';
 import '../../model/group.dart';
+import 'create_edit.dart';
 import '../user/show.dart';
 import '../index.dart';
 import '../../utils/network.dart';
@@ -79,6 +80,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
         child: CircularProgressIndicator()
       )
       : ListView.builder(
+        padding: const EdgeInsets.only(bottom: 70),
         itemCount: items.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> data = items[index] as Map<String, dynamic>;
@@ -127,7 +129,9 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
         }
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const GroupsCreateEditPage()));
+        },
         tooltip: 'グループ追加',
         child: const Icon(Icons.add)
       ),
