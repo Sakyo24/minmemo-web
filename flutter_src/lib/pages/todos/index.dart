@@ -20,11 +20,15 @@ class TodosIndexPage extends StatefulWidget {
 
 class _TodosIndexPageState extends State<TodosIndexPage> {
   final int _currentPage = 0;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   // Todoリスト取得処理
   List items = [];
   Future<void> getTodos() async {
+    setState(() {
+      _isLoading = true;
+    });
+    
     Response? response;
     try {
       response = await Network().getData('/api/todos');
