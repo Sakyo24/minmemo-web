@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Http\Requests\StoreTodoRequest;
+use App\Http\Requests\UpdateTodoRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,10 +33,10 @@ class TodoController extends Controller
     /**
      * todo新規作成
      *
-     * @param Request $request
+     * @param StoreTodoRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreTodoRequest $request): JsonResponse
     {
         try {
             $user = $request->user();
@@ -54,11 +56,11 @@ class TodoController extends Controller
     /**
      * todo更新
      *
-     * @param Request $request
+     * @param UpdateTodoRequest $request
      * @param Todo $todo
      * @return JsonResponse
      */
-    public function update(Request $request, Todo $todo): JsonResponse
+    public function update(UpdateTodoRequest $request, Todo $todo): JsonResponse
     {
         try {
             $user = $request->user();
