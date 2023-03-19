@@ -52,6 +52,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
       response = await Network().deleteData('/api/todos/$id');
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
       setState(() {});
     }
 
@@ -61,7 +62,6 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
           const SnackBar(content: Text("エラーが発生しました。"))
         );
       }
-      setState(() {});
       return;
     }
 
@@ -73,13 +73,8 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
           (response.statusCode >= 500 && response.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
         );
       }
-      setState(() {});
       return;
     }
-
-    // 成功の場合
-    if (!mounted) return;
-    setState(() {});
   }
 
   // TODO:広告の共通化
