@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'dart:io';
 import '../../model/admob.dart';
