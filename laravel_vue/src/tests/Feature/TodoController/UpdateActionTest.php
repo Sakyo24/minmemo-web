@@ -91,5 +91,76 @@ class UpdateActionTest extends TestCase
         $this->assertSame($expected_detail, $todo->detail);
     }
 
-    // TODO: バリデーション実装後失敗パターンをテスト
+    /**
+     * @return void
+     */
+    public function testAllRequiredErrors(): void
+    {
+        // データ
+        $expected_id = $this->todo->id;
+        $expected_title = '';
+        $expected_detail = '';
+
+        // リクエスト
+        $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+            'user_id' => $this->user->id,
+        ]);
+
+        // 検証
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'title',
+                'detail',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testTitleMaxError(): void
+    {
+        // データ
+        $expected_id = $this->todo->id;
+        $expected_title = Str::random(26);
+        $expected_detail = Str::random();
+
+        // リクエスト
+        $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+            'user_id' => $this->user->id,
+        ]);
+
+        // 検証
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'title',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDetailMaxError(): void
+    {
+        // データ
+        $expected_id = $this->todo->id;
+        $expected_title = Str::random();
+        $expected_detail = Str::random(256);
+
+        // リクエスト
+        $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+            'user_id' => $this->user->id,
+        ]);
+
+        // 検証
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                'detail',
+            ]);
+    }
 }
