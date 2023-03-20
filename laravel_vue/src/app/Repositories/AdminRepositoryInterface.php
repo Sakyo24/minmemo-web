@@ -15,4 +15,12 @@ interface AdminRepositoryInterface
      * @return Admin
      */
     public function findById(int $admin_id): Admin;
+
+    /**
+     * 管理者作成
+     *
+     * @param array $params
+     * @return Admin
+     */
+    public function create(array $params): Admin;
 }

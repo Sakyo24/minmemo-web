@@ -7,6 +7,7 @@ namespace Tests\Unit\Repositories;
 use App\Models\Admin;
 use App\Repositories\AdminRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class AdminRepositoryTest extends TestCase
@@ -50,5 +51,29 @@ class AdminRepositoryTest extends TestCase
         $this->assertSame($expected_id, $admin->id);
         $this->assertSame($expected_name, $admin->name);
         $this->assertSame($expected_email, $admin->email);
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreate(): void
+    {
+        $expected_name = Str::random();
+        $expected_email = Str::random();
+        $expected_password = Str::random();
+
+        $admin = $this->admin_repository->create([
+            'name' => $expected_name,
+            'email' => $expected_email,
+            'password' => $expected_password,
+        ]);
+
+        $this->assertInstanceOf(Admin::class, $admin);
+        $this->assertSame($expected_name, $admin->name);
+        $this->assertSame($expected_email, $admin->email);
+
+        $adminModel = Admin::where('email', $expected_email)->first();
+        $this->assertSame($expected_name, $adminModel->name);
+        $this->assertSame($expected_email, $adminModel->email);
     }
 }

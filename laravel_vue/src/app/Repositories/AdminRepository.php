@@ -20,4 +20,19 @@ class AdminRepository implements AdminRepositoryInterface
 
         return $admin;
     }
+
+    /**
+     * 管理者作成
+     *
+     * @param array $params
+     * @return Admin
+     */
+    public function create(array $params): Admin
+    {
+        $admin = new Admin();
+
+        $admin->fill($params)->save();
+
+        return $admin;
+    }
 }
