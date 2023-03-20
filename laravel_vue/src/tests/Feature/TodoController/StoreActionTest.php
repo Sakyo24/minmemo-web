@@ -60,6 +60,29 @@ class StoreActionTest extends TestCase
     /**
      * @return void
      */
+    public function testUnauthorizedAccess()
+    {
+        // データ
+        $expected_title = Str::random();
+        $expected_detail = Str::random();
+
+        // リクエスト
+        $response = $this->postJson('/api/todos', [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+            'user_id' => $this->user->id,
+        ]);
+
+        // 検証
+        $response->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
     public function testAllRequiredErrors(): void
     {
         // リクエスト

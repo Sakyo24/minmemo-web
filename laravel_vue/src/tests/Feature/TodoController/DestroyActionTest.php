@@ -58,5 +58,21 @@ class DestroyActionTest extends TestCase
         $this->assertNull($todo);
     }
 
-    // TODO: 仕様修正後、各パターンの削除テスト
+    /**
+     * @return void
+     */
+    public function testUnauthorizedAccess()
+    {
+        // データ
+        $expected_id = $this->todo->id;
+
+        // リクエスト
+        $response = $this->deleteJson("/api/todos/$expected_id");
+
+        // 検証
+        $response->assertStatus(401)
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
+    }
 }
