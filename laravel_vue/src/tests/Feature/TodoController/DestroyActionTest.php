@@ -70,7 +70,7 @@ class DestroyActionTest extends TestCase
         $response = $this->deleteJson("/api/todos/$expected_id");
 
         // 検証
-        $response->assertStatus(401)
+        $response->assertUnauthorized()
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);

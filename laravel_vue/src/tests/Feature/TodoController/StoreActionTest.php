@@ -74,7 +74,7 @@ class StoreActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(401)
+        $response->assertUnauthorized()
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);
@@ -89,7 +89,7 @@ class StoreActionTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/todos', []);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'title',
                 'detail',
@@ -113,7 +113,7 @@ class StoreActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'title',
             ]);
@@ -136,7 +136,7 @@ class StoreActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'detail',
             ]);

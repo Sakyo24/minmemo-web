@@ -88,7 +88,7 @@ class IndexActionTest extends TestCase
         $response = $this->getJson('/api/todos');
 
         // 検証
-        $response->assertStatus(401)
+        $response->assertUnauthorized()
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);

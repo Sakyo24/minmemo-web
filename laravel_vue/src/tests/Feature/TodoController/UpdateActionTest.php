@@ -109,7 +109,7 @@ class UpdateActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(401)
+        $response->assertUnauthorized()
             ->assertJson([
                 'message' => 'Unauthenticated.',
             ]);
@@ -133,7 +133,7 @@ class UpdateActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'title',
                 'detail',
@@ -158,7 +158,7 @@ class UpdateActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'title',
             ]);
@@ -182,7 +182,7 @@ class UpdateActionTest extends TestCase
         ]);
 
         // 検証
-        $response->assertStatus(422)
+        $response->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'detail',
             ]);
