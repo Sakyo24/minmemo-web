@@ -60,7 +60,7 @@ class StoreActionTest extends TestCase
     /**
      * @return void
      */
-    public function testUnauthorizedAccess()
+    public function testUnauthorizedAccess(): void
     {
         // データ
         $expected_title = Str::random();

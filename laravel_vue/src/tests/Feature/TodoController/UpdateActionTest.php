@@ -94,7 +94,7 @@ class UpdateActionTest extends TestCase
     /**
      * @return void
      */
-    public function testUnauthorizedAccess()
+    public function testUnauthorizedAccess(): void
     {
         // データ
         $expected_id = $this->todo->id;

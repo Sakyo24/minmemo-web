@@ -82,7 +82,7 @@ class IndexActionTest extends TestCase
     /**
      * @return void
      */
-    public function testUnauthorizedAccess()
+    public function testUnauthorizedAccess(): void
     {
         // リクエスト
         $response = $this->getJson('/api/todos');
