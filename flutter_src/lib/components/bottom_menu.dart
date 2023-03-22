@@ -4,8 +4,8 @@ import 'dart:io';
 
 import '../config/constants.dart';
 import '../model/admob.dart';
-import '../pages/todos/index.dart';
 import '../pages/groups/index.dart';
+import '../pages/todos/index.dart';
 import '../pages/user/show.dart';
 
 class BottomMenu extends StatefulWidget {
