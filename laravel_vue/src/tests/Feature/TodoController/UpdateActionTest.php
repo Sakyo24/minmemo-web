@@ -53,7 +53,6 @@ class UpdateActionTest extends TestCase
         $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id, // TODO: Web/モバイルで取得方法変えれるか検討
         ]);
 
         // データ取得
@@ -105,7 +104,6 @@ class UpdateActionTest extends TestCase
         $response = $this->putJson("/api/todos/$expected_id", [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
@@ -129,7 +127,6 @@ class UpdateActionTest extends TestCase
         $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
@@ -154,7 +151,6 @@ class UpdateActionTest extends TestCase
         $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
@@ -178,7 +174,6 @@ class UpdateActionTest extends TestCase
         $response = $this->actingAs($this->user)->putJson("/api/todos/$expected_id", [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証

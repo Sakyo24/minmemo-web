@@ -43,7 +43,6 @@ class StoreActionTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/todos', [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id, // TODO: Web/モバイルで取得方法変えれるか検討
         ]);
 
         // データ取得
@@ -70,7 +69,6 @@ class StoreActionTest extends TestCase
         $response = $this->postJson('/api/todos', [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
@@ -109,7 +107,6 @@ class StoreActionTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/todos', [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
@@ -132,7 +129,6 @@ class StoreActionTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/todos', [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id,
         ]);
 
         // 検証
