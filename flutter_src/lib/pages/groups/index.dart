@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-import '../../components/menu.dart';
+import '../../components/bottom_menu.dart';
 import '../../config/constants.dart';
 import '../../model/group.dart';
 import '../../utils/network.dart';
@@ -100,7 +100,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
         tooltip: 'グループ追加',
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: const Menu(currentPageIndex: PageIndex.group),
+      bottomNavigationBar: const BottomMenu(currentPageIndex: PageIndex.group),
     );
   }
 }

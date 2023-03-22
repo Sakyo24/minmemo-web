@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import '../../components/menu.dart';
+import '../../components/bottom_menu.dart';
 import '../../config/constants.dart';
 import '../../utils/network.dart';
 import '../top.dart';
@@ -119,7 +119,7 @@ class _UserShowPageState extends State<UserShowPage> {
                 ],
               ),
             ),
-      bottomNavigationBar: const Menu(currentPageIndex: PageIndex.user),
+      bottomNavigationBar: const BottomMenu(currentPageIndex: PageIndex.user),
     );
   }
 }

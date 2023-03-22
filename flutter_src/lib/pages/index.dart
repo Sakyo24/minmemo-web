@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 
 import '../config/constants.dart';
-import '../components/menu.dart';
+import '../components/bottom_menu.dart';
 import '../model/todo.dart';
 import './show.dart';
 import './create_edit.dart';
@@ -127,7 +127,7 @@ class _IndexPageState extends State<IndexPage> {
         tooltip: 'Todo追加',
         child: const Icon(Icons.add),
       ),
-      bottomNavigationBar: const Menu(currentPageIndex: PageIndex.todo),
+      bottomNavigationBar: const BottomMenu(currentPageIndex: PageIndex.todo),
     );
   }
 }

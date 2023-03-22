@@ -8,19 +8,19 @@ import '../pages/index.dart';
 import '../pages/groups/index.dart';
 import '../pages/user/show.dart';
 
-class Menu extends StatefulWidget {
+class BottomMenu extends StatefulWidget {
   final int currentPageIndex;
 
-  const Menu({
+  const BottomMenu({
     Key? key,
     required this.currentPageIndex,
   }) : super(key: key);
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<BottomMenu> createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuState extends State<BottomMenu> {
   // バナー広告
   late BannerAd bannerAd;
   bool isAdLoaded = false;
