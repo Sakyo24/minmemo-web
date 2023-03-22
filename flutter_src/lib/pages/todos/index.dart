@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'dart:convert';
-import 'dart:io';
-import '../../model/admob.dart';
+
+import '../../components/bottom_menu.dart';
+import '../../config/constants.dart';
 import '../../model/todo.dart';
-import '../groups/index.dart';
-import '../user/show.dart';
 import 'show.dart';
 import 'create_edit.dart';
 import '../../utils/network.dart';
@@ -77,39 +75,19 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
     }
   }
 
-  // TODO:広告の共通化
-  // バナー広告
-  late BannerAd bannerAd;
-  bool isAdLoaded = false;
-  void initAd() {
-    this.bannerAd = BannerAd(
-      adUnitId: Platform.isAndroid ? AdMob.getAdId(deviceType: 'android', adType: 'banner') : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (Ad ad) {
-          setState(() {
-            isAdLoaded = true;
-          });
-        }
-      )
-    )..load();
-  }
-
   @override
   void initState() {
     super.initState();
     getTodos();
-    initAd();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('メモ一覧'),
         backgroundColor: const Color.fromARGB(255, 60, 0, 255),
-        automaticallyImplyLeading: false
+        automaticallyImplyLeading: false,
       ),
       body: _isLoading
       ? const Center(
@@ -120,12 +98,13 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
         itemCount: items.length,
         itemBuilder: (context, index) {
           Map<String, dynamic> data = items[index] as Map<String, dynamic>;
+
           final Todo fetchTodo = Todo(
             id: data['id'],
             title: data['title'],
             detail: data['detail'],
             created_at: data['created_at'],
-            updated_at: data['updated_at']
+            updated_at: data['updated_at'],
           );
 
           return ListTile(
@@ -159,13 +138,13 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
                   );
                 });
               },
-              icon: const Icon(Icons.edit)
+              icon: const Icon(Icons.edit),
             ),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => TodosShowPage(fetchTodo)));
             }
           );
-        }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -174,48 +153,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
         tooltip: 'メモ追加',
         child: const Icon(Icons.add)
       ),
-      // TODO:ボトムメニュー共通化
-      bottomNavigationBar: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: isAdLoaded ? bannerAd.size.width.toDouble() : 0,
-            height: isAdLoaded ? bannerAd.size.height.toDouble() : 0,
-            child: isAdLoaded ? AdWidget(ad: bannerAd) : Container()
-          ),
-          BottomNavigationBar(
-            currentIndex: _currentPage,
-            items: const [
-              BottomNavigationBarItem(
-                label: 'メモ',
-                icon: Icon(Icons.list)
-              ),
-              BottomNavigationBarItem(
-                label: 'グループ',
-                icon: Icon(Icons.groups)
-              ),
-              BottomNavigationBarItem(
-                label: 'マイページ',
-                icon: Icon(Icons.perm_identity)
-              )
-            ],
-            onTap: (int value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const GroupsIndexPage()),
-                );
-              } else if (value == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const UserShowPage()),
-                );
-              }
-            }
-          )
-        ]
-      )
+      bottomNavigationBar: const BottomMenu(currentPageIndex: PageIndex.todo),
     );
   }
 }
