@@ -79,5 +79,18 @@ class IndexActionTest extends TestCase
             ]);
     }
 
-    // TODO: 仕様修正後、各パターンの取得テスト
+    /**
+     * @return void
+     */
+    public function testUnauthorizedAccess(): void
+    {
+        // リクエスト
+        $response = $this->getJson('/api/todos');
+
+        // 検証
+        $response->assertUnauthorized()
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
+    }
 }

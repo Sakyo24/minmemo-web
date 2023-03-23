@@ -43,7 +43,6 @@ class StoreActionTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/todos', [
             'title' => $expected_title,
             'detail' => $expected_detail,
-            'user_id' => $this->user->id, // TODO: Web/モバイルで取得方法変えれるか検討
         ]);
 
         // データ取得
@@ -57,5 +56,85 @@ class StoreActionTest extends TestCase
         $this->assertSame($expected_detail, $todo->detail);
     }
 
-    // TODO: バリデーション実装後失敗パターンをテスト
+    /**
+     * @return void
+     */
+    public function testUnauthorizedAccess(): void
+    {
+        // データ
+        $expected_title = Str::random();
+        $expected_detail = Str::random();
+
+        // リクエスト
+        $response = $this->postJson('/api/todos', [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+        ]);
+
+        // 検証
+        $response->assertUnauthorized()
+            ->assertJson([
+                'message' => 'Unauthenticated.',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testAllRequiredErrors(): void
+    {
+        // リクエスト
+        $response = $this->actingAs($this->user)->postJson('/api/todos', []);
+
+        // 検証
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'title',
+                'detail',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testTitleMaxError(): void
+    {
+        // データ
+        $expected_title = Str::random(26);
+        $expected_detail = Str::random();
+        
+        // リクエスト
+        $response = $this->actingAs($this->user)->postJson('/api/todos', [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+        ]);
+
+        // 検証
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'title',
+            ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function testDetailMaxError(): void
+    {
+        // データ
+        $expected_title = Str::random();
+        $expected_detail = Str::random(256);
+        
+        // リクエスト
+        $response = $this->actingAs($this->user)->postJson('/api/todos', [
+            'title' => $expected_title,
+            'detail' => $expected_detail,
+        ]);
+
+        // 検証
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'detail',
+            ]);
+    }
 }
