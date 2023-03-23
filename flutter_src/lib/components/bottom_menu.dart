@@ -4,8 +4,8 @@ import 'dart:io';
 
 import '../config/constants.dart';
 import '../model/admob.dart';
-import '../pages/index.dart';
 import '../pages/groups/index.dart';
+import '../pages/todos/index.dart';
 import '../pages/user/show.dart';
 
 class BottomMenu extends StatefulWidget {
@@ -72,7 +72,7 @@ class _MenuState extends State<BottomMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const IndexPage(),
+                  builder: (context) => const TodosIndexPage(),
                 ),
               );
             } else if (value == PageIndex.group) {

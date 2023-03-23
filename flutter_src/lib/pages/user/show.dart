@@ -118,6 +118,7 @@ class _UserShowPageState extends State<UserShowPage> {
                   )
                 ],
               ),
+
             ),
       bottomNavigationBar: const BottomMenu(currentPageIndex: PageIndex.user),
     );

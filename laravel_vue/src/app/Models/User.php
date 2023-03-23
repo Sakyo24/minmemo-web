@@ -76,4 +76,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Group::class, 'owner_user_id', 'id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

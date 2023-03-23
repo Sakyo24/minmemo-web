@@ -24,7 +24,6 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
     try {
       response = await Network().getData('/api/groups');
       var jsonResponse = jsonDecode(response.body);
-      print(jsonResponse);
       setState(() {
         items = jsonResponse['groups'];
         _isLoading = false;
