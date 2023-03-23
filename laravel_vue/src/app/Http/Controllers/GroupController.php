@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\GroupUser;
+use App\Http\Requests\StoreGroupRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,10 +32,10 @@ class GroupController extends Controller
     /**
      * グループ新規作成
      *
-     * @param Request $request
+     * @param StoreGroupRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreGroupRequest $request): JsonResponse
     {
         try {
             $user = $request->user();
