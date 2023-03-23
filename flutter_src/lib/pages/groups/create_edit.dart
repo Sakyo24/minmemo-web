@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'index.dart';
 import '../../utils/network.dart';
 
-
 class GroupsCreateEditPage extends StatefulWidget {
   const GroupsCreateEditPage({super.key});
 
@@ -29,11 +28,9 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     Response? response;
     try {
       response = await Network().postData(data, '/api/groups');
-      setState(() {
-        _isLoading = false;
-      });
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -45,9 +42,6 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
           const SnackBar(content: Text("エラーが発生しました。"))
         );
       }
-      setState(() {
-        _isLoading = false;
-      });
       return;
     }
 
@@ -59,9 +53,6 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
           (response.statusCode >= 500 && response.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
         );
       }
-      setState(() {
-        _isLoading = false;
-      });
       return;
     }
 
