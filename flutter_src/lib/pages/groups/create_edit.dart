@@ -22,7 +22,7 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     });
 
     Map<String, String> data = {
-      'name': nameController.text
+      'name': nameController.text,
     };
 
     Response? response;
@@ -39,7 +39,7 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     if (response == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("エラーが発生しました。"))
+          const SnackBar(content: Text("エラーが発生しました。")),
         );
       }
       return;
@@ -50,7 +50,9 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
       if (mounted) {
         var body = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
-          (response.statusCode >= 500 && response.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
+          (response.statusCode >= 500 && response.statusCode < 600)
+              ? const SnackBar(content: Text("サーバーエラーが発生しました。"))
+              : SnackBar(content: Text(body['message'])),
         );
       }
       return;
@@ -60,63 +62,62 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     if (!mounted) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: ((context) => const GroupsIndexPage()))
+      MaterialPageRoute(builder: ((context) => const GroupsIndexPage())),
     ).then((value) {
       setState(() {});
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('グループ新規登録'),
-        backgroundColor: const Color.fromARGB(255, 60, 0, 255)
+        title: const Text('グループ新規登録'),
+        backgroundColor: const Color.fromARGB(255, 60, 0, 255),
       ),
       body: _isLoading
-      ? const Center(
-        child: CircularProgressIndicator()
-      )
-      : ListView(
-        children: <Widget>[
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 40),
-                // グループ名
-                const Text('グループ名'),
-                const SizedBox(height: 10),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey)
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 10)
-                    )
-                  )
-                ),
-                const SizedBox(height: 40),
-                // 登録ボタン
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await createGroup();
-                    },
-                    child: Text('登録')
-                  )
-                )
-              ]
+          ? const Center(
+              child: CircularProgressIndicator(),
             )
-          )
-        ]
-      )
+          : ListView(
+              children: <Widget>[
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 40),
+                      // グループ名
+                      const Text('グループ名'),
+                      const SizedBox(height: 10),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey)),
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: TextField(
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(left: 10),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      // 登録ボタン
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await createGroup();
+                          },
+                          child: const Text('登録'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
