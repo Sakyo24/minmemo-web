@@ -89,4 +89,24 @@ class StoreActionTest extends TestCase
                 'name',
             ]);
     }
+
+    /**
+     * @return void
+     */
+    public function testNameMaxError(): void
+    {
+        // データ
+        $expected_name = Str::random(26);
+        
+        // リクエスト
+        $response = $this->actingAs($this->user)->postJson('/api/groups', [
+            'name' => $expected_name,
+        ]);
+
+        // 検証
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors([
+                'name',
+            ]);
+    }
 }
