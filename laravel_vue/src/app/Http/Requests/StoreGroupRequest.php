@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTodoRequest extends FormRequest
+class StoreGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,7 @@ class UpdateTodoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'max:25'],
-            'detail' => ['required', 'max:255'],
+            'name' => ['required', 'max:25'],
         ];
     }
 
@@ -39,8 +38,7 @@ class UpdateTodoRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'title' => 'タイトル',
-            'detail' => '詳細',
+            'name' => 'グループ名',
         ];
     }
 }

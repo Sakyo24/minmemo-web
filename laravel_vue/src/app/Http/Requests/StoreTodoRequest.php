@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,7 +13,7 @@ class StoreTodoRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -19,9 +21,9 @@ class StoreTodoRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'title' => ['required', 'max:25'],
@@ -32,9 +34,9 @@ class StoreTodoRequest extends FormRequest
     /**
      * Get custom attributes for validator errors.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'title' => 'タイトル',
