@@ -8,6 +8,7 @@ const admin = {
     apiStatus: null,
     loginErrors: {},
     unauthrizedMessage: '',
+    inviteErrors: {},
   }),
   getters: {
     isAdmin(state) {
@@ -22,6 +23,9 @@ const admin = {
     unauthrizedMessage(state) {
       return state.unauthrizedMessage;
     },
+    inviteErrors(state) {
+      return state.inviteErrors;
+    },
   },
   mutations: {
     setAdmin(state, admin) {
@@ -35,6 +39,9 @@ const admin = {
     },
     setUnauthrizedMessage(state, unauthrizedMessage) {
       state.unauthrizedMessage = unauthrizedMessage;
+    },
+    setInviteErrors(state, inviteErrors) {
+      state.inviteErrors = inviteErrors;
     },
   },
   actions: {
@@ -122,6 +129,34 @@ const admin = {
       // エラー時
       context.commit('setApiStatus', false);
       context.commit('error/setCode', response.status, { root: true });
+    },
+    /**
+     * 招待アクション
+     *
+     * @param {*} context
+     * @param {*} data
+     */
+    async invite(context, data) {
+      // 初期化
+      context.commit('setApiStatus', null);
+      context.commit('setInviteErrors', {});
+
+      // API実行
+      const response = await axios.post('/api/admin/invite', data);
+
+      // 成功時
+      if (response.status === STATUS.CREATED) {
+        context.commit('setApiStatus', true);
+        return false;
+      }
+
+      // エラー時
+      context.commit('setApiStatus', false);
+      if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+        context.commit('setInviteErrors', response.data.errors);
+      } else {
+        context.commit('error/setCode', response.status, { root: true });
+      }
     },
   },
 };
