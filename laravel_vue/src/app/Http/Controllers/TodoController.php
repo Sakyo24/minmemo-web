@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Todo;
+use App\Http\Requests\StoreTodoRequest;
+use App\Http\Requests\UpdateTodoRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,9 +20,10 @@ class TodoController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $todos = Todo::all();
+        $user = $request->user();
+        $todos = $user->todos()->whereNull('group_id')->get();
 
         return response()->json([
             'todos' => $todos
@@ -30,37 +33,40 @@ class TodoController extends Controller
     /**
      * todo新規作成
      *
-     * @param Request $request
+     * @param StoreTodoRequest $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreTodoRequest $request): JsonResponse
     {
         try {
+            $user = $request->user();
+            $input = $request->all();
+            $input['user_id'] = $user->id;
             $todo = new Todo();
-            $todo->fill($request->all())->save();
+            $todo->fill($input)->save();
         } catch (Throwable $e) {
             Log::error((string)$e);
 
             throw $e;
         }
 
-        return response()->json(
-            [],
-            Response::HTTP_CREATED
-        );
+        return response()->json([], Response::HTTP_CREATED);
     }
 
     /**
      * todo更新
      *
-     * @param Request $request
+     * @param UpdateTodoRequest $request
      * @param Todo $todo
      * @return JsonResponse
      */
-    public function update(Request $request, Todo $todo): JsonResponse
+    public function update(UpdateTodoRequest $request, Todo $todo): JsonResponse
     {
         try {
-            $todo->fill($request->all())->update();
+            $user = $request->user();
+            $input = $request->all();
+            $input['user_id'] = $user->id;
+            $todo->fill($input)->update();
         } catch (Throwable $e) {
             Log::error((string)$e);
 
@@ -88,9 +94,6 @@ class TodoController extends Controller
             throw $e;
         }
 
-        return response()->json(
-            [],
-            Response::HTTP_NO_CONTENT
-        );
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

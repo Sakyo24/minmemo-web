@@ -32,12 +32,10 @@ Route::post('register', [MobileAuthController::class, 'register']);
 Route::post('login', [MobileAuthController::class, 'login'])->name('login');
 Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth:sanctum');
 
-/**
- * Todo API
- */
-Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    /** Todo API */
+    Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
     /** グループ API */
     Route::resource('groups', GroupController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
 });

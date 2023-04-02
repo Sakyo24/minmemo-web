@@ -38,4 +38,18 @@ class Network {
     Uri fullUrl = Uri.parse(_url + apiUrl);
     return await post(fullUrl, body: jsonEncode(data), headers: _getHeaders());
   }
+
+  // PUT
+  Future<Response> putData(data, String apiUrl) async {
+    await _setToken();
+    Uri fullUrl = Uri.parse(_url + apiUrl);
+    return await put(fullUrl, body: jsonEncode(data), headers: _getHeaders());
+  }
+
+  // DELETE
+  Future<Response> deleteData( String apiUrl) async {
+    await _setToken();
+    Uri fullUrl = Uri.parse(_url + apiUrl);
+    return await delete(fullUrl, headers: _getHeaders());
+  }
 }
