@@ -56,6 +56,18 @@ class AdminRepositoryTest extends TestCase
     /**
      * @return void
      */
+    public function testFindByIdReturnNull(): void
+    {
+        $expected_id = 2;
+
+        $admin = $this->admin_repository->findById($expected_id);
+
+        $this->assertNull($admin);
+    }
+
+    /**
+     * @return void
+     */
     public function testCreate(): void
     {
         $expected_name = Str::random();

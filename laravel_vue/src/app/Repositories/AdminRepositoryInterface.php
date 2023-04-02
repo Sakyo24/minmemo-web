@@ -12,9 +12,9 @@ interface AdminRepositoryInterface
      * 管理者取得
      *
      * @param int $admin_id
-     * @return Admin
+     * @return Admin | null
      */
-    public function findById(int $admin_id): Admin;
+    public function findById(int $admin_id): ?Admin;
 
     /**
      * 管理者作成
