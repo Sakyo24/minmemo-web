@@ -37,7 +37,7 @@ Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth
  */
 Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     /** グループ API */
     Route::resource('groups', GroupController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
 });
@@ -50,4 +50,7 @@ Route::prefix('admin')->group(function () {
      * SPA認証
      */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
+    Route::group(['middleware' => 'auth:admin'], function () {
+        Route::post('/invite', [AdminAuthController::class, 'invite']);
+    });
 });

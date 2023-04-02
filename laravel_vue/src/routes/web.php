@@ -33,6 +33,8 @@ Route::prefix('admin')->group(function () {
      */
     Route::post('/login', [AdminAuthController::class, 'login']);
     Route::post('/logout', [AdminAuthController::class, 'logout']);
+    Route::get('/email/verify/{id}/{hash}', [AdminAuthController::class, 'verify'])
+        ->middleware(['signed'])->name('admin.verification.verify');
 });
 
 
