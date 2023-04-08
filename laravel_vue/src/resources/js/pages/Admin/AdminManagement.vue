@@ -22,10 +22,16 @@ const errors = computed(() => store.getters['admin/inviteErrors']);
 const toggleModal = () => {
   isShowModal.value = !isShowModal.value;
 };
+const closeForm = () => {
+  isShowModal.value = false;
+  form.name = null;
+  form.email = null;
+};
 const submit = async () => {
   await store.dispatch('admin/invite', form);
 
   if (apiStatus.value) {
+    closeForm();
     isShowAlert.value = true;
     setTimeout(() => (isShowAlert.value = false), 3000);
   }
@@ -35,17 +41,12 @@ const submit = async () => {
 <template>
   <div class="admin-management">
     <h1>管理者</h1>
-    <div @click="toggleModal">管理者の招待</div>
+    <button @click="toggleModal">管理者の招待</button>
     <div v-if="isShowModal">
       <form @submit.prevent>
         <div>
           <label for="name">名前</label>
-          <input
-            id="name"
-            v-model="form.name"
-            type="text"
-            placeholder="test@example.com"
-          />
+          <input id="name" v-model="form.name" type="text" placeholder="太郎" />
           <ul v-if="errors.name">
             <li v-for="error in errors.name" :key="error">
               {{ error }}
