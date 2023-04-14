@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\GroupUser;
 use App\Http\Requests\StoreGroupRequest;
+use App\Http\Requests\UpdateGroupRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -58,5 +59,28 @@ class GroupController extends Controller
         }
 
         return response()->json([], Response::HTTP_CREATED);
+    }
+
+    /**
+     * グループ更新
+     *
+     * @param UpdateGroupRequest $request
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function update(UpdateGroupRequest $request, Group $group): JsonResponse
+    {
+        try {
+            $input = $request->all();
+            $group->fill($input)->update();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+
+            throw $e;
+        }
+
+        return response()->json([
+            'group' => $group
+        ]);
     }
 }

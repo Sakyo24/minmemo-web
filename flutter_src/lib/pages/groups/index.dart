@@ -16,21 +16,25 @@ class GroupsIndexPage extends StatefulWidget {
 }
 
 class _GroupsIndexPageState extends State<GroupsIndexPage> {
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   // グループリスト取得処理
   List items = [];
   Future<void> getGroups() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     Response? response;
     try {
       response = await Network().getData('/api/groups');
       var jsonResponse = jsonDecode(response.body);
       setState(() {
         items = jsonResponse['groups'];
-        _isLoading = false;
       });
     } catch (e) {
       debugPrint(e.toString());
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -56,10 +60,12 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
               child: CircularProgressIndicator(),
             )
           : ListView.builder(
+              padding: const EdgeInsets.only(bottom: 70),
               itemCount: items.length,
               itemBuilder: (context, index) {
                 Map<String, dynamic> data =
                     items[index] as Map<String, dynamic>;
+
                 final Group fetchGroup = Group(
                   id: data['id'],
                   name: data['name'],
@@ -80,11 +86,21 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ListTile(
-                                    onTap: () {
-                                      // TODO:グループ編集ページに遷移
-                                    },
-                                    leading: const Icon(Icons.edit),
-                                    title: const Text('編集')),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            GroupsCreateEditPage(
+                                          currentGroup: fetchGroup,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  leading: const Icon(Icons.edit),
+                                  title: const Text('編集'),
+                                ),
                                 ListTile(
                                   onTap: () {
                                     // TODO:グループ削除処理
