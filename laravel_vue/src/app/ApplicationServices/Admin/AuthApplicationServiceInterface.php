@@ -31,4 +31,20 @@ interface AuthApplicationServiceInterface
      * @return Admin|null
      */
     public function getLoginAdmin(): ?Admin;
+
+    /**
+     * 管理者の招待
+     *
+     * @param array $input
+     * @return Admin
+     */
+    public function invite(array $input): Admin;
+
+    /**
+     * 管理者のメールアドレス認証
+     *
+     * @param array $input
+     * @return void
+     */
+    public function verify(array $input): void;
 }

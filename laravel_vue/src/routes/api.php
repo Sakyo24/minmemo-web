@@ -33,7 +33,7 @@ Route::post('login', [MobileAuthController::class, 'login'])->name('login');
 Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     /** Todo API */
     Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
     /** グループ API */
@@ -48,4 +48,7 @@ Route::prefix('admin')->group(function () {
      * SPA認証
      */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
+    Route::group(['middleware' => 'auth:admin'], function () {
+        Route::post('/invite', [AdminAuthController::class, 'invite']);
+    });
 });
