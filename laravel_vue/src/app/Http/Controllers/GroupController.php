@@ -40,7 +40,7 @@ class GroupController extends Controller
     {
         try {
             $user = $request->user();
-            $input = $request->all();
+            $input = $request->only(['name']);
             $input['owner_user_id'] = $user->id;
 
             DB::transaction(function () use ($input, $user) {
@@ -71,7 +71,7 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, Group $group): JsonResponse
     {
         try {
-            $input = $request->all();
+            $input = $request->only(['name']);
             $group->fill($input)->update();
         } catch (Throwable $e) {
             Log::error((string)$e);
