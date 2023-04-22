@@ -72,7 +72,9 @@ class GroupController extends Controller
     {
         try {
             $input = $request->only(['name']);
-            $group->fill($input)->update();
+            DB::transaction(function () use ($input, $group) {
+                $group->fill($input)->update();
+            });
         } catch (Throwable $e) {
             Log::error((string)$e);
 
