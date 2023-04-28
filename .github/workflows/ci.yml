@@ -6,13 +6,12 @@ on:
   pull_request:
     branches: ["master"]
 
-defaults:
-  run:
-    working-directory: laravel_vue/src
-
 jobs:
-  ci:
+  web:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: laravel_vue/src
     steps:
       - name: Checkout
         uses: actions/checkout@v3
