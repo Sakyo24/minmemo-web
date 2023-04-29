@@ -1,13 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
 
-import '../../components/bottom_menu.dart';
-import '../../config/constants.dart';
-import '../../model/todo.dart';
-import 'show.dart';
+import '/components/bottom_menu.dart';
+import '/config/constants.dart';
+import '/model/todo.dart';
+import '/utils/network.dart';
 import 'create_edit.dart';
-import '../../utils/network.dart';
+import 'show.dart';
 
 class TodosIndexPage extends StatefulWidget {
   const TodosIndexPage({super.key});
@@ -20,7 +20,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
   bool _isLoading = false;
 
   // Todoリスト取得処理
-  List items = [];
+  List<dynamic> items = <dynamic>[];
   Future<void> getTodos() async {
     setState(() {
       _isLoading = true;
@@ -29,7 +29,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
     Response? response;
     try {
       response = await Network().getData('/api/todos');
-      var jsonResponse = jsonDecode(response.body);
+      final dynamic jsonResponse = jsonDecode(response.body);
       setState(() {
         items = jsonResponse['todos'];
       });
@@ -43,7 +43,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
   }
 
   // 削除処理
-  Future<void> deleteTodo(id) async {
+  Future<void> deleteTodo(dynamic id) async {
     Response? response;
     try {
       response = await Network().deleteData('/api/todos/$id');
@@ -56,7 +56,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
     if (response == null) {
       if (mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("エラーが発生しました。")));
+            .showSnackBar(const SnackBar(content: Text('エラーが発生しました。')));
       }
       return;
     }
@@ -64,10 +64,10 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
     // エラーの場合
     if (response.statusCode != 204) {
       if (mounted) {
-        var body = json.decode(response.body);
+        final dynamic body = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
           (response.statusCode >= 500 && response.statusCode < 600)
-              ? const SnackBar(content: Text("サーバーエラーが発生しました。"))
+              ? const SnackBar(content: Text('サーバーエラーが発生しました。'))
               : SnackBar(content: Text(body['message'])),
         );
       }
@@ -94,7 +94,7 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
           : ListView.builder(
               padding: const EdgeInsets.only(bottom: 70),
               itemCount: items.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 Map<String, dynamic> data =
                     items[index] as Map<String, dynamic>;
 
@@ -102,8 +102,8 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
                   id: data['id'],
                   title: data['title'],
                   detail: data['detail'],
-                  created_at: data['created_at'],
-                  updated_at: data['updated_at'],
+                  createdAt: data['created_at'],
+                  updatedAt: data['updated_at'],
                 );
 
                 return ListTile(
@@ -112,18 +112,18 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
                     onPressed: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (context) {
+                        builder: (BuildContext context) {
                           return SafeArea(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
+                                      MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
                                             TodosCreateEditPage(
                                           currentTodo: fetchTodo,
                                         ),
@@ -137,6 +137,10 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
                                   onTap: () async {
                                     await deleteTodo(fetchTodo.id);
                                     await getTodos();
+
+                                    if (!mounted) {
+                                      return;
+                                    }
                                     Navigator.pop(context);
                                   },
                                   leading: const Icon(Icons.delete),
@@ -153,8 +157,9 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => TodosShowPage(fetchTodo),
+                      MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) =>
+                            TodosShowPage(fetchTodo),
                       ),
                     );
                   },
@@ -165,8 +170,8 @@ class _TodosIndexPageState extends State<TodosIndexPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const TodosCreateEditPage(),
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => const TodosCreateEditPage(),
             ),
           );
         },

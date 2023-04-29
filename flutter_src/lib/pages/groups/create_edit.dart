@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
-import '../../model/group.dart';
+
+import '/model/group.dart';
+import '/utils/network.dart';
 import 'index.dart';
-import '../../utils/network.dart';
 
 class GroupsCreateEditPage extends StatefulWidget {
   final Group? currentGroup;
@@ -23,7 +24,7 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
       _isLoading = true;
     });
 
-    Map<String, String> data = {
+    Map<String, String> data = <String, String>{
       'name': nameController.text,
     };
 
@@ -45,7 +46,7 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     if (response == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("エラーが発生しました。")),
+          const SnackBar(content: Text('エラーが発生しました。')),
         );
       }
       return;
@@ -54,10 +55,10 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     // エラーの場合
     if (response.statusCode != 201 && response.statusCode != 200) {
       if (mounted) {
-        var body = json.decode(response.body);
+        final dynamic body = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
           (response.statusCode >= 500 && response.statusCode < 600)
-              ? const SnackBar(content: Text("サーバーエラーが発生しました。"))
+              ? const SnackBar(content: Text('サーバーエラーが発生しました。'))
               : SnackBar(content: Text(body['message'])),
         );
       }
@@ -65,11 +66,15 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
     }
 
     // 成功の場合
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     Navigator.push(
       context,
-      MaterialPageRoute(builder: ((context) => const GroupsIndexPage())),
-    ).then((value) {
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => const GroupsIndexPage(),
+      ),
+    ).then((dynamic value) {
       setState(() {});
     });
   }
@@ -98,14 +103,15 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
                 Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(height: 40),
                       // グループ名
                       const Text('グループ名'),
                       const SizedBox(height: 10),
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)),
+                          border: Border.all(color: Colors.grey),
+                        ),
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: TextField(
                           controller: nameController,
@@ -128,7 +134,8 @@ class _GroupsCreateEditPageState extends State<GroupsCreateEditPage> {
                               await createUpdateGroup(widget.currentGroup!.id);
                             }
                           },
-                          child: Text(widget.currentGroup == null ? '登録' : '更新'),
+                          child:
+                              Text(widget.currentGroup == null ? '登録' : '更新'),
                         ),
                       ),
                     ],

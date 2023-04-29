@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 import 'pages/top.dart';
 
-Future main() async {
+Future<void> main() async {
   await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
@@ -18,12 +19,15 @@ class TodoApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo App',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
         primaryColor: const Color.fromARGB(255, 60, 0, 255),
-        accentColor: const Color.fromARGB(255, 60, 0, 255),
-        canvasColor: const Color.fromARGB(255, 250, 250, 250)
+        canvasColor: const Color.fromARGB(255, 250, 250, 250),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.purple,
+        ).copyWith(
+          secondary: const Color.fromARGB(255, 60, 0, 255),
+        ),
       ),
-      home: const TopPage()
+      home: const TopPage(),
     );
   }
 }
