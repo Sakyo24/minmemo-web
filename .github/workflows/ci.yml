@@ -74,6 +74,7 @@ jobs:
         uses: subosito/flutter-action@v2.10.0
         with:
           flutter-version: "3.3.9"
+          working-directory: flutter_src
 
       - name: Install Packages
         run: flutter pub get
