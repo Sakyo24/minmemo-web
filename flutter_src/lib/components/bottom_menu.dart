@@ -1,19 +1,19 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'dart:io';
 
-import '../config/constants.dart';
-import '../model/admob.dart';
-import '../pages/groups/index.dart';
-import '../pages/todos/index.dart';
-import '../pages/user/show.dart';
+import '/config/constants.dart';
+import '/model/admob.dart';
+import '/pages/groups/index.dart';
+import '/pages/todos/index.dart';
+import '/pages/user/show.dart';
 
 class BottomMenu extends StatefulWidget {
   final int currentPageIndex;
 
   const BottomMenu({
-    Key? key,
     required this.currentPageIndex,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,11 +31,13 @@ class _MenuState extends State<BottomMenu> {
           : AdMob.getAdId(deviceType: 'ios', adType: 'banner'),
       size: AdSize.banner,
       request: const AdRequest(),
-      listener: BannerAdListener(onAdLoaded: (Ad ad) {
-        setState(() {
-          isAdLoaded = true;
-        });
-      }),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            isAdLoaded = true;
+          });
+        },
+      ),
     )..load();
   }
 
@@ -51,7 +53,7 @@ class _MenuState extends State<BottomMenu> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         SizedBox(
           width: isAdLoaded ? bannerAd.size.width.toDouble() : 0,
           height: isAdLoaded ? bannerAd.size.height.toDouble() : 0,
@@ -59,7 +61,7 @@ class _MenuState extends State<BottomMenu> {
         ),
         BottomNavigationBar(
           currentIndex: widget.currentPageIndex,
-          items: const [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(label: 'メモ', icon: Icon(Icons.list)),
             BottomNavigationBarItem(label: 'グループ', icon: Icon(Icons.groups)),
             BottomNavigationBarItem(
@@ -71,22 +73,22 @@ class _MenuState extends State<BottomMenu> {
             if (value == PageIndex.todo) {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const TodosIndexPage(),
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => const TodosIndexPage(),
                 ),
               );
             } else if (value == PageIndex.group) {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const GroupsIndexPage(),
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => const GroupsIndexPage(),
                 ),
               );
             } else if (value == PageIndex.user) {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const UserShowPage(),
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => const UserShowPage(),
                 ),
               );
             }

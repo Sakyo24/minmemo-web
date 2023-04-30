@@ -1,12 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
 
-import '../../components/bottom_menu.dart';
-import '../../config/constants.dart';
-import '../../model/group.dart';
+import '/components/bottom_menu.dart';
+import '/config/constants.dart';
+import '/model/group.dart';
+import '/utils/network.dart';
 import 'create_edit.dart';
-import '../../utils/network.dart';
 
 class GroupsIndexPage extends StatefulWidget {
   const GroupsIndexPage({super.key});
@@ -19,7 +19,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
   bool _isLoading = false;
 
   // グループリスト取得処理
-  List items = [];
+  List<dynamic> items = <dynamic>[];
   Future<void> getGroups() async {
     setState(() {
       _isLoading = true;
@@ -28,7 +28,7 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
     Response? response;
     try {
       response = await Network().getData('/api/groups');
-      var jsonResponse = jsonDecode(response.body);
+      final dynamic jsonResponse = jsonDecode(response.body);
       setState(() {
         items = jsonResponse['groups'];
       });
@@ -62,16 +62,16 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
           : ListView.builder(
               padding: const EdgeInsets.only(bottom: 70),
               itemCount: items.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 Map<String, dynamic> data =
                     items[index] as Map<String, dynamic>;
 
                 final Group fetchGroup = Group(
                   id: data['id'],
                   name: data['name'],
-                  owner_user_id: data['owner_user_id'],
-                  created_at: data['created_at'],
-                  updated_at: data['updated_at'],
+                  ownerUserId: data['owner_user_id'],
+                  createdAt: data['created_at'],
+                  updatedAt: data['updated_at'],
                 );
 
                 return ListTile(
@@ -80,18 +80,18 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
                     onPressed: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (context) {
+                        builder: (BuildContext context) {
                           return SafeArea(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
-                              children: [
+                              children: <Widget>[
                                 ListTile(
                                   onTap: () {
                                     Navigator.pop(context);
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
+                                      MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
                                             GroupsCreateEditPage(
                                           currentGroup: fetchGroup,
                                         ),
@@ -126,8 +126,8 @@ class _GroupsIndexPageState extends State<GroupsIndexPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const GroupsCreateEditPage(),
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => const GroupsCreateEditPage(),
             ),
           );
         },

@@ -1,15 +1,15 @@
 class Group {
   String id;
   String name;
-  int owner_user_id;
-  String created_at;
-  String updated_at;
+  int ownerUserId;
+  String createdAt;
+  String updatedAt;
 
   Group({
     required this.id,
     required this.name,
-    required this.owner_user_id,
-    required this.created_at,
-    required this.updated_at,
+    required this.ownerUserId,
+    required this.createdAt,
+    required this.updatedAt,
   });
 }

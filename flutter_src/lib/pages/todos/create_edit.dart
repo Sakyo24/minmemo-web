@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
-import '../../model/todo.dart';
+
+import '/model/todo.dart';
+import '/utils/network.dart';
 import 'index.dart';
-import '../../utils/network.dart';
 
 class TodosCreateEditPage extends StatefulWidget {
   final Todo? currentTodo;
@@ -25,7 +26,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
       _isLoading = true;
     });
 
-    Map<String, String> data = {
+    Map<String, String> data = <String, String>{
       'title': titleController.text,
       'detail': detailController.text
     };
@@ -48,7 +49,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
     if (response == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("エラーが発生しました。")),
+          const SnackBar(content: Text('エラーが発生しました。')),
         );
       }
       return;
@@ -57,10 +58,10 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
     // エラーの場合
     if (response.statusCode != 201 && response.statusCode != 200) {
       if (mounted) {
-        var body = json.decode(response.body);
+        final dynamic body = json.decode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
           (response.statusCode >= 500 && response.statusCode < 600)
-              ? const SnackBar(content: Text("サーバーエラーが発生しました。"))
+              ? const SnackBar(content: Text('サーバーエラーが発生しました。'))
               : SnackBar(content: Text(body['message'])),
         );
       }
@@ -68,10 +69,15 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
     }
 
     // 成功の場合
-    if (!mounted) return;
-    Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => const TodosIndexPage())))
-        .then((value) {
+    if (!mounted) {
+      return;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => const TodosIndexPage(),
+      ),
+    ).then((dynamic value) {
       setState(() {});
     });
   }
@@ -101,7 +107,7 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
                 Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       const SizedBox(height: 40),
                       // タイトル
                       const Text('タイトル'),
@@ -125,7 +131,8 @@ class _TodosCreateEditPageState extends State<TodosCreateEditPage> {
                       const SizedBox(height: 10),
                       Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey)),
+                          border: Border.all(color: Colors.grey),
+                        ),
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: TextField(
                           controller: detailController,

@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import '../../utils/network.dart';
+
+import '/utils/network.dart';
 import '../todos/index.dart';
 
 class LoginPage extends StatefulWidget {
@@ -28,7 +29,10 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    Map<String, String> data = {'email': _email!, 'password': _password!};
+    Map<String, String> data = <String, String>{
+      'email': _email!,
+      'password': _password!,
+    };
 
     Response? res;
     try {
@@ -40,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("エラーが発生しました。"))
+          const SnackBar(content: Text('エラーが発生しました。')),
         );
       }
       setState(() {
@@ -49,13 +53,15 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    var body = json.decode(res.body);
+    final dynamic body = json.decode(res.body);
 
     // エラーの場合
     if (res.statusCode != 200) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          (res.statusCode >= 500 && res.statusCode < 600) ? const SnackBar(content: Text("サーバーエラーが発生しました。")) : SnackBar(content: Text(body['message']))
+          (res.statusCode >= 500 && res.statusCode < 600)
+              ? const SnackBar(content: Text('サーバーエラーが発生しました。'))
+              : SnackBar(content: Text(body['message'])),
         );
       }
       setState(() {
@@ -69,69 +75,62 @@ class _LoginPageState extends State<LoginPage> {
     localStorage.setString('token', json.encode(body['token']));
     localStorage.setString('user', json.encode(body['user']));
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const TodosIndexPage())
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => const TodosIndexPage(),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("ログイン")
-      ),
+      appBar: AppBar(centerTitle: true, title: const Text('ログイン')),
       body: SafeArea(
         child: _isLoading
-        ? const Center(
-          child: CircularProgressIndicator()
-        )
-        : Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "メールアドレス"
+            ? const Center(child: CircularProgressIndicator())
+            : Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(hintText: 'メールアドレス'),
+                      validator: (String? emailValue) {
+                        if (emailValue == null || emailValue == '') {
+                          return 'メールアドレスは必ず入力してください。';
+                        }
+                        _email = emailValue;
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(hintText: 'パスワード'),
+                      obscureText: true,
+                      validator: (String? passwordValue) {
+                        if (passwordValue == null || passwordValue == '') {
+                          return 'パスワードは必ず入力してください。';
+                        }
+                        _password = passwordValue;
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        _login();
+                      },
+                      child: const Text('ログイン'),
+                    ),
+                  ],
                 ),
-                validator: (emailValue) {
-                  if (emailValue == null || emailValue == "") {
-                    return 'メールアドレスは必ず入力してください。';
-                  }
-                  _email = emailValue;
-                  return null;
-                }
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  hintText: "パスワード"
-                ),
-                obscureText: true,
-                validator: (passwordValue) {
-                  if (passwordValue == null || passwordValue == "") {
-                    return 'パスワードは必ず入力してください。';
-                  }
-                  _password = passwordValue;
-                  return null;
-                }
-              ),
-              const SizedBox(
-                height: 16
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _login();
-                },
-                child: const Text("ログイン")
-              )
-            ],
-          )
-        )
-      )
+      ),
     );
   }
 }
