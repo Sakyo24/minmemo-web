@@ -8,10 +8,12 @@ on:
 
 jobs:
   web:
+    name: Web Application Test
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: laravel_vue/src
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -59,3 +61,31 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
+
+  app:
+    name: Flutter Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: flutter_src
+
+    steps:
+      - name: Checkout
+        uses: subosito/flutter-action@v2.10.0
+        with:
+          flutter-version: "3.3.9"
+
+      - name: Check Version
+        run: flutter --version
+
+      - name: Install Packages
+        run: flutter pub get
+
+      - name: Copy env
+        run: cp .env.example .env
+
+      - name: Run Linter
+        run: flutter analyze
+
+      - name: Run Test
+        run: flutter test
