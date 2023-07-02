@@ -6,9 +6,9 @@ import Login from '../pages/Login.vue';
 import Home from '../pages/Home.vue';
 
 import Admin from '../Admin.vue';
-import AdminLogin from '../pages/Admin/Login.vue';
-import AdminHome from '../pages/Admin/Home.vue';
-import AdminManagement from '../pages/Admin/AdminManagement.vue';
+import AdminLogin from '../pages/admin/Login.vue';
+import AdminHome from '../pages/admin/Home.vue';
+import Admins from '../pages/admin/Admins.vue';
 
 const routes = [
   /**
@@ -50,6 +50,7 @@ const routes = [
       }
     },
   },
+
   /**
    * 管理者
    */
@@ -85,7 +86,7 @@ const routes = [
       {
         path: 'admins',
         name: 'admin.admins',
-        component: AdminManagement,
+        component: Admins,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();

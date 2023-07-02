@@ -1,9 +1,40 @@
 .admin {
-  display: flex;
+  header {
+    height: 80px;
+    padding: 0px 20px;
+    background-color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
 
-  .content {
-    flex: 1;
+    .header-items-area {
+      display: flex;
+      align-items: center;
+      .admin-name {
+        margin-right: 20px;
+      }
+    }
   }
 
-  @import './components/admin/menu';
+  footer {
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    background-color: #ebebeb;
+  }
+
+  main {
+    .content {
+      min-height: calc(100vh - 160px);
+      padding: 10px 20px;
+
+      h2 {
+        margin-bottom: 20px;
+      }
+    }
+    .auth-content {
+      display: inline-block;
+    }
+  }
 }
