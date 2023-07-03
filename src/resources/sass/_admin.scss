@@ -17,24 +17,103 @@
     }
   }
 
-  footer {
-    height: 80px;
-    line-height: 80px;
-    text-align: center;
-    background-color: #ebebeb;
-  }
-
   main {
+    background-color: #eee;
     .content {
-      min-height: calc(100vh - 160px);
+      min-height: calc(100vh - 80px);
       padding: 10px 20px;
 
-      h2 {
+      .page-title {
+        padding-bottom: 10px;
         margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
       }
     }
     .auth-content {
       display: inline-block;
+      padding: 30px;
+      height: calc(100vh - 140px);
+      width: calc(100vw - 200px);
+      .page-wrap {
+        height: calc(100vh - 140px);
+        overflow-y: scroll;
+        background-color: #fff;
+        padding: 20px;
+      }
+    }
+
+    .contents-area {
+      .table-header {
+        margin-bottom: 10px;
+      }
+      .table-area {
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          border-spacing: 0;
+          thead {
+            tr {
+              th {
+                background-color: #000;
+                color: #fff;
+                padding: 5px;
+              }
+            }
+          }
+          tbody {
+            tr {
+              td {
+                padding: 5px 10px;
+                border-bottom: 1px solid #eee;
+              }
+              .id-cell {
+                width: 50px;
+                text-align: center;
+                background-color: rgb(207, 226, 255);
+              }
+              .btn-cell {
+                width: 150px;
+                text-align: center;
+              }
+            }
+            tr:nth-child(even) {
+              background-color: #eee;
+            }
+          }
+        }
+      }
+
+      .pagination {
+        margin-top: 20px;
+        text-align: center;
+        li {
+          display: inline-block;
+          border: 1px solid #000;
+          border-right: none;
+          &:last-child {
+            border-right: 1px solid #000;
+          }
+          .page {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            user-select: none;
+            &:hover {
+              background-color: rgb(13, 110, 253);
+              color: #fff;
+            }
+          }
+          .active-page {
+            background-color: rgb(13, 110, 253);
+            color: #fff;
+          }
+        }
+      }
+
+      .no-data-message {
+        text-align: center;
+      }
     }
   }
 }

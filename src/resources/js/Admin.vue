@@ -5,12 +5,12 @@
       <SideMenu />
       <router-view class="content" :class="isAdmin ? 'auth-content' : null"></router-view>
     </main>
-    <Footer />
   </div>
+  <Alert />
 </template>
 
 <script setup>
-import Footer from './components/admin/Footer.vue';
+import Alert from './components/Alert.vue';
 import Header from './components/admin/Header.vue';
 import SideMenu from './components/admin/SideMenu.vue';
 import { computed } from 'vue';

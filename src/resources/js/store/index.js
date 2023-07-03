@@ -1,12 +1,14 @@
 import { createStore } from 'vuex';
-import auth from './auth.js';
 import admin from './admin.js';
+import auth from './auth.js';
+import alert from './alert.js';
 import error from './error.js';
 
 const store = createStore({
   modules: {
-    auth: auth,
     admin: admin,
+    auth: auth,
+    alert: alert,
     error: error,
   },
 });

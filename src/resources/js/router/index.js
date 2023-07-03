@@ -8,6 +8,7 @@ import Home from '../pages/Home.vue';
 import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
 import AdminHome from '../pages/admin/Home.vue';
+import AdminUsersIndex from '../pages/admin/users/Index.vue';
 import Admins from '../pages/admin/Admins.vue';
 
 const routes = [
@@ -65,7 +66,7 @@ const routes = [
         component: AdminLogin,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
-            next('/admin');
+            next('/admin/users');
           } else {
             next();
           }
@@ -75,6 +76,18 @@ const routes = [
         path: '',
         name: 'admin.home',
         component: AdminHome,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next('/admin/users');
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      {
+        path: 'users',
+        name: 'admin.users.index',
+        component: AdminUsersIndex,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();

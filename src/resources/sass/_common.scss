@@ -38,7 +38,7 @@ a {
   width: 120px;
   height: 50px;
   line-height: 50px;
-  background-color: #0d6efd;
+  background-color: rgb(13, 110, 253);
   color: #fff;
   border:  none;
   border-radius: 8px;
@@ -46,5 +46,19 @@ a {
   user-select: none;
 }
 .btn:hover {
-  background-color: #297eff;
+  background-color: rgba(13, 110, 253, .9);
+}
+
+.red-btn {
+  background-color: rgb(220, 53, 69);
+}
+.red-btn:hover {
+  background-color: rgba(220, 53, 69, .9);
+}
+
+.green-btn {
+  background-color: rgb(25, 135, 84);
+}
+.green-btn:hover {
+  background-color: rgba(25, 135, 84, .9);
 }
