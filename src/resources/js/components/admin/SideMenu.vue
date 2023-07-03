@@ -3,9 +3,6 @@
     <nav>
       <ul>
         <li class="menu__link">
-          <router-link to="/admin">ホーム</router-link>
-        </li>
-        <li class="menu__link">
           <router-link to="/admin/users">ユーザー</router-link>
         </li>
         <li class="menu__link">
@@ -37,19 +34,20 @@ const isAdmin = computed(() => store.getters['admin/isAdmin']);
 
 <style scoped lang="scss">
 .side-menu {
-  min-height: calc(100vh - 160px);
+  width: 200px;
+  min-height: calc(100vh - 80px);
   display: inline-block;
   vertical-align: top;
-  border-right: 1px solid #ebebeb;
-  
+  color: #000;
+  background-color: #fff;
+
   li {
-    border-bottom: 1px solid #ebebeb;
     a {
       display: inline-block;
-      width: 200px;
+      width: 100%;
       padding: 10px 20px;
       &:hover {
-        background-color: #ebebeb;
+        background-color: rgb(207, 226, 255);
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h2>管理者ログイン画面</h2>
+    <h2>管理者ログイン</h2>
     <form class="login-form" @submit.prevent>
       <div class="input-area">
         <label for="email">メールアドレス</label>
@@ -59,7 +59,7 @@ const message = computed(() => store.getters['admin/unauthrizedMessage']);
 // methods
 const submit = async () => {
   await store.dispatch('admin/login', form);
-  router.push('/admin');
+  router.push('/admin/users');
 };
 </script>
 
@@ -69,7 +69,7 @@ const submit = async () => {
   margin: auto;
   padding: 20px;
   text-align: center;
-  background-color: #ebebeb;
+  background-color: #fff;
 }
 
 .input-area {
