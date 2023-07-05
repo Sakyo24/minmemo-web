@@ -10,11 +10,12 @@ import AdminLogin from '../pages/admin/Login.vue';
 import AdminHome from '../pages/admin/Home.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
 import AdminUsersEdit from '../pages/admin/users/Edit.vue';
+import AdminTodosIndex from '../pages/admin/todos/Index.vue';
 import Admins from '../pages/admin/Admins.vue';
 
 const routes = [
   /**
-   * ユーザー
+   * ------------------------------ ユーザー ------------------------------
    */
   {
     path: '/register',
@@ -54,13 +55,14 @@ const routes = [
   },
 
   /**
-   * 管理者
+   * ------------------------------ 管理者 ------------------------------
    */
   {
     path: '/admin',
     name: 'admin',
     component: Admin,
     children: [
+      /** ログイン */
       {
         path: 'login',
         name: 'admin.login',
@@ -73,6 +75,7 @@ const routes = [
           }
         },
       },
+      /** ホーム */
       {
         path: '',
         name: 'admin.home',
@@ -85,6 +88,7 @@ const routes = [
           }
         },
       },
+      /** ユーザー */
       {
         path: 'users',
         name: 'admin.users.index',
@@ -109,6 +113,20 @@ const routes = [
           }
         },
       },
+      /** メモ */
+      {
+        path: 'todos',
+        name: 'admin.todos.index',
+        component: AdminTodosIndex,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      /** 管理者 */
       {
         path: 'admins',
         name: 'admin.admins',
