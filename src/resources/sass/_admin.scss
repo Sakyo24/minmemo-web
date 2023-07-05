@@ -51,6 +51,8 @@
           width: 100%;
           border-collapse: collapse;
           border-spacing: 0;
+        }
+        .index-table {
           thead {
             tr {
               th {
@@ -81,6 +83,30 @@
             }
           }
         }
+        .edit-table {
+          tbody {
+            tr {
+              border-bottom: 1px solid #eee;
+              th {
+                background-color: #000;
+                color: #fff;
+                padding: 5px;
+              }
+              td {
+                padding: 5px;
+                input {
+                  font-size: 16px;
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+      .edit-btn-area {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
       }
 
       .pagination {
@@ -114,6 +140,10 @@
       .no-data-message {
         text-align: center;
       }
+    }
+
+    .validation_message {
+      color: red;
     }
   }
 }

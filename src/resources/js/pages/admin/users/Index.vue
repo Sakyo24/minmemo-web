@@ -8,7 +8,7 @@
             件数：{{ total }}件
           </div>
           <div class="table-area">
-            <table>
+            <table class="index-table">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -24,7 +24,7 @@
                   <td>{{ user.name }}</td>
                   <td>{{ user.email }}</td>
                   <td class="btn-cell">
-                    <div class="btn green-btn">編集</div>
+                    <router-link class="btn green-btn" :to="`/admin/users/${user.id}/edit`">編集</router-link>
                   </td>
                   <td class="btn-cell">
                     <div class="btn red-btn">削除</div>
@@ -68,7 +68,7 @@ onMounted(() => {
 
 // methods
 const getUsers = async () => {
-  const response = await axios.get('/api/admin/users?page=' + current_page.value);
+  const response = await axios.get(`/api/admin/users?page=${current_page.value}`);
 
   if (response.status === STATUS.OK) {
     last_page.value = response.data.users.last_page;
@@ -78,13 +78,13 @@ const getUsers = async () => {
   }
 
   store.commit('alert/setAlert', {
-    messgate: response.statusText,
+    message: response.statusText,
     type: 'error',
   });
 };
 
 const changePage = (page) => {
-  if (current_page.value == page) return;
+  if (current_page.value === page) return;
   current_page.value = page;
   getUsers();
 };
