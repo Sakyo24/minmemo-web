@@ -27,7 +27,7 @@
                     <router-link class="btn green-btn" :to="`/admin/users/${user.id}/edit`">編集</router-link>
                   </td>
                   <td class="btn-cell">
-                    <div class="btn red-btn">削除</div>
+                    <div class="btn red-btn" @click="deleteUser(user.id)">削除</div>
                   </td>
                 </tr>
               </tbody>
@@ -74,6 +74,29 @@ const getUsers = async () => {
     last_page.value = response.data.users.last_page;
     total.value = response.data.users.total;
     users.value = response.data.users.data;
+    return;
+  }
+
+  store.commit('alert/setAlert', {
+    message: response.statusText,
+    type: 'error',
+  });
+};
+
+const deleteUser = async (id) => {
+  if (!confirm('削除して宜しいですか？')) {
+    return;
+  }
+
+  const response = await axios.delete(`/api/admin/users/${id}`);
+
+  if (response.status === STATUS.NO_CONTENT) {
+    store.commit('alert/setAlert', {
+      message: 'ユーザーを削除しました。',
+      type: 'success',
+    });
+    current_page.value = 1;
+    getUsers();
     return;
   }
 

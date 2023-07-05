@@ -116,7 +116,6 @@ const updateUser = async () => {
   }
 
   if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
-    console.log(response.data.errors);
     errors.value = response.data.errors;
     return;
   }
