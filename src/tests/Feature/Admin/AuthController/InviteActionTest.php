@@ -44,7 +44,7 @@ class InviteActionTest extends TestCase
     {
         // データ
         $expected_id = 2;
-        $expected_name = Str::random(255);
+        $expected_name = Str::random(25);
         $expected_email = 'text@example.com';
         $expected_url = Str::random();
         $expected_password = Str::random();

@@ -100,7 +100,7 @@ class StoreActionTest extends TestCase
     public function testTitleMaxError(): void
     {
         // データ
-        $expected_title = Str::random(26);
+        $expected_title = Str::random(101);
         $expected_detail = Str::random();
         
         // リクエスト
