@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -62,5 +62,23 @@ class UserController extends Controller
         return response()->json([
             'user' => $user
         ]);
+    }
+
+    /**
+     * user削除
+     *
+     * @param User $user
+     * @return JsonResponse
+     */
+    public function destroy(User $user): JsonResponse
+    {
+        try {
+            $user->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
