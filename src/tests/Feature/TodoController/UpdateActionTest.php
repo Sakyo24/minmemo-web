@@ -144,7 +144,7 @@ class UpdateActionTest extends TestCase
     {
         // データ
         $expected_id = $this->todo->id;
-        $expected_title = Str::random(26);
+        $expected_title = Str::random(101);
         $expected_detail = Str::random();
 
         // リクエスト

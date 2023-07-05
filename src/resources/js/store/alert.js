@@ -1,23 +1,23 @@
 const alert = {
   namespaced: true,
   state: () => ({
-    messgate: '',
+    message: '',
     type: 'success'
   }),
   getters: {
     getAlertMessage(state) {
-      return state.messgate;
+      return state.message;
     },
     getAlertType(state) {
       return state.type;
     },
   },
   mutations: {
-    setAlert(state, { messgate, type, timeout }) {
-      if (typeof messgate === 'undefined') {
-        state.messgate = 'エラーが発生しました。';
+    setAlert(state, { message, type, timeout }) {
+      if (typeof message === 'undefined') {
+        state.message = 'エラーが発生しました。';
       } else {
-        state.messgate = messgate;
+        state.message = message;
       }
 
       if (typeof type !== 'undefined') {
@@ -29,7 +29,7 @@ const alert = {
       }
   
       setTimeout(() => {
-        state.messgate = '';
+        state.message = '';
         state.type = 'success';
       }, timeout);
     },

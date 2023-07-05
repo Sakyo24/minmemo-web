@@ -11,7 +11,7 @@
           placeholder="test@example.com"
         />
         <ul v-if="errors.email">
-          <li v-for="error in errors.email" :key="error">
+          <li v-for="error in errors.email" :key="error" class="validation_message">
             {{ error }}
           </li>
         </ul>
@@ -25,12 +25,12 @@
           placeholder="password"
         />
         <ul v-if="errors.password">
-          <li v-for="error in errors.password" :key="error">
+          <li v-for="error in errors.password" :key="error" class="validation_message">
             {{ error }}
           </li>
         </ul>
       </div>
-      <div v-if="message" class="error">
+      <div v-if="message" class="error validation_message">
         {{ message }}
       </div>
       <button class="btn" @click="submit">ログイン</button>
