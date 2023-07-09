@@ -11,6 +11,7 @@ import AdminHome from '../pages/admin/Home.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
 import AdminUsersEdit from '../pages/admin/users/Edit.vue';
 import AdminTodosIndex from '../pages/admin/todos/Index.vue';
+import AdminTodosEdit from '../pages/admin/todos/Edit.vue';
 import Admins from '../pages/admin/Admins.vue';
 
 const routes = [
@@ -118,6 +119,18 @@ const routes = [
         path: 'todos',
         name: 'admin.todos.index',
         component: AdminTodosIndex,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      {
+        path: 'todos/:id/edit',
+        name: 'admin.todos.edit',
+        component: AdminTodosEdit,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();
