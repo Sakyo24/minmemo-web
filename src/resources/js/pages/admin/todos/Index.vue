@@ -37,7 +37,7 @@
                     <router-link class="btn green-btn" :to="`/admin/todos/${todo.id}/edit`">編集</router-link>
                   </td>
                   <td class="btn-cell">
-                    <div class="btn red-btn">削除</div>
+                    <div class="btn red-btn" @click="deleteTodo(todo.id)">削除</div>
                   </td>
                 </tr>
               </tbody>
@@ -87,6 +87,28 @@ const getTodos = async () => {
     return;
   }
 
+  store.commit('alert/setAlert', {
+    message: response.statusText,
+    type: 'error',
+  });
+};
+
+const deleteTodo = async (id) => {
+  if (!confirm('削除して宜しいですか？')) {
+    return;
+  }
+
+  const response = await axios.delete(`/api/admin/todos/${id}`);
+
+  if (response.status === STATUS.NO_CONTENT) {
+    store.commit('alert/setAlert', {
+      message: 'メモを削除しました。',
+      type: 'success',
+    });
+    current_page.value = 1;
+    getTodos();
+    return;
+  }
 
   store.commit('alert/setAlert', {
     message: response.statusText,
