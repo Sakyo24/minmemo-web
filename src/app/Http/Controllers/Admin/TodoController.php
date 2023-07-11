@@ -64,4 +64,22 @@ class TodoController extends Controller
             'todo' => $todo
         ]);
     }
+
+    /**
+     * todo削除
+     *
+     * @param Todo $todo
+     * @return JsonResponse
+     */
+    public function destroy(Todo $todo): JsonResponse
+    {
+        try {
+            $todo->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }
