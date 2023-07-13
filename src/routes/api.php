@@ -7,6 +7,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\MobileAuthController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\GroupController as AdminGroupController;
 use App\Http\Controllers\Admin\TodoController as AdminTodoController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,7 @@ Route::prefix('admin')->group(function () {
      */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
     Route::group(['middleware' => 'auth:admin'], function () {
+        Route::apiResource('groups', AdminGroupController::class);
         Route::apiResource('todos', AdminTodoController::class);
         Route::apiResource('users', AdminUserController::class);
         Route::post('/invite', [AdminAuthController::class, 'invite']);
