@@ -31,7 +31,7 @@
                     <router-link class="btn green-btn" :to="`/admin/groups/${group.id}/edit`">編集</router-link>
                   </td>
                   <td class="btn-cell">
-                    <div class="btn red-btn">削除</div>
+                    <div class="btn red-btn" @click="deleteGroup(group.id)">削除</div>
                   </td>
                 </tr>
               </tbody>
@@ -78,6 +78,29 @@ const getGroups = async () => {
     last_page.value = response.data.groups.last_page;
     total.value = response.data.groups.total;
     groups.value = response.data.groups.data;
+    return;
+  }
+
+  store.commit('alert/setAlert', {
+    message: response.statusText,
+    type: 'error',
+  });
+};
+
+const deleteGroup = async (id) => {
+  if (!confirm('削除して宜しいですか？')) {
+    return;
+  }
+
+  const response = await axios.delete(`/api/admin/groups/${id}`);
+
+  if (response.status === STATUS.NO_CONTENT) {
+    store.commit('alert/setAlert', {
+      message: 'グループを削除しました。',
+      type: 'success',
+    });
+    current_page.value = 1;
+    getGroups();
     return;
   }
 

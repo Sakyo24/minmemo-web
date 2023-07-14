@@ -65,4 +65,22 @@ class GroupController extends Controller
             'group' => $group
         ]);
     }
+
+    /**
+     * group削除
+     *
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function destroy(Group $group): JsonResponse
+    {
+        try {
+            $group->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }
