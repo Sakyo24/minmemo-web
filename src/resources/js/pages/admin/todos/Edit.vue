@@ -15,12 +15,22 @@
                   <th>タイトル</th>
                   <td>
                     <input v-model="title" type="text">
+                    <ul v-if="errors && errors.title">
+                      <li v-for="error in errors.title" :key="error" class="validation_message">
+                        {{ error }}
+                      </li>
+                    </ul>
                   </td>
                 </tr>
                 <tr>
                   <th>詳細</th>
                   <td>
                     <textarea v-model="detail" cols="30" rows="10"></textarea>
+                    <ul v-if="errors && errors.detail">
+                      <li v-for="error in errors.detail" :key="error" class="validation_message">
+                        {{ error }}
+                      </li>
+                    </ul>
                   </td>
                 </tr>
                 <tr>
