@@ -10,6 +10,7 @@ import AdminLogin from '../pages/admin/Login.vue';
 import AdminHome from '../pages/admin/Home.vue';
 import AdminGroupsIndex from '../pages/admin/groups/Index.vue';
 import AdminGroupsEdit from '../pages/admin/groups/Edit.vue';
+import AdminInquiriesIndex from '../pages/admin/inquiries/Index.vue';
 import AdminTodosIndex from '../pages/admin/todos/Index.vue';
 import AdminTodosEdit from '../pages/admin/todos/Edit.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
@@ -158,6 +159,19 @@ const routes = [
         path: 'groups/:id/edit',
         name: 'admin.groups.edit',
         component: AdminGroupsEdit,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      /** お問い合わせ */
+      {
+        path: 'inquiries',
+        name: 'admin.inquiries.index',
+        component: AdminInquiriesIndex,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();
