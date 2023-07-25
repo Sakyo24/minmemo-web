@@ -53,10 +53,10 @@ Route::prefix('admin')->group(function () {
      */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
     Route::group(['middleware' => 'auth:admin'], function () {
-        Route::apiResource('groups', AdminGroupController::class);
-        Route::apiResource('inquiries', AdminInquiryController::class);
-        Route::apiResource('todos', AdminTodoController::class);
-        Route::apiResource('users', AdminUserController::class);
+        Route::apiResource('groups', AdminGroupController::class, ['except' => ['store']]);
+        Route::apiResource('inquiries', AdminInquiryController::class, ['except' => ['store', 'destroy']]);
+        Route::apiResource('todos', AdminTodoController::class, ['except' => ['store']]);
+        Route::apiResource('users', AdminUserController::class, ['except' => ['store']]);
         Route::post('/invite', [AdminAuthController::class, 'invite']);
     });
 });

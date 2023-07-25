@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store';
 
-import Register from '../pages/Register.vue';
-import Login from '../pages/Login.vue';
-import Home from '../pages/Home.vue';
+// import Register from '../pages/Register.vue';
+// import Login from '../pages/Login.vue';
+// import Home from '../pages/Home.vue';
 
 import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
@@ -11,6 +11,7 @@ import AdminHome from '../pages/admin/Home.vue';
 import AdminGroupsIndex from '../pages/admin/groups/Index.vue';
 import AdminGroupsEdit from '../pages/admin/groups/Edit.vue';
 import AdminInquiriesIndex from '../pages/admin/inquiries/Index.vue';
+import AdminInquiriesEdit from '../pages/admin/inquiries/Edit.vue';
 import AdminTodosIndex from '../pages/admin/todos/Index.vue';
 import AdminTodosEdit from '../pages/admin/todos/Edit.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
@@ -21,42 +22,42 @@ const routes = [
   /**
    * ------------------------------ ユーザー ------------------------------
    */
-  {
-    path: '/register',
-    name: 'register',
-    component: Register,
-    beforeEnter: (to, from, next) => {
-      if (store.getters['auth/isLogged']) {
-        next('/');
-      } else {
-        next();
-      }
-    },
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login,
-    beforeEnter: (to, from, next) => {
-      if (store.getters['auth/isLogged']) {
-        next('/');
-      } else {
-        next();
-      }
-    },
-  },
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    beforeEnter: (to, from, next) => {
-      if (store.getters['auth/isLogged']) {
-        next();
-      } else {
-        next('/login');
-      }
-    },
-  },
+  // {
+  //   path: '/register',
+  //   name: 'register',
+  //   component: Register,
+  //   beforeEnter: (to, from, next) => {
+  //     if (store.getters['auth/isLogged']) {
+  //       next('/');
+  //     } else {
+  //       next();
+  //     }
+  //   },
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: Login,
+  //   beforeEnter: (to, from, next) => {
+  //     if (store.getters['auth/isLogged']) {
+  //       next('/');
+  //     } else {
+  //       next();
+  //     }
+  //   },
+  // },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: Home,
+  //   beforeEnter: (to, from, next) => {
+  //     if (store.getters['auth/isLogged']) {
+  //       next();
+  //     } else {
+  //       next('/login');
+  //     }
+  //   },
+  // },
 
   /**
    * ------------------------------ 管理者 ------------------------------
@@ -172,6 +173,18 @@ const routes = [
         path: 'inquiries',
         name: 'admin.inquiries.index',
         component: AdminInquiriesIndex,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      {
+        path: 'inquiries/:id/edit',
+        name: 'admin.inquiries.edit',
+        component: AdminInquiriesEdit,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();
