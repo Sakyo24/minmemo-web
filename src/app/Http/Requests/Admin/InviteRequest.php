@@ -30,4 +30,17 @@ class InviteRequest extends FormRequest
             'email' => ['required', 'unique:admins,email', 'max:255', 'email:filter'],
         ];
     }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, mixed>
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => '名前',
+            'email' => 'メールアドレス',
+        ];
+    }
 }

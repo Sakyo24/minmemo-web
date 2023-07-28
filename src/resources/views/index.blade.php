@@ -8,6 +8,7 @@
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
         <!-- Vite -->
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])
