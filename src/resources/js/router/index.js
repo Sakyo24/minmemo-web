@@ -7,7 +7,7 @@ import store from '../store';
 
 import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
-import AdminHome from '../pages/admin/Home.vue';
+import AdminAdminsIndex from '../pages/admin/admins/Index.vue';
 import AdminGroupsIndex from '../pages/admin/groups/Index.vue';
 import AdminGroupsEdit from '../pages/admin/groups/Edit.vue';
 import AdminInquiriesIndex from '../pages/admin/inquiries/Index.vue';
@@ -16,7 +16,6 @@ import AdminTodosIndex from '../pages/admin/todos/Index.vue';
 import AdminTodosEdit from '../pages/admin/todos/Edit.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
 import AdminUsersEdit from '../pages/admin/users/Edit.vue';
-import Admins from '../pages/admin/Admins.vue';
 
 const routes = [
   /**
@@ -84,7 +83,6 @@ const routes = [
       {
         path: '',
         name: 'admin.home',
-        component: AdminHome,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next('/admin/users');
@@ -196,8 +194,8 @@ const routes = [
       /** 管理者 */
       {
         path: 'admins',
-        name: 'admin.admins',
-        component: Admins,
+        name: 'admin.admins.index',
+        component: AdminAdminsIndex,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();

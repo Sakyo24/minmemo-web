@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\MobileAuthController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\GroupController as AdminGroupController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
@@ -57,6 +58,7 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('inquiries', AdminInquiryController::class, ['except' => ['store', 'destroy']]);
         Route::apiResource('todos', AdminTodoController::class, ['except' => ['store']]);
         Route::apiResource('users', AdminUserController::class, ['except' => ['store']]);
+        Route::apiResource('admins', AdminController::class, ['except' => ['store']]);
         Route::post('/invite', [AdminAuthController::class, 'invite']);
     });
 });
