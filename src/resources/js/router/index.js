@@ -8,6 +8,7 @@ import store from '../store';
 import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
 import AdminAdminsIndex from '../pages/admin/admins/Index.vue';
+import AdminAdminsEdit from '../pages/admin/admins/Edit.vue';
 import AdminGroupsIndex from '../pages/admin/groups/Index.vue';
 import AdminGroupsEdit from '../pages/admin/groups/Edit.vue';
 import AdminInquiriesIndex from '../pages/admin/inquiries/Index.vue';
@@ -196,6 +197,18 @@ const routes = [
         path: 'admins',
         name: 'admin.admins.index',
         component: AdminAdminsIndex,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      {
+        path: 'admins/:id/edit',
+        name: 'admin.admins.edit',
+        component: AdminAdminsEdit,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();
