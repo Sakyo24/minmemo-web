@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UpdateAdminRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +25,41 @@ class AdminController extends Controller
 
         return response()->json([
             'admins' => $admins
+        ]);
+    }
+
+    /**
+     * admin取得
+     *
+     * @param Admin $admin
+     * @return JsonResponse
+     */
+    public function show(Admin $admin): JsonResponse
+    {
+        return response()->json([
+            'admin' => $admin
+        ]);
+    }
+
+    /**
+     * admin更新
+     *
+     * @param UpdateAdminRequest $request
+     * @param Admin $admin
+     * @return JsonResponse
+     */
+    public function update(UpdateAdminRequest $request, Admin $admin): JsonResponse
+    {
+        try {
+            $input = $request->only(['name', 'email']);
+            $admin->fill($input)->update();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([
+            'admin' => $admin
         ]);
     }
 }
