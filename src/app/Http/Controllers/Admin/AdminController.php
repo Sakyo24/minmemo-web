@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateAdminRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -61,5 +62,27 @@ class AdminController extends Controller
         return response()->json([
             'admin' => $admin
         ]);
+    }
+
+    /**
+     * admin削除
+     *
+     * @param Admin $admin
+     * @return JsonResponse
+     */
+    public function destroy(Admin $admin): JsonResponse
+    {
+        if (Gate::denies('delete', $admin)) {
+            abort(403);
+        }
+
+        try {
+            $admin->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

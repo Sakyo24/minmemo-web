@@ -30,7 +30,7 @@
                     <router-link class="btn green-btn" :to="`/admin/admins/${admin.id}/edit`">編集</router-link>
                   </td>
                   <td class="btn-cell">
-                    <div v-if="loginAdminId != admin.id" class="btn red-btn">削除</div>
+                    <div v-if="loginAdminId != admin.id" class="btn red-btn" @click="deleteAdmin(admin.id)">削除</div>
                   </td>
                 </tr>
               </tbody>
@@ -134,6 +134,35 @@ const getAdmins = async () => {
   });
 };
 
+const deleteAdmin = async (id) => {
+  if (!confirm('削除して宜しいですか？')) {
+    return;
+  }
+
+  const response = await axios.delete(`/api/admin/admins/${id}`);
+
+  if (response.status === STATUS.NO_CONTENT) {
+    store.commit('alert/setAlert', {
+      message: '管理者を削除しました。',
+      type: 'success',
+    });
+    current_page.value = 1;
+    getAdmins();
+    return;
+  }
+
+  store.commit('alert/setAlert', {
+    message: response.statusText,
+    type: 'error',
+  });
+};
+
+const changePage = (page) => {
+  if (current_page.value === page) return;
+  current_page.value = page;
+  getAdmins();
+};
+
 const closeModal = () => {
   isShowModal.value = false;
   form.name = null;
@@ -153,6 +182,7 @@ const submit = async () => {
       message: '招待メールを送信しました。',
       type: 'success',
     });
+    getAdmins();
   }
 };
 </script>
