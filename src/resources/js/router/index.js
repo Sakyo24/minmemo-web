@@ -9,6 +9,7 @@ import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
 import AdminAdminsIndex from '../pages/admin/admins/Index.vue';
 import AdminAdminsEdit from '../pages/admin/admins/Edit.vue';
+import AdminForgotPassword from '../pages/admin/ForgotPassword.vue';
 import AdminGroupsIndex from '../pages/admin/groups/Index.vue';
 import AdminGroupsEdit from '../pages/admin/groups/Edit.vue';
 import AdminInquiriesIndex from '../pages/admin/inquiries/Index.vue';
@@ -17,6 +18,8 @@ import AdminTodosIndex from '../pages/admin/todos/Index.vue';
 import AdminTodosEdit from '../pages/admin/todos/Edit.vue';
 import AdminUsersIndex from '../pages/admin/users/Index.vue';
 import AdminUsersEdit from '../pages/admin/users/Edit.vue';
+import AdminPasswordReset from '../pages/admin/PasswordReset.vue';
+import AdminPasswordUpdate from '../pages/admin/PasswordUpdate.vue';
 
 const routes = [
   /**
@@ -209,6 +212,44 @@ const routes = [
         path: 'admins/:id/edit',
         name: 'admin.admins.edit',
         component: AdminAdminsEdit,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next();
+          } else {
+            next('/admin/login');
+          }
+        },
+      },
+      /** パスワードリセット */
+      {
+        path: 'forgot-password',
+        name: 'admin.forgot-password',
+        component: AdminForgotPassword,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next('/admin/users');
+          } else {
+            next();
+          }
+        },
+      },
+      {
+        path: 'password/reset/:token',
+        name: 'admin.password.reset',
+        component: AdminPasswordReset,
+        beforeEnter: (to, from, next) => {
+          if (store.getters['admin/isAdmin']) {
+            next('/admin/users');
+          } else {
+            next();
+          }
+        },
+      },
+      /** パスワード変更 */
+      {
+        path: 'password/update',
+        name: 'admin.password.update',
+        component: AdminPasswordUpdate,
         beforeEnter: (to, from, next) => {
           if (store.getters['admin/isAdmin']) {
             next();

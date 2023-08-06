@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\GroupController as AdminGroupController;
 use App\Http\Controllers\Admin\InquiryController as AdminInquiryController;
+use App\Http\Controllers\Admin\ForgotPasswordController as AdminForgotPasswordController;
+use App\Http\Controllers\Admin\ResetPasswordController as AdminResetPasswordController;
 use App\Http\Controllers\Admin\TodoController as AdminTodoController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -49,10 +51,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
  * 管理画面
  */
 Route::prefix('admin')->group(function () {
-    /**
-     * SPA認証
-     */
+    /** SPA認証 */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
+    Route::post('/forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('/password/reset', [AdminResetPasswordController::class, 'reset']);
+
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::apiResource('groups', AdminGroupController::class, ['except' => ['store']]);
         Route::apiResource('inquiries', AdminInquiryController::class, ['except' => ['store', 'destroy']]);
@@ -60,5 +63,6 @@ Route::prefix('admin')->group(function () {
         Route::apiResource('users', AdminUserController::class, ['except' => ['store']]);
         Route::apiResource('admins', AdminController::class, ['except' => ['store']]);
         Route::post('/invite', [AdminAuthController::class, 'invite']);
+        Route::post('/password/update', [AdminResetPasswordController::class, 'update']);
     });
 });

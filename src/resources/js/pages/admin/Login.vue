@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h2>管理者ログイン</h2>
-    <form class="login-form" @submit.prevent>
+    <form @submit.prevent>
       <div class="input-area">
         <label for="email">メールアドレス</label>
         <input
@@ -29,6 +29,12 @@
             {{ error }}
           </li>
         </ul>
+      </div>
+      <div>
+        <p>
+          パスワードを忘れた場合は、
+          <router-link class="password-reset-link" to="/admin/forgot-password">こちら</router-link>
+        </p>
       </div>
       <div v-if="message" class="error validation_message">
         {{ message }}
@@ -62,28 +68,3 @@ const submit = async () => {
   router.push('/admin/users');
 };
 </script>
-
-<style scoped lang="scss">
-.login-form {
-  max-width: 960px;
-  margin: auto;
-  padding: 20px;
-  text-align: center;
-  background-color: #fff;
-}
-
-.input-area {
-  max-width: 350px;
-  margin: auto;
-  margin-bottom: 20px;
-  text-align-last: left;
-  label {
-    display: block;
-  }
-  input {
-    width: 100%;
-    padding: 5px;
-    font-size: 16px;
-  }
-}
-</style>

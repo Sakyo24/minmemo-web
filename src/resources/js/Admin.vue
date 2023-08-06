@@ -3,7 +3,7 @@
     <Header />
     <main>
       <SideMenu />
-      <router-view class="content" :class="isAdmin ? 'auth-content' : null"></router-view>
+      <router-view class="content" :class="isAdmin ? 'auth-content' : 'no-auth-content'"></router-view>
     </main>
   </div>
   <Alert />
