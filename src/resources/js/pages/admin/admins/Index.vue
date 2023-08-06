@@ -115,7 +115,7 @@ onMounted(() => {
 // computed
 const apiStatus = computed(() => store.getters['admin/apiStatus']);
 const errors = computed(() => store.getters['admin/inviteErrors']);
-const loginAdminId = computed(() => store.state.admin.admin.id);
+const loginAdminId = computed(() => store.state.admin.admin?.id);
 
 // methods
 const getAdmins = async () => {

@@ -4,7 +4,7 @@
 
     <div v-show="isAdmin" class="header-items-area">
       <div class="admin-name">
-        {{ adminName }}さん
+        <router-link to="/admin/password/update">{{ adminName }}さん</router-link>
       </div>
       <div class="header-btn-area">
         <div class="btn header-btn" @click="logout">ログアウト</div>
