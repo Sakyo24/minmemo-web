@@ -1,7 +1,6 @@
 ## 対象
 
 - Vue.js/Laravel
-- Flutter/Laravel
 
 ## Issue
 
