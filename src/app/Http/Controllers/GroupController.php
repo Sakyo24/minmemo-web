@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\GroupUser;
+use App\Models\User;
+use App\Http\Requests\AddGroupUserRequest;
+use App\Http\Requests\DeleteGroupUserRequest;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use Illuminate\Http\JsonResponse;
@@ -84,5 +87,93 @@ class GroupController extends Controller
         return response()->json([
             'group' => $group
         ]);
+    }
+
+    /**
+     * グループのtodo一覧を取得
+     * 
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function todos(Group $group): JsonResponse
+    {
+        return response()->json([
+            'todos' => $group->todos
+        ]);
+    }
+
+    /**
+     * グループのユーザー一覧を取得
+     * 
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function users(Group $group): JsonResponse
+    {
+        return response()->json([
+            'users' => $group->users
+        ]);
+    }
+
+    /**
+     * グループにユーザーを追加
+     *
+     * @param AddGroupUserRequest $request
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function addUser(AddGroupUserRequest $request, Group $group): JsonResponse
+    {
+        try {
+            $input = $request->only(['email']);
+            $user = User::where('email', $input['email'])->first();
+
+            if (is_null($user)) {
+                return response()->json([
+                    'message' => 'ユーザーが存在しません'
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $group_user = GroupUser::where('group_id', $group->id)->where('user_id', $user->id)->first();
+            if (!is_null($group_user)) {
+                return response()->json([
+                    'message' => '当該ユーザーは、すでにこのグループに追加されています'
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $group_user = new GroupUser();
+            $group_user->fill([
+                'user_id' => $user->id,
+                'group_id' => $group->id,
+            ])->save();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([
+            'group_user' => $group_user
+        ]);
+    }
+
+    /**
+     * グループのユーザーを削除
+     *
+     * @param DeleteGroupUserRequest $request
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function deleteUser(DeleteGroupUserRequest $request, Group $group): JsonResponse
+    {
+        try {
+            $input = $request->only(['user_id']);
+            $group_user = GroupUser::where('group_id', $group->id)->where('user_id', $input['user_id'])->first();
+            $group_user->delete();
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }
