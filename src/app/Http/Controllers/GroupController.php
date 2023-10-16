@@ -90,6 +90,28 @@ class GroupController extends Controller
     }
 
     /**
+     * グループ削除
+     *
+     * @param Group $group
+     * @return JsonResponse
+     */
+    public function destroy(Group $group): JsonResponse
+    {
+        try {
+            DB::transaction(function () use ($group) {
+                $group->groupUsers->each->delete();
+                $group->todos->each->delete();
+                $group->delete();
+            });
+        } catch (Throwable $e) {
+            Log::error((string)$e);
+            throw $e;
+        }
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    /**
      * グループのtodo一覧を取得
      * 
      * @param Group $group

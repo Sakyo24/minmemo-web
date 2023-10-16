@@ -22,7 +22,8 @@ class GroupUserSeeder extends Seeder
 
         foreach ($groups as $key => $group) {
             $group_num = $key + 1;
-            $date = new Carbon('2021-12-31');
+            $today = Carbon::now();
+            $date = new Carbon(new Carbon($today->year - 1 . '-12-31'));
             $add_day = $date->addDay($group_num);
             GroupUser::factory()->create([
                 'user_id' => $group_num,

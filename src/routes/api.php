@@ -27,22 +27,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/**
- * SPA認証
- */
+/** SPA認証 */
 Route::get('/auth', [AuthController::class, 'getLoginUser']);
-
-/**
- * APIトークン認証
- */
+/** APIトークン認証 */
 Route::post('register', [MobileAuthController::class, 'register']);
-Route::post('login', [MobileAuthController::class, 'login'])->name('login');
+Route::post('login', [MobileAuthController::class, 'login']);
 Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth:sanctum');
 
-
+/** ユーザー側 */
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
-    Route::resource('groups', GroupController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
+    Route::apiResource('todos', TodoController::class, ['except' => ['show']]);
+    Route::apiResource('groups', GroupController::class, ['except' => ['show']]);
     Route::group(['prefix' => 'groups'], function () {
         Route::get('/{group}/todos', [GroupController::class, 'todos']);
         Route::get('/{group}/users', [GroupController::class, 'users']);
@@ -51,11 +46,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
 });
 
-/**
- * 管理画面
- */
+/** 管理者側 */
 Route::prefix('admin')->group(function () {
-    /** SPA認証 */
     Route::get('/', [AdminAuthController::class, 'getLoginAdmin']);
     Route::post('/forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset']);

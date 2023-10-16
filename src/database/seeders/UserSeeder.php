@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         for ($i = 1; $i <= 10; $i++) {
-            $date = new Carbon('2021-12-31');
+            $today = Carbon::now();
+            $date = new Carbon(new Carbon($today->year - 1 . '-12-31'));
             $add_day = $date->addDay($i);
             User::factory()->create(
                 [

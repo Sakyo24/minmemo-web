@@ -24,7 +24,8 @@ class TodoSeeder extends Seeder
 
         foreach ($users as $user) {
             for ($i = 1; $i <= 10; $i++) {
-                $date = new Carbon('2021-12-31');
+                $today = Carbon::now();
+                $date = new Carbon(new Carbon($today->year - 1 . '-12-31'));
                 $add_day = $date->addDay($i);
                 Todo::factory()->create([
                     'title' => '個人todo' . $user->id . '-' . $i,
@@ -45,7 +46,8 @@ class TodoSeeder extends Seeder
             $group_num = $key + 1;
 
             for ($i = 1; $i <= 10; $i++) {
-                $date = new Carbon('2021-12-31');
+                $today = Carbon::now();
+                $date = new Carbon(new Carbon($today->year - 1 . '-12-31'));
                 $add_day = $date->addDay($i);
                 Todo::factory()->create([
                     'title' => 'グループtodo' . $group_num . '-' . $i,
