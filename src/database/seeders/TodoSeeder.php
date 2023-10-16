@@ -39,7 +39,7 @@ class TodoSeeder extends Seeder
         }
 
         // グループのTODO
-        $groups = Group::all();
+        $groups = Group::orderBy('created_at')->get();
 
         foreach ($groups as $key => $group) {
             $group_num = $key + 1;

@@ -19,7 +19,6 @@ return new class() extends Migration {
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
             $table->foreignUlid('group_id')->comment('グループID');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('group_id')->references('id')->on('groups');

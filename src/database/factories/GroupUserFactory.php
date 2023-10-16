@@ -25,7 +25,6 @@ class GroupUserFactory extends Factory
             'group_id' => Group::factory(),
             'created_at' => now(),
             'updated_at' => now(),
-            'deleted_at' => null,
         ];
     }
 }

@@ -29,14 +29,12 @@ class GroupUserSeeder extends Seeder
                 'group_id' => $group->id,
                 'created_at' => $add_day,
                 'updated_at' => $add_day,
-                'deleted_at' => null,
             ]);
             GroupUser::factory()->create([
                 'user_id' => $group_num === 10 ? 1 : $group_num + 1,
                 'group_id' => $group->id,
                 'created_at' => $add_day,
                 'updated_at' => $add_day,
-                'deleted_at' => null,
             ]);
         }
     }

@@ -41,10 +41,14 @@ Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    /** Todo API */
     Route::resource('todos', TodoController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
-    /** グループ API */
     Route::resource('groups', GroupController::class, ['only' => ['index', 'store', 'update', 'destroy']]);
+    Route::group(['prefix' => 'groups'], function () {
+        Route::get('/{group}/todos', [GroupController::class, 'todos']);
+        Route::get('/{group}/users', [GroupController::class, 'users']);
+        Route::post('/{group}/add_user', [GroupController::class, 'addUser']);
+        Route::post('/{group}/delete_user', [GroupController::class, 'deleteUser']);
+    });
 });
 
 /**
