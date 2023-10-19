@@ -32,7 +32,10 @@ Route::get('/auth', [AuthController::class, 'getLoginUser']);
 /** APIトークン認証 */
 Route::post('register', [MobileAuthController::class, 'register']);
 Route::post('login', [MobileAuthController::class, 'login']);
-Route::post('logout', [MobileAuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('logout', [MobileAuthController::class, 'logout']);
+    Route::get('login-user', [MobileAuthController::class, 'loginUser']);
+});
 
 /** ユーザー側 */
 Route::group(['middleware' => 'auth:sanctum'], function () {

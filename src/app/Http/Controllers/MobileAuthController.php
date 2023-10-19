@@ -81,4 +81,19 @@ class MobileAuthController extends Controller
 
         return response()->json([], Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     * ログイン中ユーザー
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function loginUser(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        return response()->json([
+            'user' => $user
+        ]);
+    }
 }
