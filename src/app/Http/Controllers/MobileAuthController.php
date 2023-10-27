@@ -31,7 +31,6 @@ class MobileAuthController extends Controller
             User::create($input);
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
@@ -75,7 +74,6 @@ class MobileAuthController extends Controller
             $user->tokens()->delete();
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 

@@ -46,7 +46,6 @@ class TodoController extends Controller
             $todo->fill($input)->save();
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
@@ -69,7 +68,6 @@ class TodoController extends Controller
             $todo->fill($input)->update();
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
@@ -90,7 +88,6 @@ class TodoController extends Controller
             $todo->delete();
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 

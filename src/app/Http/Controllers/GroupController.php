@@ -14,6 +14,7 @@ use App\Http\Requests\UpdateGroupRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
@@ -57,7 +58,6 @@ class GroupController extends Controller
             });
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
@@ -80,7 +80,6 @@ class GroupController extends Controller
             });
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
