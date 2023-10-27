@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\MobileAuthController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\GroupController as AdminGroupController;
@@ -47,6 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{group}/add_user', [GroupController::class, 'addUser']);
         Route::post('/{group}/delete_user', [GroupController::class, 'deleteUser']);
     });
+    Route::put('/user/update', [UserController::class, 'update']);
 });
 
 /** 管理者側 */

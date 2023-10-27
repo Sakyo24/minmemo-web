@@ -49,7 +49,6 @@ class AuthController extends Controller
             $user = $this->auth_service->register($input);
         } catch (Throwable $e) {
             Log::error((string)$e);
-
             throw $e;
         }
 
