@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\MobileAuthController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
@@ -49,6 +50,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{group}/delete_user', [GroupController::class, 'deleteUser']);
     });
     Route::put('/user/update', [UserController::class, 'update']);
+    Route::apiResource('inquiries', InquiryController::class, ['only' => ['store']]);
 });
 
 /** 管理者側 */

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('inquiries', function (Blueprint $table) {
             $table->id();
-            $table->integer('status')->comment('状態');
+            $table->integer('status')->default(1)->comment('状態');
             $table->unsignedBigInteger('user_id')->nullable()->comment('ユーザーID');
             $table->string('name')->nullable()->comment('名前');
             $table->string('email')->nullable()->comment('メールアドレス');
