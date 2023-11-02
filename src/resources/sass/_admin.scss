@@ -1,4 +1,5 @@
 .admin {
+  /* ==================== ヘッダー ==================== */
   header {
     height: 80px;
     padding: 0px 20px;
@@ -20,9 +21,9 @@
     }
   }
 
+  /* ==================== メイン ==================== */
   main {
     background-color: #eee;
-
 
     .content {
       min-height: calc(100vh - 80px);
@@ -41,7 +42,7 @@
         padding: 20px;
         text-align: center;
         background-color: #fff;
-      
+
         .input-area {
           max-width: 350px;
           margin: auto;
@@ -56,7 +57,7 @@
             font-size: 16px;
           }
         }
-      
+
         .password-reset-link {
           text-decoration: underline;
           color: rgb(13, 110, 253);

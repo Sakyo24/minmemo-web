@@ -5,17 +5,23 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PasswordResetRequest;
+use App\Http\Requests\PasswordResetSendMailRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Password;
 use Throwable;
 
 class MobileAuthController extends Controller
 {
+    use SendsPasswordResetEmails;
+
     /**
      * ユーザー登録
      *
@@ -93,5 +99,51 @@ class MobileAuthController extends Controller
         return response()->json([
             'user' => $user
         ]);
+    }
+
+    /**
+     * パスワードリセットメールの送信
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function sendResetLinkEmail(PasswordResetSendMailRequest $request): JsonResponse
+    {
+        $response = Password::broker('users')->sendResetLink(
+            $request->only('email')
+        );
+
+        return $response == Password::RESET_LINK_SENT
+            ? response()->json([
+                'status' => 'success'
+            ])
+            : response()->json([
+                'status' => 'error',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * パスワードリセット
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function reset(PasswordResetRequest $request)
+    {
+        $response = Password::broker('users')->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        return $response == Password::PASSWORD_RESET
+            ? response()->json([
+                'status' => 'success'
+            ])
+            : response()->json([
+                'status' => 'error'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

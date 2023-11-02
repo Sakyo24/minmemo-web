@@ -32,12 +32,14 @@ use Illuminate\Support\Facades\Route;
 /** SPA認証 */
 Route::get('/auth', [AuthController::class, 'getLoginUser']);
 /** APIトークン認証 */
-Route::post('register', [MobileAuthController::class, 'register']);
-Route::post('login', [MobileAuthController::class, 'login']);
+Route::post('/register', [MobileAuthController::class, 'register']);
+Route::post('/login', [MobileAuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('logout', [MobileAuthController::class, 'logout']);
-    Route::get('login-user', [MobileAuthController::class, 'loginUser']);
+    Route::post('/logout', [MobileAuthController::class, 'logout']);
+    Route::get('/login-user', [MobileAuthController::class, 'loginUser']);
 });
+Route::post('/forgot-password', [MobileAuthController::class, 'sendResetLinkEmail']);
+Route::post('/reset-password', [MobileAuthController::class, 'reset']);
 
 /** ユーザー側 */
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -50,6 +52,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/{group}/delete_user', [GroupController::class, 'deleteUser']);
     });
     Route::put('/user/update', [UserController::class, 'update']);
+    Route::put('/user/password-update', [UserController::class, 'passwordUpdate']);
     Route::apiResource('inquiries', InquiryController::class, ['only' => ['store']]);
 });
 

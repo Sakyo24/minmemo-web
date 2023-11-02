@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <small>🄫みんメモ</small>
+    <small>みんメモ</small>
   </footer>
 </template>
 
