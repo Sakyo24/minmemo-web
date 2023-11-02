@@ -27,7 +27,7 @@ class GroupController extends Controller
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();
-        $groups = $user->groups;
+        $groups = $user->groups()->orderBy('updated_at', 'desc')->get();
 
         return response()->json([
             'groups' => $groups
@@ -118,8 +118,10 @@ class GroupController extends Controller
      */
     public function todos(Group $group): JsonResponse
     {
+        $todos = $group->todos()->orderBy('updated_at', 'desc')->get();
+
         return response()->json([
-            'todos' => $group->todos
+            'todos' => $todos
         ]);
     }
 
@@ -131,8 +133,10 @@ class GroupController extends Controller
      */
     public function users(Group $group): JsonResponse
     {
+        $users = $group->users()->orderBy('name', 'asc')->get();
+
         return response()->json([
-            'users' => $group->users
+            'users' => $users
         ]);
     }
 
