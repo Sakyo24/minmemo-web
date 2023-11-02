@@ -23,7 +23,7 @@ class TodoController extends Controller
     public function index(Request $request): JsonResponse
     {
         $user = $request->user();
-        $todos = $user->todos()->whereNull('group_id')->get();
+        $todos = $user->todos()->whereNull('group_id')->orderBy('updated_at', 'desc')->get();
 
         return response()->json([
             'todos' => $todos
