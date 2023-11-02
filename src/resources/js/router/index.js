@@ -1,9 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store';
 
+import User from '../User.vue';
 // import Register from '../pages/Register.vue';
 // import Login from '../pages/Login.vue';
 // import Home from '../pages/Home.vue';
+import PasswordReset from '../pages/PasswordReset.vue';
+import PasswordResetFinish from '../pages/PasswordResetFinish.vue';
 
 import Admin from '../Admin.vue';
 import AdminLogin from '../pages/admin/Login.vue';
@@ -61,6 +64,23 @@ const routes = [
   //     }
   //   },
   // },
+  {
+    path: '/user',
+    name: 'user',
+    component: User,
+    children: [
+      {
+        path: 'password/reset/:token',
+        name: 'user.password.reset',
+        component: PasswordReset,
+      },
+      {
+        path: 'password/reset-finish',
+        name: 'user.password.resetFinish',
+        component: PasswordResetFinish,
+      },
+    ],
+  },
 
   /**
    * ------------------------------ 管理者 ------------------------------

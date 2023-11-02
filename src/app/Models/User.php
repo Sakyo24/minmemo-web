@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Mail\PasswordResetMail;
 use App\Traits\SerializeDate;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -83,5 +85,18 @@ class User extends Authenticatable
     public function todos(): HasMany
     {
         return $this->hasMany(Todo::class);
+    }
+
+    /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $url = url('/') . '/user/password/reset/' . $token . '?email=' . $this->email;
+
+        Mail::to($this->email)->send(new PasswordResetMail($url));
     }
 }

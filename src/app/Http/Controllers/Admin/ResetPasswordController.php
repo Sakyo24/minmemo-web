@@ -7,7 +7,7 @@ use App\Http\Requests\Admin\PasswordResetRequest;
 use App\Http\Requests\Admin\PasswordUpdateRequest;
 // use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
