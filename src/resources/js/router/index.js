@@ -5,6 +5,7 @@ import User from '../User.vue';
 // import Register from '../pages/Register.vue';
 // import Login from '../pages/Login.vue';
 // import Home from '../pages/Home.vue';
+import Verified from '../pages/Verified.vue';
 import PasswordReset from '../pages/PasswordReset.vue';
 import PasswordResetFinish from '../pages/PasswordResetFinish.vue';
 
@@ -69,6 +70,13 @@ const routes = [
     name: 'user',
     component: User,
     children: [
+      /** メールアドレス認証 */
+      {
+        path: 'verified',
+        name: 'user.verified',
+        component: Verified,
+      },
+      /** パスワードリセット */
       {
         path: 'password/reset/:token',
         name: 'user.password.reset',

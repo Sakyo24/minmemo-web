@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\MobileAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,6 +38,7 @@ Route::prefix('admin')->group(function () {
         ->middleware(['signed'])->name('admin.verification.verify');
 });
 
+Route::get('/email/verify/{id}/{hash}', [MobileAuthController::class, 'verify'])->middleware(['signed'])->name('user.verification.verify');
 
 /**
  * SPA

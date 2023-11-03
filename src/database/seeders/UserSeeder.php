@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'ユーザー' . $i,
                     'email' => 'user' . $i . '@test.ne.jp',
-                    'email_verified_at' => null,
+                    'email_verified_at' => $add_day,
                     'password' => Hash::make('user' . $i),
                     'remember_token' => null,
                     'created_at' => $add_day,

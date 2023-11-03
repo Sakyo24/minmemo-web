@@ -42,7 +42,7 @@ Route::post('/forgot-password', [MobileAuthController::class, 'sendResetLinkEmai
 Route::post('/reset-password', [MobileAuthController::class, 'reset']);
 
 /** ユーザー側 */
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::apiResource('todos', TodoController::class, ['except' => ['show']]);
     Route::apiResource('groups', GroupController::class, ['except' => ['show']]);
     Route::group(['prefix' => 'groups'], function () {
@@ -62,7 +62,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/forgot-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/password/reset', [AdminResetPasswordController::class, 'reset']);
 
-    Route::group(['middleware' => 'auth:admin'], function () {
+    Route::group(['middleware' => ['auth:admin', 'verified']], function () {
         Route::apiResource('groups', AdminGroupController::class, ['except' => ['store']]);
         Route::apiResource('inquiries', AdminInquiryController::class, ['except' => ['store', 'destroy']]);
         Route::apiResource('todos', AdminTodoController::class, ['except' => ['store']]);
